@@ -20,7 +20,7 @@ import {
 
 import { useState } from "react";
 const Header = () => {
-  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(true);
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   return (
     <>
       <header className="fixed top-0 left-0 right-0 bg-white border-b shadow-md">
