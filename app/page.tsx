@@ -1,3 +1,4 @@
+import Collection from "@/components/Home/Collection";
 import Collections from "@/components/Home/Collections";
 import ProductCatalog from "@/components/Home/ProductCatalog";
 import Slider from "@/components/Home/Slider";
@@ -10,6 +11,7 @@ const Home = () => {
       <Slider/>
       <Collections/>
       <ProductCatalog/>
+      <Collection/>
     </div>
     </>
   );
