@@ -23,7 +23,7 @@ const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 bg-white border-b shadow-md">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-md">
         <div className="flex lg:hidden items-center gap-5 py-2 px-4 border-b">
           <div className="flex items-center gap-3">
             <CiLocationOn className="h-6 w-6" />
@@ -162,7 +162,7 @@ const Header = () => {
         </div>
       </header>
       <div
-        className={`w-full lg:hidden bg-white text-white h-screen py-5 fixed transition-transform duration-300 ease-in-out ${
+        className={`w-full z-[51] lg:hidden bg-white text-white h-screen py-5 top-0 fixed transition-transform duration-300 ease-in-out ${
           isOpenMenu ? "translate-x-0" : "-translate-x-full"
         }`}
       >
