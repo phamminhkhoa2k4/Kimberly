@@ -17,14 +17,32 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-import { useState } from "react";
+import debounce from "lodash.debounce";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const [scrollY, setScrollY] = useState(0);
+  const handleScroll = debounce(() => {
+    setScrollY(window.scrollY);
+  }, 100);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    console.log("scroll", scrollY);
+    
+  },[scrollY])
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-md">
-        <div className="flex lg:hidden items-center gap-5 py-2 px-4 border-b">
+        <div className={"flex lg:hidden items-center gap-5 py-2 px-4 border-b"}>
           <div className="flex items-center gap-3">
             <CiLocationOn className="h-6 w-6" />
             <div className="text-base">Vị trí cửa chúng tôi</div>
@@ -35,7 +53,12 @@ const Header = () => {
           </div>
         </div>
         <div className="mx-auto w-3/4 p-3 flex gap-4 flex-col">
-          <div className="flex items-center justify-between">
+          <div
+            className={cn(
+              "transition-all  duration-100 ease-in-out  items-center justify-between",
+              scrollY > 70 ? "hidden" : "flex"
+            )}
+          >
             <div className="flex lg:hidden items-center gap-5">
               <RxHamburgerMenu
                 className="h-6 w-6"

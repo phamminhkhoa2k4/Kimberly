@@ -23,7 +23,55 @@ const ProductCatalog = () => {
                 width={200}
               />
               <div className="text-base font-medium text-[#20475d]">
-                Nhẵn Nữ
+                Nhẫn Nữ
+              </div>
+            </div>
+            <div className="flex flex-col gap-5 items-center">
+              <Image
+                src={"/Catalog/male_ring.png"}
+                alt=""
+                className="object-cover rounded-lg object-center aspect-square"
+                height={200}
+                width={200}
+              />
+              <div className="text-base font-medium text-[#20475d]">
+                Nhẫn Nam
+              </div>
+            </div>
+            <div className="flex flex-col gap-5 items-center">
+              <Image
+                src={"/Catalog/bracelet.png"}
+                alt=""
+                className="object-cover rounded-lg object-center aspect-square"
+                height={200}
+                width={200}
+              />
+              <div className="text-base font-medium text-[#20475d]">
+                Vòng Tay
+              </div>
+            </div>
+            <div className="flex flex-col gap-5 items-center">
+              <Image
+                src={"/Catalog/necklace.png"}
+                alt=""
+                className="object-cover rounded-lg object-center aspect-square"
+                height={200}
+                width={200}
+              />
+              <div className="text-base font-medium text-[#20475d]">
+                Vòng Cổ
+              </div>
+            </div>
+            <div className="flex flex-col gap-5 items-center">
+              <Image
+                src={"/Catalog/earring.png"}
+                alt=""
+                className="object-cover rounded-lg object-center aspect-square"
+                height={200}
+                width={200}
+              />
+              <div className="text-base font-medium text-[#20475d]">
+                Bông Tai
               </div>
             </div>
             <div className="flex flex-col gap-5 items-center">
@@ -35,55 +83,7 @@ const ProductCatalog = () => {
                 width={200}
               />
               <div className="text-base font-medium text-[#20475d]">
-                Nhẵn Nữ
-              </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"https://file.hstatic.net/200000355853/file/nhan_nu.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Nhẵn Nữ
-              </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"https://file.hstatic.net/200000355853/file/nhan_nu.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Nhẵn Nữ
-              </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"https://file.hstatic.net/200000355853/file/nhan_nu.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Nhẵn Nữ
-              </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"https://file.hstatic.net/200000355853/file/nhan_nu.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Nhẵn Nữ
+                Nhẵn Cưới
               </div>
             </div>
           </div>

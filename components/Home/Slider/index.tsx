@@ -43,11 +43,9 @@ const Slider = () => {
               }}
             >
               {Array.from({ length: totalSlides }).map((_, index) => (
-                <CarouselItem key={index}>
+                <CarouselItem key={index}> 
                   <Image
-                    src={
-                      "https://file.hstatic.net/200000355853/file/section__1_.jpg"
-                    }
+                    src={"/Slider/slider-1.png"}
                     height={573}
                     width={1550}
                     alt=""
@@ -68,9 +66,7 @@ const Slider = () => {
               {Array.from({ length: totalSlides }).map((_, index) => (
                 <CarouselItem key={index}>
                   <Image
-                    src={
-                      "https://file.hstatic.net/200000355853/file/section__1_.jpg"
-                    }
+                    src={"/Slider/slider-1.png"}
                     height={570}
                     width={500}
                     alt=""

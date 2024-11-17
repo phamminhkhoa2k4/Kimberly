@@ -55,10 +55,10 @@ const Footer = () => {
               className="object-cover object-center"
             />
             <Image
-              src={"/Certification/DMCA.png"}
+              src={"/Certification/pnj.png"}
               alt=""
-              height={120}
-              width={120}
+              height={90}
+              width={90}
               className="object-cover object-center"
             />
           </div>
@@ -119,7 +119,7 @@ const Footer = () => {
                 className="object-cover object-center"
               />
               <Image
-                src={"/Certification/DMCA.png"}
+                src={"/Certification/pnj.png"}
                 alt=""
                 height={80}
                 width={80}
@@ -133,8 +133,8 @@ const Footer = () => {
         <Image
           src={"/Logo/gem.jpg"}
           alt="Logo"
-          height={90}
-          width={90}
+          height={80}
+          width={80}
           className="object-contain object-center"
         />
         <div className="text-neutral-700">
