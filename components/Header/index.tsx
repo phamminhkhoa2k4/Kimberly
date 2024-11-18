@@ -5,12 +5,19 @@ import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { GoSearch } from "react-icons/go";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { IoSearchOutline } from "react-icons/io5";
+import { AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Accordion,
   AccordionContent,
@@ -23,9 +30,10 @@ import { cn } from "@/lib/utils";
 const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
+  const [isSearch,setIsSearch] = useState<boolean>(false);
   const handleScroll = debounce(() => {
     setScrollY(window.scrollY);
-  }, 100);
+  }, 0);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -34,29 +42,32 @@ const Header = () => {
     };
   }, []);
 
-
   useEffect(() => {
     console.log("scroll", scrollY);
-    
-  },[scrollY])
+  }, [scrollY]);
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-md">
-        <div className={"flex lg:hidden items-center gap-5 py-2 px-4 border-b"}>
-          <div className="flex items-center gap-3">
-            <CiLocationOn className="h-6 w-6" />
-            <div className="text-base">Vị trí cửa chúng tôi</div>
+        <div
+          className={cn(
+            " lg:hidden items-center gap-5 py-2 px-4 border-b",
+            scrollY > 40 ? "hidden" : "flex"
+          )}
+        >
+          <div className="flex items-center gap-4">
+            <CiLocationOn className="h-5 w-5" />
+            <div className="text-sm">Vị trí của chúng tôi</div>
           </div>
           <div className="flex items-center gap-3">
-            <TfiHeadphoneAlt className="h-5 w-5" />
-            <div className="text-base">Liên lạc với chúng tôi</div>
+            <TfiHeadphoneAlt className="h-4 w-4" />
+            <div className="text-sm">Liên lạc với chúng tôi</div>
           </div>
         </div>
         <div className="mx-auto w-3/4 p-3 flex gap-4 flex-col">
           <div
             className={cn(
               "transition-all  duration-100 ease-in-out  items-center justify-between",
-              scrollY > 70 ? "hidden" : "flex"
+              scrollY > 70 ? "lg:hidden flex" : "flex"
             )}
           >
             <div className="flex lg:hidden items-center gap-5">
@@ -66,8 +77,16 @@ const Header = () => {
               />
             </div>
             <div className="items-center gap-5 sm:flex hidden ">
-              <CiLocationOn className="h-6 w-6" />
-              <TfiHeadphoneAlt className="h-5 w-5" />
+              <Link
+                href="https://www.google.com/maps?q=10.045279796211569, 105.78267762488404"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <CiLocationOn className="h-6 w-6" />
+              </Link>
+              <Link href="tel:+84939 843 366">
+                <TfiHeadphoneAlt className="h-5 w-5" />
+              </Link>
             </div>
             <div>
               <Image
@@ -85,98 +104,351 @@ const Header = () => {
                 className="object-contain sm:hidden object-center"
               />
             </div>
-            <div>
-              <GoSearch className="w-6 h-6" />
+            <div className=" lg:hidden">
+              <Popover onOpenChange={setIsSearch} open={isSearch}>
+                <PopoverTrigger>
+                  {!isSearch && (
+                    <GoSearch
+                      className="w-6 h-6"
+                      onClick={() => setIsSearch(false)}
+                    />
+                  )}
+                  {isSearch && (
+                    <AiOutlineClose
+                      className="w-6 h-6"
+                      onClick={() => setIsSearch(true)}
+                    />
+                  )}
+                </PopoverTrigger>
+                <PopoverContent className="mt-8 mr-32 relative min-w-full">
+                  <div className="absolute top-[6px] right-20">
+                    <div className="relative">
+                      {/* Shadow */}
+                      <div className="absolute -top-5  w-0 h-0 border-x-[15px] border-x-transparent border-b-[15px] border-b-gray-100"></div>
+                      {/* Tam giác chính */}
+                      <div className="absolute -top-4  w-0 h-0 border-x-[15px] border-x-transparent border-b-[15px] border-b-white"></div>
+                    </div>
+                  </div>
+
+                  <div className="p-1 min-w-full">
+                    <div className="border-b text-lg uppercase font-medium text-center pb-1">
+                      Tìm Kiếm
+                    </div>
+                    <div className="flex items-center justify-center mt-3 relative">
+                      <IoSearchOutline className="absolute right-5 mt-[1px] h-6 w-6" />
+                      <input
+                        type="search"
+                        className="outline-none border-2 py-2 pl-5 pr-14 lg:pr-10 border-neutral-500 rounded-sm w-[400px]"
+                      />
+                    </div>
+                    <div className="flex flex-col items-center ">
+                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
+                        <Image
+                          src={"/diamond.jpg"}
+                          width={100}
+                          height={116}
+                          alt=""
+                          className="object-cover w-[60px]  object-center"
+                        />
+                        <div className=" ">
+                          <div className="group ">
+                            <p className="group-hover:text-[#20475d] font-medium">
+                              Kim Cương Tự Nhiên
+                            </p>
+                            <p className="group-hover:text-[#20475d] font-me">
+                              Round/7.2x7.2/G/VVS1/Faint/1.42CT
+                            </p>
+                          </div>
+                          <p className="flex items-center gap-2">
+                            <span className="text-sm font-bold">
+                              444,545,400<span>VND</span>
+                            </span>
+                            <span className="text-sm font-semibold text-neutral-500 line-through ">
+                              444,545,400<span>VND</span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
+                        <Image
+                          src={"/diamond.jpg"}
+                          width={100}
+                          height={116}
+                          alt=""
+                          className="object-cover w-[60px]  object-center"
+                        />
+                        <div className=" ">
+                          <div className="group ">
+                            <p className="group-hover:text-[#20475d] font-medium">
+                              Kim Cương Tự Nhiên
+                            </p>
+                            <p className="group-hover:text-[#20475d] font-me">
+                              Round/7.2x7.2/G/VVS1/Faint/1.42CT
+                            </p>
+                          </div>
+                          <p className="flex items-center gap-2">
+                            <span className="text-sm font-bold">
+                              444,545,400<span>VND</span>
+                            </span>
+                            <span className="text-sm font-semibold text-neutral-500 line-through ">
+                              444,545,400<span>VND</span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        href={"#"}
+                        className="flex items-center justify-center underline mt-4"
+                      >
+                        Xem tất cả 810 sản phẩm
+                      </Link>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="hidden lg:block">
+              <Popover>
+                <PopoverTrigger>
+                  <GoSearch className="w-6 h-6" />
+                </PopoverTrigger>
+                <PopoverContent
+                  className={cn(
+                    "mt-8 mr-32 relative min-w-[500px]",
+                    scrollY > 70 ? "hidden" : ""
+                  )}
+                >
+                  <div className="absolute top-[6px] right-20">
+                    <div className="relative">
+                      {/* Shadow */}
+                      <div className="absolute -top-5  w-0 h-0 border-x-[15px] border-x-transparent border-b-[15px] border-b-gray-100"></div>
+                      {/* Tam giác chính */}
+                      <div className="absolute -top-4  w-0 h-0 border-x-[15px] border-x-transparent border-b-[15px] border-b-white"></div>
+                    </div>
+                  </div>
+
+                  <div className="p-1 min-w-[400px]">
+                    <div className="border-b text-lg uppercase font-medium text-center pb-1">
+                      Tìm Kiếm
+                    </div>
+                    <div className="flex items-center justify-center mt-3 relative">
+                      <IoSearchOutline className="absolute right-10 mt-[1px] h-6 w-6" />
+                      <input
+                        type="search"
+                        className="outline-none border-2 py-2 pl-4 pr-10 border-neutral-500 rounded-sm w-[400px]"
+                      />
+                    </div>
+                    <div className="flex flex-col items-center ">
+                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
+                        <Image
+                          src={"/diamond.jpg"}
+                          width={100}
+                          height={116}
+                          alt=""
+                          className="object-cover w-[60px]  object-center"
+                        />
+                        <div className=" ">
+                          <div className="group ">
+                            <p className="group-hover:text-[#20475d] font-medium">
+                              Kim Cương Tự Nhiên
+                            </p>
+                            <p className="group-hover:text-[#20475d] font-me">
+                              Round/7.2x7.2/G/VVS1/Faint/1.42CT
+                            </p>
+                          </div>
+                          <p className="flex items-center gap-2">
+                            <span className="text-sm font-bold">
+                              444,545,400<span>VND</span>
+                            </span>
+                            <span className="text-sm font-semibold text-neutral-500 line-through ">
+                              444,545,400<span>VND</span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
+                        <Image
+                          src={"/diamond.jpg"}
+                          width={100}
+                          height={116}
+                          alt=""
+                          className="object-cover w-[60px]  object-center"
+                        />
+                        <div className=" ">
+                          <div className="group ">
+                            <p className="group-hover:text-[#20475d] font-medium">
+                              Kim Cương Tự Nhiên
+                            </p>
+                            <p className="group-hover:text-[#20475d] font-me">
+                              Round/7.2x7.2/G/VVS1/Faint/1.42CT
+                            </p>
+                          </div>
+                          <p className="flex items-center gap-2">
+                            <span className="text-sm font-bold">
+                              444,545,400<span>VND</span>
+                            </span>
+                            <span className="text-sm font-semibold text-neutral-500 line-through ">
+                              444,545,400<span>VND</span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        href={"#"}
+                        className="flex items-center justify-center underline mt-4"
+                      >
+                        Xem tất cả 810 sản phẩm
+                      </Link>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
           <nav className="hidden lg:flex  items-center justify-between">
             <Link
-              href="#"
+              href="/"
               className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
             >
               Kimberly
             </Link>
             <Link
-              href="#"
+              href="/diamond"
               className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
             >
               Kim Cương Viên
             </Link>
             <HoverCard openDelay={20} closeDelay={100}>
-              <HoverCardTrigger className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                Trang Sức Kim Cương
+              <HoverCardTrigger asChild>
+                <Link
+                  href={"/diamond-jewelry"}
+                  className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                >
+                  Trang Sức Kim Cương
+                </Link>
               </HoverCardTrigger>
               <HoverCardContent className="">
                 <div className="flex flex-col justify-center gap-2">
                   <HoverCard openDelay={20} closeDelay={100}>
-                    <HoverCardTrigger className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                      Nhẵn Cưới
+                    <HoverCardTrigger asChild>
+                      <Link
+                        href={"/wedding-ring"}
+                        className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                      >
+                        Nhẫn Cưới
+                      </Link>
                     </HoverCardTrigger>
                     <HoverCardContent className="absolute -top-[60px] left-32 mt-2 p-4 bg-white rounded-md shadow-lg">
                       <div className="flex flex-col justify-center gap-2">
-                        <div className=" text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                          Nhẵn Cuới kim Cương
-                        </div>
-                        <div className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                          Nhẵn Cầu Hôn Kim Cương
-                        </div>
+                        <Link
+                          href={"/diamond-wedding-ring"}
+                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                        >
+                          Nhẫn Cuới Kim Cương
+                        </Link>
+                        <Link
+                          href={"/diamond-engagement-ring"}
+                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                        >
+                          Nhẫn Cầu Hôn Kim Cương
+                        </Link>
                       </div>
                     </HoverCardContent>
                   </HoverCard>
                   <HoverCard openDelay={20} closeDelay={100}>
-                    <HoverCardTrigger className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                      Nhẵn kim cương
+                    <HoverCardTrigger asChild>
+                      <Link
+                        href={"/diamond-ring"}
+                        className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                      >
+                        Nhẫn Kim Cương
+                      </Link>
                     </HoverCardTrigger>
                     <HoverCardContent className="absolute -top-[60px] left-32 mt-2 p-4 bg-white rounded-md shadow-lg">
                       <div className="flex flex-col justify-center gap-2">
-                        <div className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                          Nhẵn kim cương nữ
-                        </div>
-                        <div className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                          Lắc & vồng tay kim nam
-                        </div>
+                        <Link
+                          href={"/women-diamond-ring"}
+                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                        >
+                          Nhẫn Kim Cương Nữ
+                        </Link>
+                        <Link
+                          href={"/men-diamond-ring"}
+                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                        >
+                          Nhẫn Kim Cương Nam
+                        </Link>
                       </div>
                     </HoverCardContent>
                   </HoverCard>
-                  <div className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                    Nhẵn Cưới
-                  </div>
-                  <div className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                    Mặt dây chuyền kim cương
-                  </div>
-                  <div className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                    Lắc & vồng tay kim cương
-                  </div>
-                  <div className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                    Bộ trang sức kim cương
-                  </div>
+                  <Link
+                    href={"/diamond-earring"}
+                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
+                    Bông Tai Kim Cương
+                  </Link>
+                  <Link
+                    href={"/diamond-pendant"}
+                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
+                    Mặt Dây Chuyền Kim Cương
+                  </Link>
+                  <Link
+                    href={"/diamond-bracelet-bangle"}
+                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
+                    Lắc & Vồng Tay Kim Cương
+                  </Link>
+                  <Link
+                    href={"/diamond-jewelry-set"}
+                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
+                    Bộ Trang Sức Kim Cương
+                  </Link>
                 </div>
               </HoverCardContent>
             </HoverCard>
             <HoverCard openDelay={20} closeDelay={100}>
-              <HoverCardTrigger className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
-                Bộ sưu tập
+              <HoverCardTrigger asChild>
+                <Link
+                  href={"/collections"}
+                  className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                >
+                  Bộ Sưu Tập
+                </Link>
               </HoverCardTrigger>
               <HoverCardContent className="">
                 <div className="flex flex-col justify-center gap-2">
-                  <div className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
+                  <Link
+                    href={"#"}
+                    className="capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
                     Bộ sưu tập stella
-                  </div>
-                  <div className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
+                  </Link>
+                  <Link
+                    href={"#"}
+                    className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
                     Bộ sưu tập lotus
-                  </div>
-                  <div className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
+                  </Link>
+                  <Link
+                    href={"#"}
+                    className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
                     Bộ sưu tập love Knot
-                  </div>
-                  <div className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
+                  </Link>
+                  <Link
+                    href={"#"}
+                    className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
                     Bộ sưu tập camellia
-                  </div>
+                  </Link>
                 </div>
               </HoverCardContent>
             </HoverCard>
 
             <Link
-              href="#"
+              href="/news"
               className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
             >
               Tin Tức
@@ -204,61 +476,61 @@ const Header = () => {
         </div>
         <div className=" my-5">
           <div>
-            <a
-              href="#"
+            <Link
+              href="/"
               className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block "
             >
               Kimberly
-            </a>
+            </Link>
           </div>
           <div>
-            <a
-              href="#"
+            <Link
+              href="/diamond"
               className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block "
             >
               Kim Cương viên
-            </a>
+            </Link>
           </div>
           <div>
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger>
-                  <a
-                    href="#"
+                  <Link
+                    href="/diamond-jewelry"
                     className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block "
                   >
                     Trang Sức Kim Cương
-                  </a>
+                  </Link>
                 </AccordionTrigger>
                 <AccordionContent className="mx-3">
                   <Accordion type="single" collapsible>
                     <AccordionItem value="item-1">
                       <AccordionTrigger>
                         <div>
-                          <a
-                            href="#"
+                          <Link
+                            href="/diamond-ring"
                             className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                           >
                             Nhẵn Kim Cương
-                          </a>
+                          </Link>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="mx-3">
                         <div>
-                          <a
-                            href="#"
+                          <Link
+                            href="/woman-diamond-ring"
                             className=" text-black  py-3 px-6 text-sm uppercase hover:bg-slate-50 rounded-md block "
                           >
                             Nhẵn Kim Cương Nữ
-                          </a>
+                          </Link>
                         </div>
                         <div>
-                          <a
-                            href="#"
+                          <Link
+                            href="/men-diamond-ring"
                             className=" text-black  py-3 px-6 text-sm uppercase hover:bg-slate-50 rounded-md block "
                           >
                             Nhẵn Kim Cương Nam
-                          </a>
+                          </Link>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
@@ -267,26 +539,26 @@ const Header = () => {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>
                         <div>
-                          <a
-                            href="#"
+                          <Link
+                            href="/wedding-jewelry"
                             className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                           >
                             Trang Sức cưới
-                          </a>
+                          </Link>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="mx-3">
                         <div>
-                          <a
-                            href="#"
+                          <Link
+                            href="/diamond-wedding-ring"
                             className=" text-black  py-3 px-6 text-sm uppercase hover:bg-slate-50 rounded-md block "
                           >
                             Nhẵn Cưới Kim Cương
-                          </a>
+                          </Link>
                         </div>
                         <div>
                           <a
-                            href="#"
+                            href="/diamond-engagement-ring"
                             className=" text-black  py-3 px-6 text-sm uppercase hover:bg-slate-50 rounded-md block "
                           >
                             Nhẵn Cầu Hôn Kim Cương
@@ -297,36 +569,36 @@ const Header = () => {
                   </Accordion>
 
                   <div>
-                    <a
-                      href="#"
+                    <Link
+                      href="/diamond-earrings"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Bông Tai Kim Cương
-                    </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="#"
+                    <Link
+                      href="/diamond-pendant"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Mặt dây chuyền kim cương
-                    </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="#"
+                    <Link
+                      href="/diamond-bracelet-bangle"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Lắc & Vòng Tay Kim Cương
-                    </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="#"
+                    <Link
+                      href="/diamond-jewelry-set"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Bộ Trang Sức Kim Cương
-                    </a>
+                    </Link>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -381,27 +653,35 @@ const Header = () => {
             </Accordion>
           </div>
           <div>
-            <a
-              href="#"
+            <Link
+              href="/news"
               className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block "
             >
               Tin Tức
-            </a>
+            </Link>
           </div>
         </div>
         <div className="w-full bg-black h-full space-y-2 p-6">
-          <div className="flex items-center gap-3 cursor-pointer my-5">
+          <Link
+            href="https://www.google.com/maps?q=10.045279796211569, 105.78267762488404"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 cursor-pointer my-5"
+          >
             <div className="w-6">
               <CiLocationOn className="h-6 w-6" />
             </div>
-            <div className="text-base">Vị trí cửa chúng tôi</div>
-          </div>
-          <div className="flex items-center gap-3 cursor-pointer my-5">
+            <div className="text-base">Vị trí của chúng tôi</div>
+          </Link>
+          <Link
+            href="tel:+84939 843 366"
+            className="flex items-center gap-3 cursor-pointer my-5"
+          >
             <div className="w-6">
               <TfiHeadphoneAlt className="h-5 w-5" />
             </div>
             <div className="text-base">Liên lạc với chúng tôi</div>
-          </div>
+          </Link>
         </div>
       </div>
     </>
