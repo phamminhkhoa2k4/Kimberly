@@ -19,7 +19,7 @@ const RootLayout = ({ children }: Readonly<Props>) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>
+        <main className="overflow-x-hidden">
           <Header />
           {children}
           <Footer />

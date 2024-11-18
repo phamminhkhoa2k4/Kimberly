@@ -12,9 +12,7 @@ const Discovery = () => {
             <div className="mx-auto lg:w-5/6 flex items-center  justify-between">
               <div className="bg-white">
                 <Image
-                  src={
-                    "https://file.hstatic.net/200000355853/article/jemmia-dubai-diamond-conference-thumbnail_507313e6c4cb4746bd79e097159fd1f5_grande.jpg"
-                  }
+                  src={"/discovery.jpg"}
                   alt=""
                   height={367}
                   width={560}
@@ -26,9 +24,7 @@ const Discovery = () => {
               </div>
               <div className="bg-white">
                 <Image
-                  src={
-                    "https://file.hstatic.net/200000355853/article/jemmia-dubai-diamond-conference-thumbnail_507313e6c4cb4746bd79e097159fd1f5_grande.jpg"
-                  }
+                  src={"/discovery.jpg"}
                   alt=""
                   height={367}
                   width={560}

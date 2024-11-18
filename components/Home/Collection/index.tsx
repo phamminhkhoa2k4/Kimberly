@@ -9,12 +9,12 @@ const Collection = () => {
           <div className="w-full lg:w-1/2 h-full relative">
             <Image
               src={
-                "https://file.hstatic.net/200000355853/file/20241010-112057.jpeg"
+                "/Collections/bst-3.jpg"
               }
               alt=""
               height={805}
               width={613}
-              className="object-center lg:h-full h-[258px]  object-cover lg:rounded-lg"
+              className="object-center lg:h-[780px] h-[258px]  object-cover lg:rounded-lg"
             />
             <div className="hidden absolute lg:flex w-full justify-center top-[650px]">
               <Link
@@ -29,9 +29,7 @@ const Collection = () => {
           <div className="flex mx-5 lg:mx-0 lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-5 w-full overflow-y-auto lg:w-1/2">
             <div className=" w-2/3 lg:w-full h-full border p-2 rounded-lg ">
               <Image
-                src={
-                  "https://product.hstatic.net/200000355853/product/round--vang-trang--04_daa5fb8769b44ff48897f3ce094e407a_large.jpg"
-                }
+                src={"/Pendant/pendant-1.png"}
                 alt=""
                 height={297}
                 width={297}
@@ -40,9 +38,7 @@ const Collection = () => {
               <div className="flex flex-col  p-3 py-1 gap-1">
                 <span className="border w-7 flex items-center justify-center h-7 p-1 rounded-full">
                   <Image
-                    src={
-                      "https://file.hstatic.net/200000355853/file/vang_trang_274ce2bcd3a7411bad378da5f730a48f.png"
-                    }
+                    src={"/Type/type-silver.png"}
                     alt=""
                     height={20}
                     width={20}
@@ -70,9 +66,7 @@ const Collection = () => {
             </div>
             <div className=" w-2/3 lg:w-full h-full border p-2 rounded-lg ">
               <Image
-                src={
-                  "https://product.hstatic.net/200000355853/product/round--vang-trang--04_daa5fb8769b44ff48897f3ce094e407a_large.jpg"
-                }
+                src={"/Pendant/pendant-2.png"}
                 alt=""
                 height={297}
                 width={297}
@@ -81,9 +75,7 @@ const Collection = () => {
               <div className="flex flex-col  p-3 py-1 gap-1">
                 <span className="border w-7 flex items-center justify-center h-7 p-1 rounded-full">
                   <Image
-                    src={
-                      "https://file.hstatic.net/200000355853/file/vang_trang_274ce2bcd3a7411bad378da5f730a48f.png"
-                    }
+                    src={"/Type/type-silver.png"}
                     alt=""
                     height={20}
                     width={20}
@@ -111,9 +103,7 @@ const Collection = () => {
             </div>
             <div className=" w-2/3 lg:w-full h-full border p-2 rounded-lg ">
               <Image
-                src={
-                  "https://product.hstatic.net/200000355853/product/round--vang-trang--04_daa5fb8769b44ff48897f3ce094e407a_large.jpg"
-                }
+                src={"/Pendant/pendant-3.png"}
                 alt=""
                 height={297}
                 width={297}
@@ -122,9 +112,7 @@ const Collection = () => {
               <div className="flex flex-col  p-3 py-1 gap-1">
                 <span className="border w-7 flex items-center justify-center h-7 p-1 rounded-full">
                   <Image
-                    src={
-                      "https://file.hstatic.net/200000355853/file/vang_trang_274ce2bcd3a7411bad378da5f730a48f.png"
-                    }
+                    src={"/Type/type-gold.png"}
                     alt=""
                     height={20}
                     width={20}
@@ -152,9 +140,7 @@ const Collection = () => {
             </div>
             <div className=" w-2/3 lg:w-full h-full border p-2 rounded-lg ">
               <Image
-                src={
-                  "https://product.hstatic.net/200000355853/product/round--vang-trang--04_daa5fb8769b44ff48897f3ce094e407a_large.jpg"
-                }
+                src={"/Pendant/pendant-4.png"}
                 alt=""
                 height={297}
                 width={297}
@@ -163,9 +149,7 @@ const Collection = () => {
               <div className="flex flex-col  p-3 py-1 gap-1">
                 <span className="border w-7 flex items-center justify-center h-7 p-1 rounded-full">
                   <Image
-                    src={
-                      "https://file.hstatic.net/200000355853/file/vang_trang_274ce2bcd3a7411bad378da5f730a48f.png"
-                    }
+                    src={"/Type/type-silver.png"}
                     alt=""
                     height={20}
                     width={20}

@@ -16,7 +16,7 @@ const ProductCatalog = () => {
           <div className="grid grid-cols-3 lg:grid-cols-6 mt-10 gap-5">
             <div className="flex flex-col gap-5 items-center">
               <Image
-                src={"https://file.hstatic.net/200000355853/file/nhan_nu.png"}
+                src={"/Catalog/women-ring.png"}
                 alt=""
                 className="object-cover rounded-lg object-center aspect-square"
                 height={200}
@@ -28,7 +28,7 @@ const ProductCatalog = () => {
             </div>
             <div className="flex flex-col gap-5 items-center">
               <Image
-                src={"/Catalog/male_ring.png"}
+                src={"/Catalog/men-ring.png"}
                 alt=""
                 className="object-cover rounded-lg object-center aspect-square"
                 height={200}
@@ -76,7 +76,7 @@ const ProductCatalog = () => {
             </div>
             <div className="flex flex-col gap-5 items-center">
               <Image
-                src={"https://file.hstatic.net/200000355853/file/nhan_nu.png"}
+                src={"/Catalog/wedding-ring.png"}
                 alt=""
                 className="object-cover rounded-lg object-center aspect-square"
                 height={200}

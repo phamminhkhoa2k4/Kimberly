@@ -66,7 +66,7 @@ const Slider = () => {
               {Array.from({ length: totalSlides }).map((_, index) => (
                 <CarouselItem key={index}>
                   <Image
-                    src={"/Slider/slider-1.png"}
+                    src={"/Slider/slider-2.png"}
                     height={570}
                     width={500}
                     alt=""

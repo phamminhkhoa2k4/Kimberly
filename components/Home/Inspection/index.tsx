@@ -7,18 +7,14 @@ const Inspection = () => {
       <section className="mb-10">
         <div className="relative w-full h-[637px] lg:h-[620px] mt-10">
           <Image
-            src={
-              "https://file.hstatic.net/200000355853/file/home_banner_01.jpeg"
-            }
+            src={"/Inspection/inspection-1.png"}
             alt=""
             height={620}
             width={1528}
             className="hidden lg:block object-cover object-center w-full h-full"
           />
           <Image
-            src={
-              "https://file.hstatic.net/200000355853/file/home_banner_01.jpeg"
-            }
+            src={"/Inspection/inspection-2.png"}
             alt=""
             height={637}
             width={1528}
@@ -26,23 +22,28 @@ const Inspection = () => {
           />
           <div className="hidden lg:flex absolute top-20 left-28  flex-col gap-5 max-w-[575px]">
             <h1 className="font-semibold text-lg text-white">
-              Kimberly - Diamond Jewelry tự hào là đối tác được Viện Ngọc Học
-              Hoa Kỳ (GIA) chứng nhận trên ba phương diện:
+              Kimberly tự hào là thương hiệu kim cương hàng đầu được Viện Ngọc
+              Học Hoa Kỳ (GIA) công nhận trên các phương diện:
             </h1>
             <ul>
-              <li className="text-white">- Nhà phân phối chính ngạch</li>
               <li className="text-white">
-                - Đơn vị được GIA đào tạo và chuẩn hóa kiến thức chuyên gia
+                - Nhà cung cấp kim cương chính hãng với nguồn gốc minh bạch.
               </li>
               <li className="text-white">
-                - Đơn vị được GIA phân loại và đánh giá kim cương
+                - Đội ngũ chuyên gia được đào tạo chuẩn GIA, đảm bảo kiến thức
+                và kỹ năng chuyên sâu.
+              </li>
+              <li className="text-white">
+                - Dịch vụ phân loại và kiểm định chất lượng kim cương theo tiêu
+                chuẩn quốc tế.
               </li>
             </ul>
             <p className="text-white">
-              Tại Kimberly, mỗi viên kim cương, dù là nhỏ hay lớn, đều được kiểm
-              định kỹ lưỡng trước khi đến tay khách hàng. Quá trình này sử dụng
-              các thiết bị hiện đại nhập khẩu từ GIA, đảm bảo mỗi viên kim cương
-              đều đạt chất lượng cao nhất, mang lại sự an tâm tuyệt đối.
+              Tại Kimberly, mỗi viên kim cương – dù là tinh tế hay rực rỡ – đều
+              trải qua quy trình kiểm định nghiêm ngặt với công nghệ tiên tiến
+              từ GIA. Chúng tôi cam kết mang đến cho khách hàng những viên kim
+              cương hoàn hảo về chất lượng, cùng trải nghiệm mua sắm đầy tin cậy
+              và đẳng cấp.
             </p>
           </div>
           <Link
@@ -53,7 +54,7 @@ const Inspection = () => {
           </Link>
           <div className="absolute lg:hidden top-16 w-full flex items-center justify-center">
             <div className="max-w-[300px] flex flex-col items">
-              <div className="text-base font-bold text-white uppercase my-5">
+              {/* <div className="text-base font-bold text-white uppercase my-5">
                 kim cương tiêu chuẩn quốc tế
               </div>
               <div className="text-white text-sm">
@@ -62,8 +63,8 @@ const Inspection = () => {
                 sử dụng các thiết bị hiện đại nhập khẩu từ GIA, đảm bảo mỗi viên
                 kim cương đều đạt chất lượng cao nhất, mang lại sự an tâm tuyệt
                 đối.
-              </div>
-              <div className="flex justify-center mt-5">
+              </div> */}
+              <div className="flex justify-center mt-52">
                 <Link
                   href={"#"}
                   className="px-6 py-2 text-white bg-[#20475d] font-semibold text-base"
