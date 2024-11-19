@@ -1,6 +1,7 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumb";
 import Filter from "@/components/Diamond/Filter";
+import Result from "@/components/Diamond/Result";
 import { cn } from "@/lib/utils";
 import debounce from "lodash.debounce";
 import { useEffect, useState } from "react";
@@ -29,6 +30,7 @@ const Diamond = () => {
           breadcrumbs={[{ title: "Trang Kim Cương", url: "/diamond" }]}
         />
         <Filter/>
+        <Result/>
       </div>
     </>
   );

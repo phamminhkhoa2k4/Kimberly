@@ -441,7 +441,7 @@ const Filter = () => {
             </div>
             <div className="mb-5">
               <span className="font-bold text-sm py-2 ">
-                Trọng Lượng (Clarity)
+                Độ Tinh Khiết (Clarity)
               </span>
               <div className="flex items-center gap-2 mt-4 w-full flex-wrap  max-w-[360px] lg:max-w-none">
                 <div
