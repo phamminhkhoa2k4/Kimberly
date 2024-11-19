@@ -21,8 +21,8 @@ const Diamond = () => {
     <>
       <div
         className={cn(
-          "transition-all duration-75 h-screen",
-          scrollY > 70 ? "mt-[57px]" : "mt-[140px]"
+          "transition-all duration-75 ",
+          scrollY > 70 ? "lg:mt-[57px]" : "mt-[120px] lg:mt-[140px]"
         )}
       >
         <Breadcrumb
