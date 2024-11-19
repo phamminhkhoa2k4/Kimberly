@@ -104,7 +104,7 @@ const Header = () => {
                 className="object-contain sm:hidden object-center"
               />
             </div>
-            <div className=" lg:hidden">
+            <div className="flex items-center lg:hidden">
               <Popover onOpenChange={setIsSearch} open={isSearch}>
                 <PopoverTrigger>
                   {!isSearch && (
@@ -120,7 +120,7 @@ const Header = () => {
                     />
                   )}
                 </PopoverTrigger>
-                <PopoverContent className="mt-8 mr-32 relative min-w-full">
+                <PopoverContent className="lg:mt-8 lg:mr-10 mt-5 relative  lg:min-w-full w-[390px] lg:w-full ">
                   <div className="absolute top-[6px] right-20">
                     <div className="relative">
                       {/* Shadow */}
@@ -130,7 +130,7 @@ const Header = () => {
                     </div>
                   </div>
 
-                  <div className="p-1 min-w-full">
+                  <div className="p-1 w-full flex flex-col items-center">
                     <div className="border-b text-lg uppercase font-medium text-center pb-1">
                       Tìm Kiếm
                     </div>
@@ -138,17 +138,17 @@ const Header = () => {
                       <IoSearchOutline className="absolute right-5 mt-[1px] h-6 w-6" />
                       <input
                         type="search"
-                        className="outline-none border-2 py-2 pl-5 pr-14 lg:pr-10 border-neutral-500 rounded-sm w-[400px]"
+                        className="outline-none border-2 rounded-full py-2 pl-5 pr-14 lg:pr-10 border-neutral-500 lg:rounded-sm w-[350px] lg:w-[400px]"
                       />
                     </div>
                     <div className="flex flex-col items-center ">
-                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
+                      <div className="border-b flex w-[390px]  lg:px-0 px-5 lg:w-[400px] items-center py-5 gap-5">
                         <Image
                           src={"/diamond.jpg"}
                           width={100}
                           height={116}
                           alt=""
-                          className="object-cover w-[60px]  object-center"
+                          className="object-cover w-[50px] lg:w-[60px]  object-center"
                         />
                         <div className=" ">
                           <div className="group ">
@@ -169,15 +169,15 @@ const Header = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
+                      <div className="border-b flex w-[390px] lg:px-0 px-5  lg:w-[400px] items-center py-5 gap-5">
                         <Image
                           src={"/diamond.jpg"}
                           width={100}
                           height={116}
                           alt=""
-                          className="object-cover w-[60px]  object-center"
+                          className="object-cover w-[50px] lg:w-[60px]  object-center"
                         />
-                        <div className=" ">
+                        <div className="w-full">
                           <div className="group ">
                             <p className="group-hover:text-[#20475d] font-medium">
                               Kim Cương Tự Nhiên
@@ -207,7 +207,7 @@ const Header = () => {
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="hidden lg:block">
+            <div className="hidden items-center lg:flex">
               <Popover>
                 <PopoverTrigger>
                   <GoSearch className="w-6 h-6" />
