@@ -40,6 +40,7 @@ const WomenRing = () => {
         </div>
         <Filter />
         <Product/>
+        <Just/>
         <LastBanner/>
       </>
     );
