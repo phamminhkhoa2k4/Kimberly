@@ -50,17 +50,17 @@ const Header = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-md">
         <div
           className={cn(
-            " lg:hidden items-center gap-5 py-2 px-4 border-b",
+            " lg:hidden items-center gap-5 py-2 px-2 border-b",
             scrollY > 40 ? "hidden" : "flex"
           )}
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
             <CiLocationOn className="h-5 w-5" />
-            <div className="text-sm">Vị trí của chúng tôi</div>
+            <div className="text-sm text-nowrap">Vị trí của chúng tôi</div>
           </div>
           <div className="flex items-center gap-3">
             <TfiHeadphoneAlt className="h-4 w-4" />
-            <div className="text-sm">Liên lạc với chúng tôi</div>
+            <div className="text-sm text-nowrap">Liên lạc với chúng tôi</div>
           </div>
         </div>
         <div className="mx-auto w-3/4 p-3 flex gap-4 flex-col">

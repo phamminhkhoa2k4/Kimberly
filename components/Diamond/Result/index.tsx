@@ -206,8 +206,8 @@ const Result = () => {
         <Sheet open={openSheet} onOpenChange={setOpenSheet}>
           <SheetContent className="w-full overflow-y-auto">
             <div className="w-[650px] ">
-              <div className="flex items-center gap-[280px] px-5 py-4 ">
-                <div className="font-medium text-base ">Kết Quả</div>
+              <div className="flex items-center  px-5 py-4 ">
+                <div className="font-medium text-base w-6/12 ">Kết Quả</div>
                 <IoCloseSharp
                   className="hover:scale-95 h-5 w-5"
                   onClick={() => setOpenSheet(false)}
