@@ -40,7 +40,7 @@ const WomenRing = () => {
         </div>
         <Filter />
         <Product/>
-    
+        <LastBanner/>
       </>
     );
 }
