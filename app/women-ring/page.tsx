@@ -1,6 +1,10 @@
 "use client"
 import Banner from "@/components/Banner";
+import LastBanner from "@/components/Banner/LastBanner";
 import Breadcrumb from "@/components/Breadcrumb";
+import Filter from "@/components/Filter";
+import Just from "@/components/Just";
+import Product from "@/components/Product";
 import { cn } from "@/lib/utils";
 import debounce from "lodash.debounce";
 import { useEffect, useState } from "react";
@@ -34,6 +38,9 @@ const WomenRing = () => {
             imageUrlMobile="/Banner/banner-women-ring-mobile.png"
           />
         </div>
+        <Filter />
+        <Product/>
+    
       </>
     );
 }
