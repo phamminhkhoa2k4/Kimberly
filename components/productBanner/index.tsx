@@ -5,8 +5,8 @@ import Image from "next/image";
 const  ProductBanner = () => {
     return (
       <section className="lg:mx-auto lg:w-3/4 mx-5 ">
-        <div className="grid grid-cols-4  items-center gap-5 ">
-          <div className="flex flex-col gap-4 ">
+        <div className="grid grid-cols-2 lg:grid-cols-4  items-center gap-5 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
@@ -38,7 +38,7 @@ const  ProductBanner = () => {
               <div className="text-xs py-2">48,215,000₫</div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
@@ -70,7 +70,7 @@ const  ProductBanner = () => {
               <div className="text-xs py-2">48,215,000₫</div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
@@ -102,7 +102,7 @@ const  ProductBanner = () => {
               <div className="text-xs py-2">48,215,000₫</div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
@@ -134,16 +134,16 @@ const  ProductBanner = () => {
               <div className="text-xs py-2">48,215,000₫</div>
             </div>
           </div>
-          <div className="col-span-2 row-span-2 overflow-hidden rounded-lg">
+          <div className="col-span-2 row-span-2 -mx-5 overflow-hidden lg:rounded-lg">
             <Image
               src={"/Banner/product-banner-1.jpg"}
               alt=""
               height={905}
               width={700}
-              className="object-cover object-center w-full h-[800px] rounded-lg hover:scale-110"
+              className="object-cover aspect-square object-center w-full h-[390px]  lg:h-[800px] rounded-lg hover:scale-110"
             />
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
@@ -175,7 +175,7 @@ const  ProductBanner = () => {
               <div className="text-xs py-2">48,215,000₫</div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
@@ -207,7 +207,7 @@ const  ProductBanner = () => {
               <div className="text-xs py-2">48,215,000₫</div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
@@ -239,7 +239,7 @@ const  ProductBanner = () => {
               <div className="text-xs py-2">48,215,000₫</div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col  ">
             <div className="overflow-hidden rounded-lg">
               <Image
                 src={"/Product/product-1.jpg"}
