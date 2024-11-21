@@ -225,7 +225,7 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
           )}
 
           {/* Giá */}
-          {isColor && (
+          {isPrice && (
             <div className="group">
               <HoverCard openDelay={20} closeDelay={20}>
                 <HoverCardTrigger>
