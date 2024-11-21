@@ -11,24 +11,34 @@ import { useState, useEffect } from "react";
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const totalSlides = 5; 
+  const totalSlides = [
+    "/Slider/slider-3.png",
+    "/Slider/slider-1.png",
+    "/Slider/slider-4.png",
+    "/Slider/slider-2.png",
+  ];
+
+
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
-    }, 3000); // Chuyển slide mỗi 3 giây
+      setCurrentIndex(
+        (prevIndex) => (prevIndex + 1) % (totalSlides.length / 2)
+      );
+    }, 3000); 
 
-    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+    return () => clearInterval(interval); 
   }, [totalSlides]);
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
+      prevIndex === 0 ? (totalSlides.length/2) - 1 : prevIndex - 1
     );
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % (totalSlides.length/2))
   };
 
   return (
@@ -42,13 +52,13 @@ const Slider = () => {
                 transition: "transform 0.5s ease-in-out",
               }}
             >
-              {Array.from({ length: totalSlides }).map((_, index) => (
-                <CarouselItem key={index}> 
+              {totalSlides.slice(0, 2).map((img, index) => (
+                <CarouselItem key={index}>
                   <Image
-                    src={"/Slider/slider-1.png"}
+                    src={img}
                     height={573}
                     width={1550}
-                    alt=""
+                    alt="object-cover w-full h-[720px] object-center"
                   />
                 </CarouselItem>
               ))}
@@ -63,10 +73,10 @@ const Slider = () => {
                 transition: "transform 0.5s ease-in-out",
               }}
             >
-              {Array.from({ length: totalSlides }).map((_, index) => (
+              {totalSlides.slice(2, 4).map((img, index) => (
                 <CarouselItem key={index}>
                   <Image
-                    src={"/Slider/slider-2.png"}
+                    src={img}
                     height={570}
                     width={500}
                     alt=""
