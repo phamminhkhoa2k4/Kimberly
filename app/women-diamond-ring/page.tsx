@@ -12,13 +12,13 @@ const WomenRing = () => {
     <>
       <Body>
         <Breadcrumb
-          breadcrumbs={[{ title: "Trang Nhẫn Nữ", url: "/women-ring" }]}
+          breadcrumbs={[{ title: "Nhẫn Kim Cương Nữ", url: "/women-diamond-ring" }]}
         />
         <Banner
           imageUrl="/Banner/banner-women-ring.png"
           imageUrlMobile="/Banner/banner-women-ring-mobile.png"
         />
-        <Filter />
+        <Filter  isColor={true} isMaterial={true} isType={true} isPrice={true}/>
         <Product />
         <Just />
         <LastBanner />

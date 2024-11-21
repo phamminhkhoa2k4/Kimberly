@@ -17,9 +17,10 @@ type Props = {
   isType?: boolean;
   isColor?: boolean;
   isMaterial?: boolean;
+  isPrice?: boolean;
 }; 
 
-const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = false}: Props) => {
+const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = false,isPrice = false}: Props) => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [jewelryType, setJewelryType] = useState<string[]>([]);
   const [material, setMaterial] = useState<string[]>([]);
@@ -224,31 +225,33 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
           )}
 
           {/* Giá */}
-          <div className="group">
-            <HoverCard openDelay={20} closeDelay={20}>
-              <HoverCardTrigger>
-                <div className="flex items-center gap-1 group">
-                  <span className="text-sm text-nowrap">Giá</span>
-                  <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <div className="flex flex-col gap-2">
-                  {priceRanges.map((p) => (
-                    <div
-                      key={p}
-                      className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
-                        price === p ? "bg-slate-300 text-white" : ""
-                      }`}
-                      onClick={() => setPrice(price === p ? "" : p)}
-                    >
-                      {p}
-                    </div>
-                  ))}
-                </div>
-              </HoverCardContent>
-            </HoverCard>
-          </div>
+          {isColor && (
+            <div className="group">
+              <HoverCard openDelay={20} closeDelay={20}>
+                <HoverCardTrigger>
+                  <div className="flex items-center gap-1 group">
+                    <span className="text-sm text-nowrap">Giá</span>
+                    <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  <div className="flex flex-col gap-2">
+                    {priceRanges.map((p) => (
+                      <div
+                        key={p}
+                        className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
+                          price === p ? "bg-slate-300 text-white" : ""
+                        }`}
+                        onClick={() => setPrice(price === p ? "" : p)}
+                      >
+                        {p}
+                      </div>
+                    ))}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          )}
         </div>
         {/* Sắp Xếp Theo */}
         <div className="group">

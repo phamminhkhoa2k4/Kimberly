@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 import Banner from "@/components/Banner";
 import LastBanner from "@/components/Banner/LastBanner";
 import Body from "@/components/Body";
@@ -8,20 +7,20 @@ import Filter from "@/components/Filter";
 import Just from "@/components/Just";
 import ProductBanner from "@/components/productBanner";
 
-
-
-const WeddingRing = () => {
+const MenRing = () => {
   return (
     <>
       <Body>
         <Breadcrumb
-          breadcrumbs={[{ title: "Nhẫn Cưới", url: "/wedding-ring" }]}
+          breadcrumbs={[
+            { title: "Nhẫn Kim Cương Nam", url: "/men-diamond-ring" },
+          ]}
         />
         <Banner
-          imageUrl="/Banner/banner-wedding-ring.png"
-          imageUrlMobile="/Banner/banner-wedding-ring-mobile.png"
+          imageUrl="/Banner/banner-men-ring.png"
+          imageUrlMobile="/Banner/banner-men-ring-mobile.png"
         />
-        <Filter isMaterial={true} isColor={true} isGender={true} isPrice={true}/>
+        <Filter isColor={true} isType={true} isMaterial={true} isPrice={true}/>
         <ProductBanner />
         <Just />
         <LastBanner />
@@ -30,4 +29,4 @@ const WeddingRing = () => {
   );
 };
 
-export default WeddingRing;
+export default MenRing;
