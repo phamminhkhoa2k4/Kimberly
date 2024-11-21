@@ -12,13 +12,21 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 
-const Filter = () => {
+type Props = {
+  isGender?: boolean;
+  isType?: boolean;
+  isColor?: boolean;
+  isMaterial?: boolean;
+}; 
+
+const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = false}: Props) => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [jewelryType, setJewelryType] = useState<string[]>([]);
   const [material, setMaterial] = useState<string[]>([]);
   const [metallicColor, setMetallicColor] = useState<string[]>([]);
-  const [price, setPrice] = useState<string>(""); // Changed to string instead of string[]
+  const [price, setPrice] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("Mới Nhất");
+  const [gender,setGender] = useState<"Nam" | "Nữ" | "None">("None");
 
   const handleRemoveFilter = (value: string) => {
     if (jewelryType.includes(value)) {
@@ -28,7 +36,7 @@ const Filter = () => {
     } else if (metallicColor.includes(value)) {
       setMetallicColor((prev) => prev.filter((item) => item !== value));
     } else if (price === value) {
-      setPrice(""); // Clear price if it matches
+      setPrice("");
     }
   };
 
@@ -36,22 +44,28 @@ const Filter = () => {
     setJewelryType([]);
     setMaterial([]);
     setMetallicColor([]);
-    setPrice(""); // Reset to empty string
+    setPrice("");
   };
 
-   const handleColorClick = (color: string) => {
-     setMetallicColor((prev) =>
-       prev.includes(color)
-         ? prev.filter((item) => item !== color)
-         : [...prev, color]
-     );
-   };
+  const handleColorClick = (color: string) => {
+    setMetallicColor((prev) =>
+      prev.includes(color)
+        ? prev.filter((item) => item !== color)
+        : [...prev, color]
+    );
+  };
+
 
   const priceRanges = [
     "Dưới 100 triệu ",
     "Từ 100 - 500 triệu ",
     "Trên 500 triệu ",
   ];
+
+  const Gender = [
+    "Nam",
+    "Nữ"
+  ] 
 
   return (
     <section className="lg:mx-auto lg:w-3/4 mx-5 my-5">
@@ -64,111 +78,151 @@ const Filter = () => {
             <span className="text-sm text-nowrap">Lọc Theo :</span>
           </div>
           {/* Loại Trang Sức */}
-          <div className="group">
-            <HoverCard openDelay={20} closeDelay={20}>
-              <HoverCardTrigger>
-                <div className="flex items-center gap-1 group">
-                  <span className="text-sm text-nowrap">Loại Trang Sức</span>
-                  <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <div className="flex flex-col gap-2">
-                  {["Vỏ Nhẫn Nữ", "Nhẫn Nữ Nguyên Chiếc"].map((type) => (
-                    <div
-                      key={type}
-                      className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
-                        jewelryType.includes(type)
-                          ? "bg-slate-300 text-white"
-                          : ""
-                      }`}
-                      onClick={() =>
-                        setJewelryType((prev) =>
-                          prev.includes(type)
-                            ? prev.filter((item) => item !== type)
-                            : [...prev, type]
-                        )
-                      }
-                    >
-                      {type}
-                    </div>
-                  ))}
-                </div>
-              </HoverCardContent>
-            </HoverCard>
-          </div>
+          {isType && (
+            <div className="group">
+              <HoverCard openDelay={20} closeDelay={20}>
+                <HoverCardTrigger>
+                  <div className="flex items-center gap-1 group">
+                    <span className="text-sm text-nowrap">Loại Trang Sức</span>
+                    <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  <div className="flex flex-col gap-2">
+                    {["Vỏ Nhẫn Nữ", "Nhẫn Nữ Nguyên Chiếc"].map((type) => (
+                      <div
+                        key={type}
+                        className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
+                          jewelryType.includes(type)
+                            ? "bg-slate-300 text-white"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          setJewelryType((prev) =>
+                            prev.includes(type)
+                              ? prev.filter((item) => item !== type)
+                              : [...prev, type]
+                          )
+                        }
+                      >
+                        {type}
+                      </div>
+                    ))}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          )}
+
+          {/* Giới Tính */}
+          {isGender && (
+            <div className="group">
+              <HoverCard openDelay={20} closeDelay={20}>
+                <HoverCardTrigger>
+                  <div className="flex items-center gap-1 group">
+                    <span className="text-sm text-nowrap">Giới Tính</span>
+                    <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  <div className="flex flex-col gap-2">
+                    {Gender.map((gen) => (
+                      <div
+                        key={gen}
+                        className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
+                          gender === gen ? "bg-slate-300 text-white" : ""
+                        }`}
+                        onClick={() => setPrice(gender === gen ? "" : gen)}
+                      >
+                        {gen}
+                      </div>
+                    ))}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          )}
+
           {/* Chất Liệu */}
-          <div className="group">
-            <HoverCard openDelay={20} closeDelay={20}>
-              <HoverCardTrigger>
-                <div className="flex items-center gap-1 group">
-                  <span className="text-sm text-nowrap">Chất Liệu</span>
-                  <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <div className="flex flex-col gap-2">
-                  {["Vàng 18k", "Vàng 14k"].map((mat) => (
-                    <div
-                      key={mat}
-                      className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
-                        material.includes(mat) ? "bg-slate-300 text-white" : ""
-                      }`}
-                      onClick={() =>
-                        setMaterial((prev) =>
-                          prev.includes(mat)
-                            ? prev.filter((item) => item !== mat)
-                            : [...prev, mat]
-                        )
-                      }
-                    >
-                      {mat}
-                    </div>
-                  ))}
-                </div>
-              </HoverCardContent>
-            </HoverCard>
-          </div>
+          {isMaterial && (
+            <div className="group">
+              <HoverCard openDelay={20} closeDelay={20}>
+                <HoverCardTrigger>
+                  <div className="flex items-center gap-1 group">
+                    <span className="text-sm text-nowrap">Chất Liệu</span>
+                    <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  <div className="flex flex-col gap-2">
+                    {["Vàng 18k", "Vàng 14k"].map((mat) => (
+                      <div
+                        key={mat}
+                        className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
+                          material.includes(mat)
+                            ? "bg-slate-300 text-white"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          setMaterial((prev) =>
+                            prev.includes(mat)
+                              ? prev.filter((item) => item !== mat)
+                              : [...prev, mat]
+                          )
+                        }
+                      >
+                        {mat}
+                      </div>
+                    ))}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          )}
+
           {/* Màu Kim Loại */}
-          <div className="group">
-            <HoverCard openDelay={20} closeDelay={20}>
-              <HoverCardTrigger>
-                <div className="flex items-center gap-1 group">
-                  <span className="text-sm text-nowrap">Màu Kim Loại</span>
-                  <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <div className="flex items-center gap-5">
-                  {["Gold", "Silver"].map((color) => (
-                    <div
-                      key={color}
-                      className={`p-1 border rounded-full cursor-pointer ${
-                        metallicColor.includes(color)
-                          ? "border-blue-500 border-2"
-                          : ""
-                      }`}
-                      onClick={() =>
-                        setMetallicColor((prev) =>
-                          prev.includes(color)
-                            ? prev.filter((item) => item !== color)
-                            : [...prev, color]
-                        )
-                      }
-                    >
-                      <Image
-                        src={`/Type/type-${color.toLowerCase()}.png`}
-                        alt={color}
-                        height={100}
-                        width={100}
-                        className="w-[40px] h-[40px] object-cover object-center"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </HoverCardContent>
-            </HoverCard>
-          </div>
+          {isColor && (
+            <div className="group">
+              <HoverCard openDelay={20} closeDelay={20}>
+                <HoverCardTrigger>
+                  <div className="flex items-center gap-1 group">
+                    <span className="text-sm text-nowrap">Màu Kim Loại</span>
+                    <IoIosArrowDown className="h-5 w-5 group-hover:rotate-180 transition-transform" />
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  <div className="flex items-center gap-5">
+                    {["Gold", "Silver"].map((color) => (
+                      <div
+                        key={color}
+                        className={`p-1 border rounded-full cursor-pointer ${
+                          metallicColor.includes(color)
+                            ? "border-blue-500 border-2"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          setMetallicColor((prev) =>
+                            prev.includes(color)
+                              ? prev.filter((item) => item !== color)
+                              : [...prev, color]
+                          )
+                        }
+                      >
+                        <Image
+                          src={`/Type/type-${color.toLowerCase()}.png`}
+                          alt={color}
+                          height={100}
+                          width={100}
+                          className="w-[40px] h-[40px] object-cover object-center"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          )}
+
           {/* Giá */}
           <div className="group">
             <HoverCard openDelay={20} closeDelay={20}>
