@@ -322,13 +322,7 @@ const Header = () => {
                 </Link>
               </HoverCardTrigger>
               <HoverCardContent className="">
-                <div className="flex flex-col justify-center gap-2">  
-                      <Link
-                        href={"/wedding-ring"}
-                        className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
-                      >
-                        Nhẫn Cưới
-                      </Link>    
+                <div className="flex flex-col justify-center gap-2">
                   <HoverCard openDelay={20} closeDelay={100}>
                     <HoverCardTrigger asChild>
                       <Link
@@ -355,6 +349,12 @@ const Header = () => {
                       </div>
                     </HoverCardContent>
                   </HoverCard>
+                  <Link
+                    href={"/wedding-ring"}
+                    className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                  >
+                    Nhẫn Cưới
+                  </Link>
                   <Link
                     href={"/diamond-earring"}
                     className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
@@ -401,25 +401,25 @@ const Header = () => {
               <HoverCardContent className="">
                 <div className="flex flex-col justify-center gap-2">
                   <Link
-                    href={"#"}
+                    href={"/collections/stella"}
                     className="capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                   >
                     Bộ sưu tập stella
                   </Link>
                   <Link
-                    href={"#"}
+                    href={"/collections/stella"}
                     className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                   >
                     Bộ sưu tập lotus
                   </Link>
                   <Link
-                    href={"#"}
+                    href={"/collections/stella"}
                     className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                   >
                     Bộ sưu tập love Knot
                   </Link>
                   <Link
-                    href={"#"}
+                    href={"/collections/stella"}
                     className=" capitalize text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                   >
                     Bộ sưu tập camellia
@@ -516,14 +516,14 @@ const Header = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                   <div>
-                          <Link
-                            href="/wedding-ring"
-                            className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
-                          >
-                            Nhẫn cưới
-                          </Link>
-                        </div>
+                  <div>
+                    <Link
+                      href="/wedding-ring"
+                      className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
+                    >
+                      Nhẫn cưới
+                    </Link>
+                  </div>
 
                   <div>
                     <Link
@@ -565,45 +565,45 @@ const Header = () => {
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger>
-                  <a
+                  <Link
                     href="#"
                     className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block "
                   >
                     bộ sưa tập
-                  </a>
+                  </Link>
                 </AccordionTrigger>
                 <AccordionContent className="mx-3">
                   <div>
-                    <a
-                      href="#"
+                    <Link
+                      href="/collections/stella"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Bộ Sưu Tập Stella
-                    </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="#"
+                    <Link 
+                      href="/collections/stella"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Bộ Sưu Tập Lotus
-                    </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="#"
+                    <Link
+                      href="/collections/stella"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Bộ Sưu Tập Love Knot
-                    </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="#"
+                    <Link
+                      href="/collections/stella"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Bộ Sưu Tập Camelia
-                    </a>
+                    </Link>
                   </div>
                 </AccordionContent>
               </AccordionItem>
