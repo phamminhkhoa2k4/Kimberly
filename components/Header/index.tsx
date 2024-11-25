@@ -312,12 +312,6 @@ const Header = () => {
             >
               Kimberly
             </Link>
-            <Link
-              href="/diamond"
-              className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
-            >
-              Kim Cương Viên
-            </Link>
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
                 <Link
@@ -328,33 +322,13 @@ const Header = () => {
                 </Link>
               </HoverCardTrigger>
               <HoverCardContent className="">
-                <div className="flex flex-col justify-center gap-2">
-                  <HoverCard openDelay={20} closeDelay={100}>
-                    <HoverCardTrigger asChild>
+                <div className="flex flex-col justify-center gap-2">  
                       <Link
                         href={"/wedding-ring"}
                         className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                       >
                         Nhẫn Cưới
-                      </Link>
-                    </HoverCardTrigger>
-                    <HoverCardContent className="absolute -top-[60px] left-32 mt-2 p-4 bg-white rounded-md shadow-lg">
-                      <div className="flex flex-col justify-center gap-2">
-                        <Link
-                          href={"/diamond-wedding-ring"}
-                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
-                        >
-                          Nhẫn Cuới Kim Cương
-                        </Link>
-                        <Link
-                          href={"/diamond-engagement-ring"}
-                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
-                        >
-                          Nhẫn Cầu Hôn Kim Cương
-                        </Link>
-                      </div>
-                    </HoverCardContent>
-                  </HoverCard>
+                      </Link>    
                   <HoverCard openDelay={20} closeDelay={100}>
                     <HoverCardTrigger asChild>
                       <Link
@@ -397,7 +371,7 @@ const Header = () => {
                     href={"/diamond-bracelet-bangle"}
                     className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                   >
-                    Lắc & Vồng Tay Kim Cương
+                    Lắc & Vòng Tay Kim Cương
                   </Link>
                   <Link
                     href={"/diamond-jewelry-set"}
@@ -408,6 +382,13 @@ const Header = () => {
                 </div>
               </HoverCardContent>
             </HoverCard>
+            <Link
+              href="/diamond"
+              className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+            >
+              Kim Cương Viên
+            </Link>
+
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
                 <Link
@@ -518,7 +499,7 @@ const Header = () => {
                       <AccordionContent className="mx-3">
                         <div>
                           <Link
-                            href="/woman-diamond-ring"
+                            href="/women-diamond-ring"
                             className=" text-black  py-3 px-6 text-sm uppercase hover:bg-slate-50 rounded-md block "
                           >
                             Nhẵn Kim Cương Nữ
@@ -535,42 +516,18 @@ const Header = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Accordion type="single" collapsible>
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>
-                        <div>
+                   <div>
                           <Link
-                            href="/wedding-jewelry"
+                            href="/wedding-ring"
                             className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                           >
-                            Trang Sức cưới
+                            Nhẫn cưới
                           </Link>
                         </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="mx-3">
-                        <div>
-                          <Link
-                            href="/diamond-wedding-ring"
-                            className=" text-black  py-3 px-6 text-sm uppercase hover:bg-slate-50 rounded-md block "
-                          >
-                            Nhẵn Cưới Kim Cương
-                          </Link>
-                        </div>
-                        <div>
-                          <a
-                            href="/diamond-engagement-ring"
-                            className=" text-black  py-3 px-6 text-sm uppercase hover:bg-slate-50 rounded-md block "
-                          >
-                            Nhẵn Cầu Hôn Kim Cương
-                          </a>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
 
                   <div>
                     <Link
-                      href="/diamond-earrings"
+                      href="/diamond-earring"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >
                       Bông Tai Kim Cương

@@ -8,43 +8,41 @@ const ProductDetail = () => {
           <div className="flex lg:flex-row flex-col gap-8 items-start ">
             <div className="lg:w-7/12">
               <div className="lg:grid flex lg:grid-cols-2 lg:grid-rows-4 grid-cols-1 gap-5 overflow-x-scroll lg:overflow-x-hidden scrollbar-hide">
-         
-                  <Image
-                    src="https://product.hstatic.net/200000355853/product/round--vang-trang-vang-hong--tam--01_ac69124f0d3646cba9f91e111d3be386_1024x1024.jpg"
-                    alt=""
-                    height={1024}
-                    width={1024}
-                    className="object-cover object-center lg:col-span-2 lg:row-span-2 rounded-md overflow-hidden shadow-md border flex-shrink-0"
-                  />
-                  <Image
-                    src="https://product.hstatic.net/200000355853/product/round--vang-trang-vang-hong--tam--01_ac69124f0d3646cba9f91e111d3be386_1024x1024.jpg"
-                    alt=""
-                    height={1024}
-                    width={1024}
-                    className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-                  />
-                  <Image
-                    src="https://product.hstatic.net/200000355853/product/round--vang-trang-vang-hong--tam--01_ac69124f0d3646cba9f91e111d3be386_1024x1024.jpg"
-                    alt=""
-                    height={1024}
-                    width={1024}
-                    className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-                  />
-                  <Image
-                    src="https://product.hstatic.net/200000355853/product/round--vang-trang-vang-hong--tam--01_ac69124f0d3646cba9f91e111d3be386_1024x1024.jpg"
-                    alt=""
-                    height={1024}
-                    width={1024}
-                    className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-                  />
-                  <Image
-                    src="https://product.hstatic.net/200000355853/product/round--vang-trang-vang-hong--tam--01_ac69124f0d3646cba9f91e111d3be386_1024x1024.jpg"
-                    alt=""
-                    height={1024}
-                    width={1024}
-                    className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-                  />
-            
+                <Image
+                  src="/Product/product-5.png"
+                  alt=""
+                  height={1024}
+                  width={1024}
+                  className="object-cover object-center lg:col-span-2 lg:row-span-2 rounded-md overflow-hidden shadow-md border flex-shrink-0"
+                />
+                <Image
+                  src="/Product/product-5.png"
+                  alt=""
+                  height={1024}
+                  width={1024}
+                  className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
+                />
+                <Image
+                  src="/Product/product-5.png"
+                  alt=""
+                  height={1024}
+                  width={1024}
+                  className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
+                />
+                <Image
+                  src="/Product/product-5.png"
+                  alt=""
+                  height={1024}
+                  width={1024}
+                  className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
+                />
+                <Image
+                  src="/Product/product-5.png"
+                  alt=""
+                  height={1024}
+                  width={1024}
+                  className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
+                />
               </div>
             </div>
             <div className="lg:w-5/12 ">
@@ -93,7 +91,7 @@ const ProductDetail = () => {
               </div>
               <div className=" mt-5border-[#20475d] border p-1 aspect-square w-[51px] rounded-full flex items-center justify-center ">
                 <Image
-                  src={"https://file.hstatic.net/200000355853/file/dai-tam.png"}
+                  src={"/dai-tam.png"}
                   alt=""
                   height={64}
                   width={64}
