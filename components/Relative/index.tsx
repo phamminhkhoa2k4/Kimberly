@@ -89,7 +89,7 @@ const Relative = () => {
 
   return (
     <>
-      <section className="lg:mx-auto lg:w-3/4 mx-8 overflow-hidden">
+      <section className="lg:mx-auto lg:w-3/4 mx-5 overflow-hidden">
         <div className="flex-col hidden lg:flex">
           <div className="flex items-center justify-between">
             <div className="text-lg font-bold my-5">Bạn Có Thể Thích</div>

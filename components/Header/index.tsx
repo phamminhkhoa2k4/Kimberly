@@ -27,10 +27,12 @@ import {
 import debounce from "lodash.debounce";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useNavigation } from "@/hooks/useNavigation";
 const Header = () => {
+  const { isNavigating } = useNavigation();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
-  const [isSearch,setIsSearch] = useState<boolean>(false);
+  const [isSearch, setIsSearch] = useState<boolean>(false);
   const handleScroll = debounce(() => {
     setScrollY(window.scrollY);
   }, 0);
@@ -45,6 +47,12 @@ const Header = () => {
   useEffect(() => {
     console.log("scroll", scrollY);
   }, [scrollY]);
+
+  useEffect(() => {
+    setIsOpenMenu(false);
+    console.log(isNavigating);
+    
+  }, [isNavigating]);
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-md">
@@ -317,9 +325,7 @@ const Header = () => {
             </Link>
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
-                <div
-                  className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
-                >
+                <div className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
                   Trang Sức Kim Cương
                 </div>
               </HoverCardTrigger>
@@ -393,9 +399,7 @@ const Header = () => {
 
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
-                <div
-                  className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
-                >
+                <div className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
                   Bộ Sưu Tập
                 </div>
               </HoverCardTrigger>
@@ -477,12 +481,9 @@ const Header = () => {
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger>
-                  <Link
-                    href="/diamond-jewelry"
-                    className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block "
-                  >
+                  <div className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block ">
                     Trang Sức Kim Cương
-                  </Link>
+                  </div>
                 </AccordionTrigger>
                 <AccordionContent className="mx-3">
                   <Accordion type="single" collapsible>
@@ -566,12 +567,9 @@ const Header = () => {
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger>
-                  <Link
-                    href="#"
-                    className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block "
-                  >
+                  <div className=" text-black  py-3 px-6 text-lg uppercase hover:bg-slate-50 rounded-md block ">
                     bộ sưa tập
-                  </Link>
+                  </div>
                 </AccordionTrigger>
                 <AccordionContent className="mx-3">
                   <div>
