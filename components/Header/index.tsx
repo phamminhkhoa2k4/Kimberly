@@ -88,22 +88,25 @@ const Header = () => {
                 <TfiHeadphoneAlt className="h-5 w-5" />
               </Link>
             </div>
-            <div>
-              <Image
-                src={"/Logo/gem.jpg"}
-                alt="Logo Kimberly"
-                height={130}
-                width={130}
-                className="object-contain lg:block hidden object-center"
-              />
-              <Image
-                src={"/Logo/gem.jpg"}
-                alt="Logo Kimberly"
-                height={90}
-                width={90}
-                className="object-contain sm:hidden object-center"
-              />
-            </div>
+            <Link href="/">
+              <div className="cursor-pointer">
+                <Image
+                  src={"/Logo/gem.jpg"}
+                  alt="Logo Kimberly"
+                  height={130}
+                  width={130}
+                  className="object-contain lg:block hidden object-center"
+                />
+                <Image
+                  src={"/Logo/gem.jpg"}
+                  alt="Logo Kimberly"
+                  height={90}
+                  width={90}
+                  className="object-contain sm:hidden object-center"
+                />
+              </div>
+            </Link>
+
             <div className="flex items-center lg:hidden">
               <Popover onOpenChange={setIsSearch} open={isSearch}>
                 <PopoverTrigger>
@@ -314,12 +317,11 @@ const Header = () => {
             </Link>
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
-                <Link
-                  href={"/diamond-jewelry"}
+                <div
                   className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                 >
                   Trang Sức Kim Cương
-                </Link>
+                </div>
               </HoverCardTrigger>
               <HoverCardContent className="">
                 <div className="flex flex-col justify-center gap-2">
@@ -391,12 +393,11 @@ const Header = () => {
 
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
-                <Link
-                  href={"/collections"}
+                <div
                   className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                 >
                   Bộ Sưu Tập
-                </Link>
+                </div>
               </HoverCardTrigger>
               <HoverCardContent className="">
                 <div className="flex flex-col justify-center gap-2">
@@ -582,7 +583,7 @@ const Header = () => {
                     </Link>
                   </div>
                   <div>
-                    <Link 
+                    <Link
                       href="/collections/stella"
                       className=" text-black  py-3 px-6 text-base uppercase hover:bg-slate-50 rounded-md block "
                     >

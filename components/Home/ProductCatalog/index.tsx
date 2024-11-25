@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const ProductCatalog = () => {
   return (
@@ -14,78 +15,91 @@ const ProductCatalog = () => {
             </p>
           </div>
           <div className="grid grid-cols-3 lg:grid-cols-6 mt-10 gap-5">
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"/Catalog/women-ring.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Nhẫn Nữ
+            <Link href="/women-diamond-ring">
+              <div className="flex flex-col gap-5 items-center">
+                <Image
+                  src={"/Catalog/women-ring.png"}
+                  alt=""
+                  className="object-cover rounded-lg object-center aspect-square"
+                  height={200}
+                  width={200}
+                />
+                <div className="text-base font-medium text-[#20475d]">
+                  Nhẫn Nữ
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"/Catalog/men-ring.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Nhẫn Nam
+            </Link>
+            <Link href="/men-diamond-ring">
+              <div className="flex flex-col gap-5 items-center">
+                <Image
+                  src={"/Catalog/men-ring.png"}
+                  alt=""
+                  className="object-cover rounded-lg object-center aspect-square"
+                  height={200}
+                  width={200}
+                />
+                <div className="text-base font-medium text-[#20475d]">
+                  Nhẫn Nam
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"/Catalog/bracelet.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Vòng Tay
+            </Link>
+            <Link href="/diamond-bracelet-bangle">
+              <div className="flex flex-col gap-5 items-center">
+                <Image
+                  src={"/Catalog/bracelet.png"}
+                  alt=""
+                  className="object-cover rounded-lg object-center aspect-square"
+                  height={200}
+                  width={200}
+                />
+                <div className="text-base font-medium text-[#20475d]">
+                  Vòng Tay
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"/Catalog/necklace.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Vòng Cổ
+            </Link>
+            <Link href="/diamond-pendant">
+              <div className="flex flex-col gap-5 items-center">
+                <Image
+                  src={"/Catalog/necklace.png"}
+                  alt=""
+                  className="object-cover rounded-lg object-center aspect-square"
+                  height={200}
+                  width={200}
+                />
+                <div className="text-base font-medium text-[#20475d]">
+                  Vòng Cổ
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"/Catalog/earring.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Bông Tai
+            </Link>
+            <Link href="/diamond-earring">
+              {" "}
+              <div className="flex flex-col gap-5 items-center">
+                <Image
+                  src={"/Catalog/earring.png"}
+                  alt=""
+                  className="object-cover rounded-lg object-center aspect-square"
+                  height={200}
+                  width={200}
+                />
+                <div className="text-base font-medium text-[#20475d]">
+                  Bông Tai
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-5 items-center">
-              <Image
-                src={"/Catalog/wedding-ring.png"}
-                alt=""
-                className="object-cover rounded-lg object-center aspect-square"
-                height={200}
-                width={200}
-              />
-              <div className="text-base font-medium text-[#20475d]">
-                Nhẵn Cưới
+            </Link>
+            <Link href="/wedding-ring">
+              <div className="flex flex-col gap-5 items-center">
+                <Image
+                  src={"/Catalog/wedding-ring.png"}
+                  alt=""
+                  className="object-cover rounded-lg object-center aspect-square"
+                  height={200}
+                  width={200}
+                />
+                <div className="text-base font-medium text-[#20475d]">
+                  Nhẵn Cưới
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
