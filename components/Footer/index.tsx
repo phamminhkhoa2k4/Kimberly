@@ -22,10 +22,10 @@ const Footer = () => {
               Liên hệ
             </div>
             <div className="text-sm font-medium tracking-wider">
-              Cần Thơ <span className="underline">0939 843 366</span>
+              Cần Thơ <span className="underline">0703 919 999</span>
             </div>
             <div className="text-sm font-medium tracking-wider">
-              Hotline CSKH <span className="underline">00303033030</span>
+              Hotline CSKH <span className="underline">0346919999</span>
             </div>
             <div className="flex items-center gap-5">
               <SiZalo className="h-5 w-5" />
@@ -74,10 +74,10 @@ const Footer = () => {
             </AccordionTrigger>
             <AccordionContent className="px-11 flex flex-col gap-2">
               <div className="text-sm font-medium tracking-wider">
-                Cần Thơ <span className="underline">0939 843 366</span>
+                Cần Thơ <span className="underline">0703 919 999</span>
               </div>
               <div className="text-sm font-medium tracking-wider">
-                Hotline CSKH <span className="underline">00303033030</span>
+                Hotline CSKH <span className="underline">0346919999</span>
               </div>
               <div className="flex items-center gap-5">
                 <SiZalo className="h-5 w-5" />
@@ -138,7 +138,7 @@ const Footer = () => {
           className="object-contain object-center"
         />
         <div className="text-neutral-700">
-          © 2024. Công Ty Cổ Phần Trang Sức Kimberly.{" "}
+          © 2024. Cty TNHH vàng bạc đá quý Kimberly.{" "}
         </div>
       </div>
     </footer>

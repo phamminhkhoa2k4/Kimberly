@@ -424,7 +424,7 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
         </Sheet>
       </div>
       {/* Hiển Thị Bộ Lọc */}
-      <div className="flex items-center justify-between my-5">
+      <div className="hidden lg:flex items-center justify-between my-5">
         <div className="flex items-center gap-3 flex-wrap">
           {[...jewelryType, ...material, ...metallicColor, price]
             .filter(Boolean)
@@ -447,7 +447,7 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
           metallicColor.length > 0 ||
           price !== "") && (
           <div
-            className="flex items-center gap-2 cursor-pointer hover:text-gray-600"
+            className="hidden lg:flex items-center gap-2 cursor-pointer hover:text-gray-600"
             onClick={handleResetFilters}
           >
             <IoRefreshOutline className="h-5 w-5" />
