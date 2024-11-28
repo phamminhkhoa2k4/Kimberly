@@ -5,22 +5,37 @@ import Body from "@/components/Body";
 import Breadcrumb from "@/components/Breadcrumb";
 import Filter from "@/components/Filter";
 import Just from "@/components/Just";
-import Product from "@/components/Product";
+import ProductBanner from "@/components/productBanner";
+import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
+import { Product } from "@/types/product";
+import { useState } from "react";
 
 const WomenRing = () => {
+   const [rings, setRings] = useState<Product[]>();
+   const { products } = useLocalStorageProducts("products");
   return (
     <>
       <Body>
         <Breadcrumb
-          breadcrumbs={[{ title: "Nhẫn Kim Cương Nữ", url: "/women-diamond-ring" }]}
+          breadcrumbs={[
+            { title: "Nhẫn Kim Cương Nữ", url: "/women-diamond-ring" },
+          ]}
         />
         <Banner
           imageUrl="/Banner/banner-women-ring.png"
           imageUrlMobile="/Banner/banner-women-ring-mobile.png"
         />
-        <Filter  isColor={true} isMaterial={true} isType={true} isPrice={true}/>
-        <Product />
-        <Just />
+        <Filter
+          rings={rings || []}
+          isColor={true}
+          isGender={false}
+          isMaterial={true}
+          isPrice={true}
+          setRings={setRings}
+          categoryName={"Nhẫn Nữ"}
+        />
+        <ProductBanner rings={rings ?? []} />
+        {products.length > 0 && <Just products={products} />}
         <LastBanner />
       </Body>
     </>
