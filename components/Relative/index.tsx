@@ -1,60 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { Product } from "@/types/product";
+import { getData } from "@/utils/axios";
+import Link from "next/link";
 
-const Relative = () => {
-  const products = [
-    {
-      id: 1,
-      image: "/Product/product-1.jpg",
-      typeIcon: "/Type/type-gold.png",
-      name: "Nhẫn Nữ Kim Cương Tự Nhiên Vàng 18K",
-      code: "WRA00475",
-      price: "48,215,000₫",
-    },
-    {
-      id: 2,
-      image: "/Product/product-1.jpg",
-      typeIcon: "/Type/type-gold.png",
-      name: "Nhẫn Nữ Kim Cương Tự Nhiên Vàng 18K",
-      code: "WRA00475",
-      price: "48,215,000₫",
-    },
-    {
-      id: 3,
-      image: "/Product/product-1.jpg",
-      typeIcon: "/Type/type-gold.png",
-      name: "Nhẫn Nữ Kim Cương Tự Nhiên Vàng 18K",
-      code: "WRA00475",
-      price: "48,215,000₫",
-    },
-    {
-      id: 4,
-      image: "/Product/product-1.jpg",
-      typeIcon: "/Type/type-gold.png",
-      name: "Nhẫn Nữ Kim Cương Tự Nhiên Vàng 18K",
-      code: "WRA00475",
-      price: "48,215,000₫",
-    },
-    {
-      id: 5,
-      image: "/Product/product-1.jpg",
-      typeIcon: "/Type/type-gold.png",
-      name: "Nhẫn Nữ Kim Cương Tự Nhiên Vàng 18K",
-      code: "WRA00476",
-      price: "48,215,000₫",
-    },
-    {
-      id: 6,
-      image: "/Product/product-1.jpg",
-      typeIcon: "/Type/type-gold.png",
-      name: "Nhẫn Nữ Kim Cương Tự Nhiên Vàng 18K",
-      code: "WRA00477",
-      price: "48,215,000₫",
-    },
-  ];
+type Props = {
+  id : string;
+}
 
+const Relative = ({id} : Props) => {
+
+  const [products,setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getData({endpoint: `/product/related/${id}`}).then((product) => {
+        setProducts(product);
+      })
+    }
+
+
+    fetchData();
+  },[id])
+  const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState("right");
   const [isAnimating, setIsAnimating] = useState(false);
@@ -124,8 +94,81 @@ const Relative = () => {
                 }`}
             >
               {visibleProducts.map((product) => (
+                <Link href={`/product/${product.productId}`}>
+                  {" "}
+                  <div
+                    key={product.productId}
+                    className={`flex flex-col transform transition-all duration-500
+                    ${
+                      isAnimating
+                        ? "scale-95 opacity-0"
+                        : "scale-100 opacity-100"
+                    }
+                    hover:shadow-lg hover:-translate-y-1 rounded-lg p-2`}
+                  >
+                    <div className="overflow-hidden rounded-lg">
+                      <Image
+                        src={`${baseUrl}/image/id/${product.images}`}
+                        alt=""
+                        height={480}
+                        width={480}
+                        className="aspect-square object-cover rounded-lg object-center transition-transform duration-300 hover:scale-110"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex">
+                        <span className="border p-1 rounded-full my-3 transform transition-transform hover:rotate-12">
+                          {product.metallicColor === "Vàng Vàng" && (
+                            <Image
+                              src={"/Type/type-gold.png"}
+                              alt=""
+                              height={100}
+                              width={100}
+                              className="aspect-square h-5 w-5"
+                            />
+                          )}
+                          {product.metallicColor === "Vàng Trắng" && (
+                            <Image
+                              src={"/Type/type-silver.png"}
+                              alt=""
+                              height={100}
+                              width={100}
+                              className="aspect-square h-5 w-5"
+                            />
+                          )}
+                          {product.metallicColor === "Vàng Hồng" && (
+                            <Image
+                              src={"/Type/type-rose.png"}
+                              alt=""
+                              height={100}
+                              width={100}
+                              className="aspect-square h-5 w-5"
+                            />
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex items-center font-bold text-sm">
+                        <span className="line-clamp-1 hover:text-blue-600 transition-colors">
+                          {product.productName}
+                        </span>
+                      </div>
+                      <div className="text-xs py-2 font-semibold transform transition-all hover:scale-105">
+                        {product.price}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="lg:hidden">
+          <div className="text-lg font-bold my-5">Bạn Có Thể Thích</div>
+          <div className="w-full overflow-x-auto flex ">
+            {products.map((product) => (
+              <Link href={`/product/${product.productId}`}>
                 <div
-                  key={product.id}
+                  key={product.productId}
                   className={`flex flex-col transform transition-all duration-500
                     ${
                       isAnimating
@@ -136,7 +179,7 @@ const Relative = () => {
                 >
                   <div className="overflow-hidden rounded-lg">
                     <Image
-                      src={product.image}
+                      src={`${baseUrl}/image/id/${product.images}`}
                       alt=""
                       height={480}
                       width={480}
@@ -146,22 +189,38 @@ const Relative = () => {
                   <div className="flex flex-col">
                     <div className="flex">
                       <span className="border p-1 rounded-full my-3 transform transition-transform hover:rotate-12">
-                        <Image
-                          src={product.typeIcon}
-                          alt=""
-                          height={100}
-                          width={100}
-                          className="aspect-square h-5 w-5"
-                        />
+                        {product.metallicColor === "Vàng Vàng" && (
+                          <Image
+                            src={"/Type/type-gold.png"}
+                            alt=""
+                            height={100}
+                            width={100}
+                            className="aspect-square h-5 w-5"
+                          />
+                        )}
+                        {product.metallicColor === "Vàng Trắng" && (
+                          <Image
+                            src={"/Type/type-silver.png"}
+                            alt=""
+                            height={100}
+                            width={100}
+                            className="aspect-square h-5 w-5"
+                          />
+                        )}
+                        {product.metallicColor === "Vàng Hồng" && (
+                          <Image
+                            src={"/Type/type-rose.png"}
+                            alt=""
+                            height={100}
+                            width={100}
+                            className="aspect-square h-5 w-5"
+                          />
+                        )}
                       </span>
                     </div>
                     <div className="flex items-center font-bold text-sm">
                       <span className="line-clamp-1 hover:text-blue-600 transition-colors">
-                        {product.name}
-                      </span>
-                      <span>-</span>
-                      <span className="hover:text-blue-600 transition-colors">
-                        {product.code}
+                        {product.productName}
                       </span>
                     </div>
                     <div className="text-xs py-2 text-red-500 font-semibold transform transition-all hover:scale-105">
@@ -169,59 +228,7 @@ const Relative = () => {
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="lg:hidden">
-          <div className="text-lg font-bold my-5">Bạn Có Thể Thích</div>
-          <div className="w-full overflow-x-auto flex ">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className={`flex flex-col transform transition-all duration-500
-                    ${
-                      isAnimating
-                        ? "scale-95 opacity-0"
-                        : "scale-100 opacity-100"
-                    }
-                    hover:shadow-lg hover:-translate-y-1 rounded-lg p-2`}
-              >
-                <div className="overflow-hidden rounded-lg">
-                  <Image
-                    src={product.image}
-                    alt=""
-                    height={480}
-                    width={480}
-                    className="aspect-square object-cover rounded-lg object-center transition-transform duration-300 hover:scale-110"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex">
-                    <span className="border p-1 rounded-full my-3 transform transition-transform hover:rotate-12">
-                      <Image
-                        src={product.typeIcon}
-                        alt=""
-                        height={100}
-                        width={100}
-                        className="aspect-square h-5 w-5"
-                      />
-                    </span>
-                  </div>
-                  <div className="flex items-center font-bold text-sm">
-                    <span className="line-clamp-1 hover:text-blue-600 transition-colors">
-                      {product.name}
-                    </span>
-                    <span>-</span>
-                    <span className="hover:text-blue-600 transition-colors">
-                      {product.code}
-                    </span>
-                  </div>
-                  <div className="text-xs py-2 text-red-500 font-semibold transform transition-all hover:scale-105">
-                    {product.price}
-                  </div>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

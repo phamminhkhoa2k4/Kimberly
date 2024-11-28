@@ -10,7 +10,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Product } from "@/types/product";
+import { getData } from "@/utils/axios";
 
 type Props = {
   isGender?: boolean;
@@ -18,16 +20,31 @@ type Props = {
   isColor?: boolean;
   isMaterial?: boolean;
   isPrice?: boolean;
-}; 
+  rings?: Product[];
+  setRings: (value: Product[]) => void;
+  categoryName: string;
+};
 
-const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = false,isPrice = false}: Props) => {
+const Filter = ({
+  isGender = false,
+  isType = false,
+  isColor = false,
+  isMaterial = false,
+  isPrice = false,
+  setRings,
+  categoryName,
+}: Props) => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [jewelryType, setJewelryType] = useState<string[]>([]);
   const [material, setMaterial] = useState<string[]>([]);
   const [metallicColor, setMetallicColor] = useState<string[]>([]);
-  const [price, setPrice] = useState<string>("");
+  const [price, setPrice] = useState<{
+    minValue: string;
+    maxValue: string;
+    name: string;
+  } | null>(null);
   const [sortBy, setSortBy] = useState<string>("Mới Nhất");
-  const [gender,setGender] = useState<"Nam" | "Nữ" | "None">("None");
+  const [gender, setGender] = useState<"Nam" | "Nữ" | "None">("None");
 
   const handleRemoveFilter = (value: string) => {
     if (jewelryType.includes(value)) {
@@ -36,8 +53,10 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
       setMaterial((prev) => prev.filter((item) => item !== value));
     } else if (metallicColor.includes(value)) {
       setMetallicColor((prev) => prev.filter((item) => item !== value));
-    } else if (price === value) {
-      setPrice("");
+    } else if (price?.name === value) {
+      setPrice(null);
+    } else if (gender === value) {
+      setGender("None");
     }
   };
 
@@ -45,7 +64,8 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
     setJewelryType([]);
     setMaterial([]);
     setMetallicColor([]);
-    setPrice("");
+    setPrice(null);
+    setGender("None");
   };
 
   const handleColorClick = (color: string) => {
@@ -56,17 +76,60 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
     );
   };
 
-
   const priceRanges = [
-    "Dưới 100 triệu ",
-    "Từ 100 - 500 triệu ",
-    "Trên 500 triệu ",
+    { name: "Dưới 100 triệu", minValue: 0, maxValue: 100 },
+    { name: "Từ 100 triệu - 250 triệu", minValue: 100, maxValue: 250 },
+    { name: "Từ 250 triệu - 500 triệu", minValue: 250, maxValue: 500 },
+    { name: "Từ 500 triệu - 1 tỷ", minValue: 500, maxValue: 1000 },
+    { name: "Trên 1 tỷ", minValue: 1000, maxValue: 100000 },
   ];
 
-  const Gender = [
-    "Nam",
-    "Nữ"
-  ] 
+  const queryString = useMemo(() => {
+    const params = new URLSearchParams();
+
+    if (material && material.length > 0) {
+      params.append("materials", material.join("&materials="));
+    }
+
+    if (metallicColor && metallicColor.length > 0) {
+      params.append("metallicColors", metallicColor.join("&metallicColors="));
+    }
+
+    if (gender !== "None") {
+      params.append("gender", gender);
+    }
+
+    if (price !== null) {
+      params.append("minPrice", price.minValue);
+      params.append("maxPrice", price.maxValue);
+    } else {
+      params.append("minPrice", "0");
+      params.append("maxPrice", "100000");
+    }
+    params.append("sortBy", sortBy);
+    params.append("categoryName", categoryName);
+
+    return params.toString();
+  }, [material, metallicColor, gender, sortBy, price]);
+
+  useEffect(() => {
+    console.log(price);
+  }, [price]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const rings = await getData({
+          endpoint: `http://localhost:8080/api/product/filter?${queryString}`,
+        });
+        setRings(rings);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [queryString]);
 
   return (
     <section className="lg:mx-auto lg:w-3/4 mx-5 my-5">
@@ -127,17 +190,22 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                 </HoverCardTrigger>
                 <HoverCardContent>
                   <div className="flex flex-col gap-2">
-                    {Gender.map((gen) => (
-                      <div
-                        key={gen}
-                        className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
-                          gender === gen ? "bg-slate-300 text-white" : ""
-                        }`}
-                        onClick={() => setPrice(gender === gen ? "" : gen)}
-                      >
-                        {gen}
-                      </div>
-                    ))}
+                    <div
+                      className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
+                        gender === "Nam" ? "bg-slate-300 text-white" : ""
+                      }`}
+                      onClick={() => setGender("Nam")}
+                    >
+                      Nam
+                    </div>
+                    <div
+                      className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
+                        gender === "Nữ" ? "bg-slate-300 text-white" : ""
+                      }`}
+                      onClick={() => setGender("Nữ")}
+                    >
+                      Nữ
+                    </div>
                   </div>
                 </HoverCardContent>
               </HoverCard>
@@ -168,7 +236,7 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                           setMaterial((prev) =>
                             prev.includes(mat)
                               ? prev.filter((item) => item !== mat)
-                              : [...prev, mat]
+                              : [mat]
                           )
                         }
                       >
@@ -193,31 +261,72 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                 </HoverCardTrigger>
                 <HoverCardContent>
                   <div className="flex items-center gap-5">
-                    {["Gold", "Silver"].map((color) => (
-                      <div
-                        key={color}
-                        className={`p-1 border rounded-full cursor-pointer ${
-                          metallicColor.includes(color)
-                            ? "border-blue-500 border-2"
-                            : ""
-                        }`}
-                        onClick={() =>
-                          setMetallicColor((prev) =>
-                            prev.includes(color)
-                              ? prev.filter((item) => item !== color)
-                              : [...prev, color]
-                          )
-                        }
-                      >
-                        <Image
-                          src={`/Type/type-${color.toLowerCase()}.png`}
-                          alt={color}
-                          height={100}
-                          width={100}
-                          className="w-[40px] h-[40px] object-cover object-center"
-                        />
-                      </div>
-                    ))}
+                    <div
+                      className={`p-1 border rounded-full cursor-pointer ${
+                        metallicColor.includes("Vàng Vàng")
+                          ? "border-blue-500 border-2"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        setMetallicColor((prev) =>
+                          prev.includes("Vàng Vàng")
+                            ? prev.filter((item) => item !== "Vàng Vàng")
+                            : ["Vàng Vàng"]
+                        )
+                      }
+                    >
+                      <Image
+                        src={`/Type/type-gold.png`}
+                        alt=""
+                        height={100}
+                        width={100}
+                        className="w-[40px] h-[40px] object-cover object-center"
+                      />
+                    </div>
+                    <div
+                      className={`p-1 border rounded-full cursor-pointer ${
+                        metallicColor.includes("Vàng Trắng")
+                          ? "border-blue-500 border-2"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        setMetallicColor((prev) =>
+                          prev.includes("Vàng Trắng")
+                            ? prev.filter((item) => item !== "Vàng Trắng")
+                            : ["Vàng Trắng"]
+                        )
+                      }
+                    >
+                      <Image
+                        src={`/Type/type-silver.png`}
+                        alt=""
+                        height={100}
+                        width={100}
+                        className="w-[40px] h-[40px] object-cover object-center"
+                      />
+                    </div>
+                    <div
+                      className={`p-1 border rounded-full cursor-pointer ${
+                        metallicColor.includes("Vàng Hồng")
+                          ? "border-blue-500 border-2"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        setMetallicColor((prev) =>
+                          prev.includes("Vàng Hồng")
+                            ? prev.filter((item) => item !== "Vàng Hồng")
+                            : ["Vàng Hồng"]
+                        )
+                      }
+                    >
+                      <Image
+                        src={`/Type/type-rose.png`}
+                        alt=""
+                        height={100}
+                        width={100}
+                        className="w-[40px] h-[40px] object-cover object-center"
+                      />
+                    </div>
                   </div>
                 </HoverCardContent>
               </HoverCard>
@@ -238,13 +347,25 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                   <div className="flex flex-col gap-2">
                     {priceRanges.map((p) => (
                       <div
-                        key={p}
+                        key={p.name}
                         className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
-                          price === p ? "bg-slate-300 text-white" : ""
+                          price?.name === p.name
+                            ? "bg-slate-300 text-white"
+                            : ""
                         }`}
-                        onClick={() => setPrice(price === p ? "" : p)}
+                        onClick={() =>
+                          setPrice(
+                            price?.name === p.name
+                              ? null
+                              : {
+                                  name: p.name,
+                                  maxValue: String(p.maxValue),
+                                  minValue: String(p.minValue),
+                                }
+                          )
+                        }
                       >
-                        {p}
+                        {p.name}
                       </div>
                     ))}
                   </div>
@@ -345,7 +466,7 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                           setMaterial((prev) =>
                             prev.includes(mat)
                               ? prev.filter((item) => item !== mat)
-                              : [...prev, mat]
+                              : [mat]
                           )
                         }
                       >
@@ -359,11 +480,11 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                   <div className="flex items-center gap-5 mt-5 border-b-2 pb-5 ">
                     <span
                       className={`p-1 border rounded-full cursor-pointer transition-all ${
-                        metallicColor.includes("Gold")
+                        metallicColor.includes("Vàng Hồng")
                           ? "border-[#20475d] border-2"
                           : ""
                       }`}
-                      onClick={() => handleColorClick("Gold")}
+                      onClick={() => handleColorClick("Vàng Vàng")}
                     >
                       <Image
                         src={"/Type/type-gold.png"}
@@ -375,14 +496,30 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                     </span>
                     <span
                       className={`p-1 border rounded-full cursor-pointer transition-all ${
-                        metallicColor.includes("Silver")
+                        metallicColor.includes("Vàng Trắng")
                           ? "border-[#20475d] border-2"
                           : ""
                       }`}
-                      onClick={() => handleColorClick("Silver")}
+                      onClick={() => handleColorClick("Vàng Trắng")}
                     >
                       <Image
                         src={"/Type/type-silver.png"}
+                        alt=""
+                        height={100}
+                        width={100}
+                        className="aspect-square h-8 w-8 object-cover object-center"
+                      />
+                    </span>
+                    <span
+                      className={`p-1 border rounded-full cursor-pointer transition-all ${
+                        metallicColor.includes("Vàng Hồng")
+                          ? "border-[#20475d] border-2"
+                          : ""
+                      }`}
+                      onClick={() => handleColorClick("Vàng Hồng")}
+                    >
+                      <Image
+                        src={"/Type/type-rose.png"}
                         alt=""
                         height={100}
                         width={100}
@@ -398,11 +535,23 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
                       <div
                         key={index}
                         className={`border rounded-lg py-2 px-2 text-sm text-nowrap basis-[calc(50%-0.5rem)] text-center ${
-                          p === price ? "bg-[#20475d] text-white" : ""
+                          p.name === price?.name
+                            ? "bg-[#20475d] text-white"
+                            : ""
                         }`}
-                        onClick={() => setPrice(price === p ? "" : p)}
+                        onClick={() =>
+                          setPrice(
+                            price?.name === p.name
+                              ? null
+                              : {
+                                  name: p.name,
+                                  maxValue: String(p.maxValue),
+                                  minValue: String(p.minValue),
+                                }
+                          )
+                        }
                       >
-                        {p}
+                        {p.name}
                       </div>
                     ))}
                   </div>
@@ -426,18 +575,25 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
       {/* Hiển Thị Bộ Lọc */}
       <div className="hidden lg:flex items-center justify-between my-5">
         <div className="flex items-center gap-3 flex-wrap">
-          {[...jewelryType, ...material, ...metallicColor, price]
+          {[
+            ...jewelryType,
+            ...material,
+            ...metallicColor,
+            price?.name,
+            ...(gender !== "None" ? [gender] : []),
+          ]
             .filter(Boolean)
-            .map((filter) => (
-              <div
-                key={filter}
-                className="flex items-center gap-2 rounded-full px-3 py-1.5 bg-[#20475d]"
-              >
-                <span className="text-xs font-medium text-white">{filter}</span>
-                <IoMdClose
-                  className="h-4 w-4 text-white cursor-pointer hover:text-gray-200"
-                  onClick={() => handleRemoveFilter(filter)}
-                />
+            .map((filter, index) => (
+              <div key={index}>
+                <div className="flex items-center gap-2 rounded-full px-3 py-1.5 bg-[#20475d]">
+                  <span className="text-xs font-medium text-white">
+                    {filter}
+                  </span>
+                  <IoMdClose
+                    className="h-4 w-4 text-white cursor-pointer hover:text-gray-200"
+                    onClick={() => handleRemoveFilter(filter!)}
+                  />
+                </div>
               </div>
             ))}
         </div>
@@ -445,7 +601,8 @@ const Filter = ({isGender = false, isType = false,isColor = false,isMaterial = f
         {(jewelryType.length > 0 ||
           material.length > 0 ||
           metallicColor.length > 0 ||
-          price !== "") && (
+          price !== null ||
+          gender !== "None") && (
           <div
             className="hidden lg:flex items-center gap-2 cursor-pointer hover:text-gray-600"
             onClick={handleResetFilters}
