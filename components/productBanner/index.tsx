@@ -20,7 +20,9 @@ const  ProductBanner = ({rings} : Props) => {
                 <div key={index} className="flex flex-col  ">
                   <div className="overflow-hidden rounded-lg">
                     <Image
-                      src={`${baseUrl}/image/id/${ring.images}`}
+                      src={`${baseUrl}/image/id/${
+                        (ring.images as string).split(",")[0]
+                      }`}
                       alt=""
                       height={480}
                       width={480}
@@ -92,7 +94,9 @@ const  ProductBanner = ({rings} : Props) => {
               <div key={index} className="flex flex-col  ">
                 <div className="overflow-hidden rounded-lg">
                   <Image
-                    src={`${baseUrl}/image/id/${ring.images}`}
+                    src={`${baseUrl}/image/id/${
+                      (ring.images as string).split(",")[0]
+                    }`}
                     alt=""
                     height={480}
                     width={480}
@@ -163,7 +167,9 @@ const  ProductBanner = ({rings} : Props) => {
               <div key={index} className="flex flex-col  ">
                 <div className="overflow-hidden rounded-lg">
                   <Image
-                    src={`${baseUrl}/image/id/${ring.images}`}
+                    src={`${baseUrl}/image/id/${
+                      (ring.images as string).split(",")[0]
+                    }`}
                     alt=""
                     height={480}
                     width={480}

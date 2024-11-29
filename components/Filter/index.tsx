@@ -70,9 +70,7 @@ const Filter = ({
 
   const handleColorClick = (color: string) => {
     setMetallicColor((prev) =>
-      prev.includes(color)
-        ? prev.filter((item) => item !== color)
-        : [...prev, color]
+      prev.includes(color) ? prev.filter((item) => item !== color) : [color]
     );
   };
 
@@ -424,138 +422,169 @@ const Filter = ({
                   onClick={() => setOpenFilter(false)}
                 />
               </div>
-              <div className="overflow-y-auto">
-                <div className="px-5 mt-7">
-                  <span className="font-bold ">Loại Trang Sức</span>
-                  <div className="flex items-center gap-5 mt-5 border-b-2 pb-5">
-                    {["Vỏ Nhẫn Nữ", "Nhẫn Nữ Nguyên Chiếc"].map(
-                      (type, index) => (
+              <div className="overflow-y-auto mb-7">
+                {isType && (
+                  <div className="px-5 mt-5">
+                    <span className="font-bold ">Loại Trang Sức</span>
+                    <div className="flex items-center gap-5 mt-5 border-b-2 pb-5">
+                      {["Vỏ Nhẫn Nữ", "Nhẫn Nữ Nguyên Chiếc"].map(
+                        (type, index) => (
+                          <div
+                            key={index}
+                            className={`border rounded-lg py-2 text-sm basis-[calc(50%-0.5rem)] text-center  ${
+                              jewelryType.includes(type)
+                                ? "bg-[#20475d] text-white"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              setJewelryType((prev) =>
+                                prev.includes(type)
+                                  ? prev.filter((item) => item !== type)
+                                  : [...prev, type]
+                              )
+                            }
+                          >
+                            {type}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
+                {isGender && (
+                  <div className="px-5 mt-5">
+                    <span className="font-bold ">Giới Tính</span>
+                    <div className="flex items-center gap-5 mt-5 border-b-2 pb-5">
+                      <div
+                        className={`border rounded-lg py-2 text-sm basis-[calc(50%-0.5rem)] text-center  ${
+                          gender === "Nam" ? "bg-[#20475d] text-white" : ""
+                        }`}
+                        onClick={() => setGender("Nam")}
+                      >
+                        Nam
+                      </div>
+                      <div
+                        className={`border rounded-lg py-2 text-sm basis-[calc(50%-0.5rem)] text-center  ${
+                          gender === "Nữ" ? "bg-[#20475d] text-white" : ""
+                        }`}
+                        onClick={() => setGender("Nữ")}
+                      >
+                        Nữ
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {isMaterial && (
+                  <div className="px-5 mt-5 ">
+                    <span className="font-bold ">Chất Liệu</span>
+                    <div className="flex items-center gap-5 mt-5 border-b-2 pb-5">
+                      {["Vàng 18k", "Vàng 14k"].map((mat, index) => (
                         <div
                           key={index}
-                          className={`border rounded-lg py-2 text-sm basis-[calc(50%-0.5rem)] text-center  ${
-                            jewelryType.includes(type)
+                          className={`border rounded-lg py-2 text-sm  basis-[calc(50%-0.5rem)] text-center  ${
+                            material.includes(mat)
                               ? "bg-[#20475d] text-white"
                               : ""
                           }`}
                           onClick={() =>
-                            setJewelryType((prev) =>
-                              prev.includes(type)
-                                ? prev.filter((item) => item !== type)
-                                : [...prev, type]
+                            setMaterial((prev) =>
+                              prev.includes(mat)
+                                ? prev.filter((item) => item !== mat)
+                                : [mat]
                             )
                           }
                         >
-                          {type}
+                          {mat}
                         </div>
-                      )
-                    )}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="px-5 mt-5 ">
-                  <span className="font-bold ">Chất Liệu</span>
-                  <div className="flex items-center gap-5 mt-5 border-b-2 pb-5">
-                    {["Vàng 18k", "Vàng 14k"].map((mat, index) => (
-                      <div
-                        key={index}
-                        className={`border rounded-lg py-2 text-sm  basis-[calc(50%-0.5rem)] text-center  ${
-                          material.includes(mat)
-                            ? "bg-[#20475d] text-white"
+                )}
+                {isColor && (
+                  <div className="px-5 mt-5 ">
+                    <span className="font-bold ">Màu Kim Loại</span>
+                    <div className="flex items-center gap-5 mt-5 border-b-2 pb-5 ">
+                      <span
+                        className={`p-1 border rounded-full cursor-pointer transition-all ${
+                          metallicColor.includes("Vàng Vàng")
+                            ? "border-[#20475d] border-2"
                             : ""
                         }`}
-                        onClick={() =>
-                          setMaterial((prev) =>
-                            prev.includes(mat)
-                              ? prev.filter((item) => item !== mat)
-                              : [mat]
-                          )
-                        }
+                        onClick={() => handleColorClick("Vàng Vàng")}
                       >
-                        {mat}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="px-5 mt-5 ">
-                  <span className="font-bold ">Màu Kim Loại</span>
-                  <div className="flex items-center gap-5 mt-5 border-b-2 pb-5 ">
-                    <span
-                      className={`p-1 border rounded-full cursor-pointer transition-all ${
-                        metallicColor.includes("Vàng Hồng")
-                          ? "border-[#20475d] border-2"
-                          : ""
-                      }`}
-                      onClick={() => handleColorClick("Vàng Vàng")}
-                    >
-                      <Image
-                        src={"/Type/type-gold.png"}
-                        alt=""
-                        height={100}
-                        width={100}
-                        className="aspect-square h-8 w-8 object-cover object-center"
-                      />
-                    </span>
-                    <span
-                      className={`p-1 border rounded-full cursor-pointer transition-all ${
-                        metallicColor.includes("Vàng Trắng")
-                          ? "border-[#20475d] border-2"
-                          : ""
-                      }`}
-                      onClick={() => handleColorClick("Vàng Trắng")}
-                    >
-                      <Image
-                        src={"/Type/type-silver.png"}
-                        alt=""
-                        height={100}
-                        width={100}
-                        className="aspect-square h-8 w-8 object-cover object-center"
-                      />
-                    </span>
-                    <span
-                      className={`p-1 border rounded-full cursor-pointer transition-all ${
-                        metallicColor.includes("Vàng Hồng")
-                          ? "border-[#20475d] border-2"
-                          : ""
-                      }`}
-                      onClick={() => handleColorClick("Vàng Hồng")}
-                    >
-                      <Image
-                        src={"/Type/type-rose.png"}
-                        alt=""
-                        height={100}
-                        width={100}
-                        className="aspect-square h-8 w-8 object-cover object-center"
-                      />
-                    </span>
-                  </div>
-                </div>
-                <div className="px-5 mt-5 ">
-                  <span className="font-bold ">Giá (VND)</span>
-                  <div className="grid grid-cols-2 gap-5 mt-5 border-b-2 pb-5">
-                    {priceRanges.map((p, index) => (
-                      <div
-                        key={index}
-                        className={`border rounded-lg py-2 px-2 text-sm text-nowrap basis-[calc(50%-0.5rem)] text-center ${
-                          p.name === price?.name
-                            ? "bg-[#20475d] text-white"
+                        <Image
+                          src={"/Type/type-gold.png"}
+                          alt=""
+                          height={100}
+                          width={100}
+                          className="aspect-square h-8 w-8 object-cover object-center"
+                        />
+                      </span>
+                      <span
+                        className={`p-1 border rounded-full cursor-pointer transition-all ${
+                          metallicColor.includes("Vàng Trắng")
+                            ? "border-[#20475d] border-2"
                             : ""
                         }`}
-                        onClick={() =>
-                          setPrice(
-                            price?.name === p.name
-                              ? null
-                              : {
-                                  name: p.name,
-                                  maxValue: String(p.maxValue),
-                                  minValue: String(p.minValue),
-                                }
-                          )
-                        }
+                        onClick={() => handleColorClick("Vàng Trắng")}
                       >
-                        {p.name}
-                      </div>
-                    ))}
+                        <Image
+                          src={"/Type/type-silver.png"}
+                          alt=""
+                          height={100}
+                          width={100}
+                          className="aspect-square h-8 w-8 object-cover object-center"
+                        />
+                      </span>
+                      <span
+                        className={`p-1 border rounded-full cursor-pointer transition-all ${
+                          metallicColor.includes("Vàng Hồng")
+                            ? "border-[#20475d] border-2"
+                            : ""
+                        }`}
+                        onClick={() => handleColorClick("Vàng Hồng")}
+                      >
+                        <Image
+                          src={"/Type/type-rose.png"}
+                          alt=""
+                          height={100}
+                          width={100}
+                          className="aspect-square h-8 w-8 object-cover object-center"
+                        />
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
+                {isPrice && (
+                  <div className="px-5 mt-5 ">
+                    <span className="font-bold ">Giá (VND)</span>
+                    <div className="grid grid-cols-2 gap-5 mt-5 border-b-2 pb-5">
+                      {priceRanges.map((p, index) => (
+                        <div
+                          key={index}
+                          className={`border rounded-lg py-2 px-2 text-sm text-nowrap basis-[calc(50%-0.5rem)] text-center ${
+                            p.name === price?.name
+                              ? "bg-[#20475d] text-white"
+                              : ""
+                          }`}
+                          onClick={() =>
+                            setPrice(
+                              price?.name === p.name
+                                ? null
+                                : {
+                                    name: p.name,
+                                    maxValue: String(p.maxValue),
+                                    minValue: String(p.minValue),
+                                  }
+                            )
+                          }
+                        >
+                          {p.name}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="px-5 absolute left-0 right-0 pb-3 bottom-0 w-full  gap-5 flex items-center bg-white">
                 <div

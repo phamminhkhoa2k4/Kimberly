@@ -108,7 +108,9 @@ const Relative = ({id} : Props) => {
                   >
                     <div className="overflow-hidden rounded-lg">
                       <Image
-                        src={`${baseUrl}/image/id/${product.images}`}
+                        src={`${baseUrl}/image/id/${
+                          (product.images as string).split(",")[0]
+                        }`}
                         alt=""
                         height={480}
                         width={480}
@@ -179,7 +181,9 @@ const Relative = ({id} : Props) => {
                 >
                   <div className="overflow-hidden rounded-lg">
                     <Image
-                      src={`${baseUrl}/image/id/${product.images}`}
+                      src={`${baseUrl}/image/id/${
+                        (product.images as string).split(",")[0]
+                      }`}
                       alt=""
                       height={480}
                       width={480}

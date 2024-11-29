@@ -34,40 +34,23 @@ const ProductDetail = ({product}: Props) => {
           <div className="lg:w-7/12">
             <div className="lg:grid flex lg:grid-cols-2 lg:grid-rows-4 grid-cols-1 gap-5 overflow-x-scroll lg:overflow-x-hidden scrollbar-hide">
               <Image
-                src={`${baseUrl}/image/id/${product?.images}`}
+                src={`${baseUrl}/image/id/${
+                  (product?.images as string)?.split(",")[0]
+                }`}
                 alt=""
                 height={1024}
                 width={1024}
                 className="object-cover object-center lg:col-span-2 lg:row-span-2 rounded-md overflow-hidden shadow-md border flex-shrink-0"
               />
-              <Image
-                src={`${baseUrl}/image/id/${product?.images}`}
-                alt=""
-                height={1024}
-                width={1024}
-                className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-              />
-              <Image
-                src={`${baseUrl}/image/id/${product?.images}`}
-                alt=""
-                height={1024}
-                width={1024}
-                className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-              />
-              <Image
-                src={`${baseUrl}/image/id/${product?.images}`}
-                alt=""
-                height={1024}
-                width={1024}
-                className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-              />
-              <Image
-                src={`${baseUrl}/image/id/${product?.images}`}
-                alt=""
-                height={1024}
-                width={1024}
-                className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
-              />
+              {(product?.images as string)?.split(",").slice(1,5).map((image) => (
+                <Image
+                  src={`${baseUrl}/image/id/${image}`}
+                  alt=""
+                  height={1024}
+                  width={1024}
+                  className="object-cover object-center aspect-square rounded-md overflow-hidden shadow-md border flex-shrink-0"
+                />
+              ))}
             </div>
           </div>
           <div className="lg:w-5/12 lg:relative   ">
@@ -119,7 +102,7 @@ const ProductDetail = ({product}: Props) => {
                     className="w-10 h-10 object-cover object-center aspect-square"
                   />
                 )}
-                {product?.shape === "Emerald"  && (
+                {product?.shape === "Emerald" && (
                   <Image
                     src={"/Shape/emerald.png"}
                     alt=""
@@ -168,19 +151,57 @@ const ProductDetail = ({product}: Props) => {
               <span className="px-6 py-3 border-[#20475d] border rounded-lg">
                 {product?.material}
               </span>
-              <div className="flex items-center gap-2 mt-3 py-3">
-                <span className="font-semibold">Đai:</span>
-                <span>Tấm</span>
-              </div>
-              <div className=" mt-5border-[#20475d] border p-1 aspect-square w-[51px] rounded-full flex items-center justify-center ">
-                <Image
-                  src={"/dai-tam.png"}
-                  alt=""
-                  height={64}
-                  width={64}
-                  className="w-10 h-10 object-cover object-center "
-                />
-              </div>
+              {product?.ringBelt === "Đai Trơn" && (
+                <>
+                  <div className="flex items-center gap-2 mt-3 py-3">
+                    <span className="font-semibold">Đai:</span>
+                    <span>{product?.ringBelt}</span>
+                  </div>
+                  <div className=" mt-5border-[#20475d] border p-1 aspect-square w-[51px] rounded-full flex items-center justify-center ">
+                    <Image
+                      src={"/dai-tam.png"}
+                      alt=""
+                      height={64}
+                      width={64}
+                      className="w-10 h-10 object-cover object-center "
+                    />
+                  </div>
+                </>
+              )}
+              {product?.ringBelt === "Đai Nhám" && (
+                <>
+                  <div className="flex items-center gap-2 mt-3 py-3">
+                    <span className="font-semibold">Đai:</span>
+                    <span>{product?.ringBelt}</span>
+                  </div>
+                  <div className=" mt-5border-[#20475d] border p-1 aspect-square w-[51px] rounded-full flex items-center justify-center ">
+                    <Image
+                      src={"/dai-tam.png"}
+                      alt=""
+                      height={64}
+                      width={64}
+                      className="w-10 h-10 object-cover object-center "
+                    />
+                  </div>
+                </>
+              )}
+              {product?.ringBelt === "Đai Đính Xoàn" && (
+                <>
+                  <div className="flex items-center gap-2 mt-3 py-3">
+                    <span className="font-semibold">Đai:</span>
+                    <span>{product?.ringBelt}</span>
+                  </div>
+                  <div className=" mt-5border-[#20475d] border p-1 aspect-square w-[51px] rounded-full flex items-center justify-center ">
+                    <Image
+                      src={"/dai-tam.png"}
+                      alt=""
+                      height={64}
+                      width={64}
+                      className="w-10 h-10 object-cover object-center "
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

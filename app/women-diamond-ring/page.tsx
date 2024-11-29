@@ -28,7 +28,6 @@ const WomenRing = () => {
         <Filter
           rings={rings || []}
           isColor={true}
-          isGender={false}
           isMaterial={true}
           isPrice={true}
           setRings={setRings}

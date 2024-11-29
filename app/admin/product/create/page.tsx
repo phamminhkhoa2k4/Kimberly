@@ -24,15 +24,15 @@ interface Category {
   name: string;
 }
 const METALLIC_COLORS = [
-  { value: 'vang_trang', label: 'Vàng Trắng' },
-  { value: 'vang_chanh', label: 'Vàng Chanh' },
-  { value: 'vang_hong', label: 'Vàng Hồng' }
+  { value: "Vàng Trắng", label: "Vàng Trắng" },
+  { value: "Vàng Chanh", label: "Vàng Chanh" },
+  { value: "Vàng Hồng", label: "Vàng Hồng" },
 ];
 
 const RING_BELTS = [
-  { value: 'tron', label: 'Đai Trơn' },
-  { value: 'nham', label: 'Đai Nhám' },
-  { value: 'dinh_xoan', label: 'Đai Đính Xoàn' }
+  { value: "Đai Trơn", label: "Đai Trơn" },
+  { value: "Đai Nhám", label: "Đai Nhám" },
+  { value: "Đai Đính Xoàn", label: "Đai Đính Xoàn" },
 ];
 
 const SHAPE = [
@@ -44,7 +44,9 @@ const SHAPE = [
 
 const MATERIALS = [
   { value: 'au750', label: 'AU750' },
-  { value: 'hk', label: 'HK' }
+  { value: 'hk', label: 'HK' },
+  { value: 'Vàng 14k', label: 'Vàng 14k' },
+  { value: 'Vàng 18k', label: 'Vàng 18k' }
 ];
 const categories: Category[] = [
   { id: 1, name: "Nhẫn" },
