@@ -7,10 +7,15 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Filter from "@/components/Filter";
 import Just from "@/components/Just";
 import ProductBanner from "@/components/productBanner";
+import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
+import { Product } from "@/types/product";
+import { useState } from "react";
 
 
 
 const WeddingRing = () => {
+  const [rings, setRings] = useState<Product[]>();
+  const { products } = useLocalStorageProducts("products");
   return (
     <>
       <Body>
@@ -21,9 +26,17 @@ const WeddingRing = () => {
           imageUrl="/Banner/banner-wedding-ring.png"
           imageUrlMobile="/Banner/banner-wedding-ring-mobile.png"
         />
-        <Filter isMaterial={true} isColor={true} isGender={true} isPrice={true}/>
-        <ProductBanner />
-        <Just />
+        <Filter
+          rings={rings || []}
+          isColor={true}
+          isMaterial={true}
+          isPrice={true}
+          isGender={true}
+          setRings={setRings}
+          categoryName={"Nhẫn Cưới"}
+        />
+        <ProductBanner rings={rings ?? []} />
+        {products.length > 0 && <Just products={products} />}
         <LastBanner />
       </Body>
     </>
