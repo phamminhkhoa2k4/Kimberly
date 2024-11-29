@@ -6,8 +6,13 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Filter from "@/components/Filter";
 import Just from "@/components/Just";
 import ProductBanner from "@/components/productBanner";
+import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
+import { Product } from "@/types/product";
+import { useState } from "react";
 
 const DiamondEarring = () => {
+  const [rings, setRings] = useState<Product[]>();
+  const { products } = useLocalStorageProducts("products");
   return (
     <>
       <Body>
@@ -20,9 +25,16 @@ const DiamondEarring = () => {
           imageUrl="/Banner/banner-earring.png"
           imageUrlMobile="/Banner/banner-earring-mobile.png"
         />
-        <Filter isColor={true}  isGender={true} isMaterial={true} />
-        <ProductBanner />
-        <Just />
+        <Filter
+          rings={rings || []}
+          isColor={true}
+          isMaterial={true}
+          isPrice={true}
+          setRings={setRings}
+          categoryName={"Bông Tai"}
+        />
+        <ProductBanner rings={rings ?? []} />
+        {products.length > 0 && <Just products={products} />}
         <LastBanner />
       </Body>
     </>
