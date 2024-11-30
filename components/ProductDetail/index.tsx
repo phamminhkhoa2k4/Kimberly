@@ -61,10 +61,10 @@ const ProductDetail = ({product}: Props) => {
                 scrollY >= 800 ? "lg:absolute lg:top-[790px]" : ""
               )}
             >
-              <div className="flex items-start gap-2 text-lg font-medium">
+              <div className="flex items-start gap-2 text-4xl  font-bold">
                 {product?.productName}
               </div>
-              <div className="text-xl font-bold my-5">{product?.price}₫</div>
+              <div className="text-xl font-bold my-5">{product?.price} VND</div>
               {product?.isIncludeMasterDiamond && (
                 <p className="text-sm font-medium py-3 text-[#20475d]">
                   Giá trên là giá vỏ trang sức chưa bao gồm viên chủ.
