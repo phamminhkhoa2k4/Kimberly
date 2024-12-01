@@ -222,7 +222,7 @@ const Filter = ({
                 </HoverCardTrigger>
                 <HoverCardContent>
                   <div className="flex flex-col gap-2">
-                    {["Vàng 18k", "Vàng 14k"].map((mat) => (
+                    {["Vàng 18k", "HK"].map((mat) => (
                       <div
                         key={mat}
                         className={`text-sm px-4 py-3 text-neutral-700 font-medium hover:text-white hover:bg-slate-300 rounded-lg cursor-pointer ${
@@ -261,15 +261,15 @@ const Filter = ({
                   <div className="flex items-center gap-5">
                     <div
                       className={`p-1 border rounded-full cursor-pointer ${
-                        metallicColor.includes("Vàng Vàng")
+                        metallicColor.includes("Vàng Chanh")
                           ? "border-blue-500 border-2"
                           : ""
                       }`}
                       onClick={() =>
                         setMetallicColor((prev) =>
-                          prev.includes("Vàng Vàng")
-                            ? prev.filter((item) => item !== "Vàng Vàng")
-                            : ["Vàng Vàng"]
+                          prev.includes("Vàng Chanh")
+                            ? prev.filter((item) => item !== "Vàng Chanh")
+                            : ["Vàng Chanh"]
                         )
                       }
                     >
@@ -478,7 +478,7 @@ const Filter = ({
                   <div className="px-5 mt-5 ">
                     <span className="font-bold ">Chất Liệu</span>
                     <div className="flex items-center gap-5 mt-5 border-b-2 pb-5">
-                      {["Vàng 18k", "Vàng 14k"].map((mat, index) => (
+                      {["Vàng 18k", "HK"].map((mat, index) => (
                         <div
                           key={index}
                           className={`border rounded-lg py-2 text-sm  basis-[calc(50%-0.5rem)] text-center  ${
@@ -506,11 +506,11 @@ const Filter = ({
                     <div className="flex items-center gap-5 mt-5 border-b-2 pb-5 ">
                       <span
                         className={`p-1 border rounded-full cursor-pointer transition-all ${
-                          metallicColor.includes("Vàng Vàng")
+                          metallicColor.includes("Vàng Chanh")
                             ? "border-[#20475d] border-2"
                             : ""
                         }`}
-                        onClick={() => handleColorClick("Vàng Vàng")}
+                        onClick={() => handleColorClick("Vàng Chanh")}
                       >
                         <Image
                           src={"/Type/type-gold.png"}

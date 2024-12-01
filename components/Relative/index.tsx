@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { Product } from "@/types/product";
-import { getData } from "@/utils/axios";
 import Link from "next/link";
 
 type Props = {
-  id : string;
-}
+  products : Product[];
+};
 
-const Relative = ({id} : Props) => {
+const Relative = ({ products }: Props) => {
+  
 
-  const [products,setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await getData({endpoint: `/product/related/${id}`}).then((product) => {
-        setProducts(product);
-      })
-    }
-
-
-    fetchData();
-  },[id])
+  
   const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState("right");
@@ -120,7 +109,7 @@ const Relative = ({id} : Props) => {
                     <div className="flex flex-col">
                       <div className="flex">
                         <span className="border p-1 rounded-full my-3 transform transition-transform hover:rotate-12">
-                          {product.metallicColor === "Vàng Vàng" && (
+                          {product.metallicColor === "Vàng Chanh" && (
                             <Image
                               src={"/Type/type-gold.png"}
                               alt=""
@@ -193,7 +182,7 @@ const Relative = ({id} : Props) => {
                   <div className="flex flex-col">
                     <div className="flex">
                       <span className="border p-1 rounded-full my-3 transform transition-transform hover:rotate-12">
-                        {product.metallicColor === "Vàng Vàng" && (
+                        {product.metallicColor === "Vàng Chanh" && (
                           <Image
                             src={"/Type/type-gold.png"}
                             alt=""

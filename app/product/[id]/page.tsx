@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 
 const Detail = () => {
   const [product, setProduct] = useState<Product>();
+  const [related, setRelated] = useState<Product[]>([]);
   const { id } = useParams();
   const { products ,addProduct } = useLocalStorageProducts("products");
 
@@ -27,6 +28,16 @@ const Detail = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await getData({ endpoint: `/product/related/${id}` }).then((product) => {
+        setRelated(product);
+      });
+    };
+
+    fetchData();
+  }, [id]);
+
   return (
     <>
       <Body>
@@ -37,7 +48,7 @@ const Detail = () => {
           ]}
         />
         <ProductDetail product={product!} />
-        <Relative id={String(id)}/>
+        {related.length > 0 && <Relative products={related} />}
         {products.length > 0 && <Just products={products} />}
       </Body>
     </>

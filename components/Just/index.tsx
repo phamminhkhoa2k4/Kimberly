@@ -5,13 +5,11 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Product } from "@/types/product";
 import Link from "next/link";
 
+type Props = {
+  products: Product[];
+};
 
-type Props  ={
-  products : Product[]
-}
-
-const Just = ({products}: Props) => {
-
+const Just = ({ products }: Props) => {
   const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState("right");
@@ -107,7 +105,7 @@ const Just = ({products}: Props) => {
                     <div className="flex flex-col">
                       <div className="flex">
                         <span className="border p-1 rounded-full my-3 transform transition-transform hover:rotate-12">
-                          {product.metallicColor === "Vàng Vàng" && (
+                          {product.metallicColor === "Vàng Chanh" && (
                             <Image
                               src={"/Type/type-gold.png"}
                               alt=""
@@ -141,7 +139,7 @@ const Just = ({products}: Props) => {
                           {product.productName}
                         </span>
                       </div>
-                      <div className="text-xs py-2 text-red-500 font-semibold transform transition-all hover:scale-105">
+                      <div className="text-xs py-2  font-semibold transform transition-all hover:scale-105">
                         {product.price}
                       </div>
                     </div>
@@ -194,7 +192,7 @@ const Just = ({products}: Props) => {
                         {product.productName}
                       </span>
                     </div>
-                    <div className="text-xs py-2 text-red-500 font-semibold transform transition-all hover:scale-105">
+                    <div className="text-xs py-2  font-semibold transform transition-all hover:scale-105">
                       {product.price}
                     </div>
                   </div>

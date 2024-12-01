@@ -10,6 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 
 const Footer = () => {
@@ -27,12 +28,25 @@ const Footer = () => {
             <div className="text-sm font-medium tracking-wider">
               Hotline CSKH <span className="underline">0346919999</span>
             </div>
-            <div className="flex items-center gap-5">
-              <SiZalo className="h-5 w-5" />
-              <FaFacebookF className="h-5 w-5" />
-              <FaYoutube className="h-5 w-5" />
-              <FaTiktok className="h-5 w-5" />
-              <FaInstagram className="h-5 w-5" />
+            <div className="flex items-center gap-10">
+              <Link href={""}>
+                <SiZalo className="h-5 w-5" />
+              </Link>
+              <Link
+                href={
+                  "https://www.facebook.com/share/14WoNWeFvR/?mibextid=LQQJ4d"
+                }
+              >
+                <FaFacebookF className="h-5 w-5" />
+              </Link>
+              <Link
+                href={
+                  "https://www.tiktok.com/@kimberly_diamond.ct?_t=8rodvspeSNM&_r=1"
+                }
+              >
+                <FaTiktok className="h-5 w-5" />
+              </Link>
+              {/* <FaInstagram className="h-5 w-5" /> */}
             </div>
           </div>
           <div className="flex flex-col justify-center gap-3">
@@ -80,11 +94,25 @@ const Footer = () => {
                 Hotline CSKH <span className="underline">0346919999</span>
               </div>
               <div className="flex items-center gap-5">
-                <SiZalo className="h-5 w-5" />
-                <FaFacebookF className="h-5 w-5" />
-                <FaYoutube className="h-5 w-5" />
-                <FaTiktok className="h-5 w-5" />
-                <FaInstagram className="h-5 w-5" />
+                <Link href={""}>
+                  <SiZalo className="h-5 w-5" />
+                </Link>
+                <Link
+                  href={
+                    "https://www.facebook.com/share/14WoNWeFvR/?mibextid=LQQJ4d"
+                  }
+                >
+                  <FaFacebookF className="h-5 w-5" />
+                </Link>
+                <Link
+                  href={
+                    "https://www.tiktok.com/@kimberly_diamond.ct?_t=8rodvspeSNM&_r=1"
+                  }
+                >
+                  <FaTiktok className="h-5 w-5" />
+                </Link>
+
+                {/* <FaInstagram className="h-5 w-5" /> */}
               </div>
             </AccordionContent>
           </AccordionItem>
