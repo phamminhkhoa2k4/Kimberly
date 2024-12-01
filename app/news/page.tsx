@@ -2,9 +2,39 @@
 import Body from "@/components/Body";
 import Breadcrumb from "@/components/Breadcrumb";
 import Tab from "@/components/News/Tabs";
+import { News } from "@/types/news";
+import { Promotion } from "@/types/promotion";
+import { getData } from "@/utils/axios";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const News = () => {
+const NewsPage = () => {
+  const [events,setEvents] = useState<News[]>([]);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+        await getData({ endpoint: `/admin/news` }).then((event) => {
+          setEvents(event);
+        }).catch((error) => {
+          console.error(error);
+        }).finally()
+
+
+        await getData({ endpoint: `/admin/jemmia` })
+          .then((promotion) => {
+            setPromotions(promotion);
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+          .finally();
+    }
+    fetchData();
+  },[])
   return (
     <>
       <Body>
@@ -18,15 +48,18 @@ const News = () => {
             className="object-cover w-full h-full object-center"
           />
         </section>
-        <Tab />
-        <div className="my-5 flex justify-center">
-          <button className="border rounded-md py-3 px-6 font-medium">
-            Xem Thêm
-          </button>
-        </div>
+        <Tab events={events} promotions={promotions!}/>
+
+        {events.length > 1 && (
+          <div className="my-5 flex justify-center">
+            <button className="border rounded-md py-3 px-6 font-medium">
+              Xem Thêm
+            </button>
+          </div>
+        )}
       </Body>
     </>
   );
 };
 
-export default News;
+export default NewsPage;
