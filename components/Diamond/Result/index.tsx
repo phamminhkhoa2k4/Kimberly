@@ -19,6 +19,7 @@ type Props = {
 };
 
 const Result = ({diamond}: Props) => {
+  const [detailDiamond,setDetailDiamond] = useState<Diamond>();
   const [openSheet, setOpenSheet] = useState<boolean>(false);
   const [openSubSheet, setOpenSubSheet] = useState<boolean>(false);
 
@@ -250,13 +251,18 @@ const Result = ({diamond}: Props) => {
               </div>
             </div>
             {diamond?.map((dia, index) => (
-              <Sheet open={openSubSheet} onOpenChange={setOpenSubSheet}>
+              <Sheet
+                open={openSubSheet}
+                onOpenChange={setOpenSubSheet}
+                key={index}
+              >
                 <SheetTrigger className="w-full">
                   <div
                     className={cn(
                       "grid grid-cols-7 ",
                       (index + 1) % 2 === 1 ? "" : "bg-slate-300"
                     )}
+                    onClick={() => setDetailDiamond(dia)}
                   >
                     <div className="flex items-center justify-center py-2">
                       {dia.shape === "Round" && (
@@ -335,7 +341,7 @@ const Result = ({diamond}: Props) => {
                   </div>
                   <div className="flex flex-col items-start ">
                     <div className="flex justify-center">
-                      {dia.shape === "Round" && (
+                      {detailDiamond?.shape === "Round" && (
                         <Image
                           src={
                             "https://product.hstatic.net/200000355853/product/round-diamond_631621719a7d4599b55d3f5c716bd8de_grande.png"
@@ -346,7 +352,7 @@ const Result = ({diamond}: Props) => {
                           width={600}
                         />
                       )}
-                      {dia.shape === "Emerald" && (
+                      {detailDiamond?.shape === "Emerald" && (
                         <Image
                           src={
                             "https://product.hstatic.net/200000355853/product/emerald-diamond_a9cc1883bad34326b3f0a8423e0d5005_grande.png"
@@ -357,7 +363,7 @@ const Result = ({diamond}: Props) => {
                           width={600}
                         />
                       )}
-                      {dia.shape === "Oval" && (
+                      {detailDiamond?.shape === "Oval" && (
                         <Image
                           src={
                             "https://product.hstatic.net/200000355853/product/round-diamond_631621719a7d4599b55d3f5c716bd8de_grande.png"
@@ -368,7 +374,7 @@ const Result = ({diamond}: Props) => {
                           width={600}
                         />
                       )}
-                      {dia.shape === "Pear" && (
+                      {detailDiamond?.shape === "Pear" && (
                         <Image
                           src={
                             "https://product.hstatic.net/200000355853/product/round-diamond_631621719a7d4599b55d3f5c716bd8de_grande.png"
@@ -382,25 +388,25 @@ const Result = ({diamond}: Props) => {
                     </div>
                     <div className="flex flex-col w-full">
                       <div className="text-base font-bold my-0 px-4">
-                        {formatNumber(dia.price)}{" "}
+                        {formatNumber(detailDiamond?.price ?? 0)}{" "}
                         <span className="underline">đ</span>
                       </div>
                       <div className="flex flex-col gap-1 w-full ">
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Giác cắt:{" "}
-                          <span className="font-bold">{dia.cutting}</span>
+                          <span className="font-bold">{detailDiamond?.cutting}</span>
                         </div>
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Cấp màu:{" "}
-                          <span className="font-bold">{dia.colorGrade}</span>
+                          <span className="font-bold">{detailDiamond?.colorGrade}</span>
                         </div>
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Độ tinh khiết:{" "}
-                          <span className="font-bold">{dia.clarity}</span>
+                          <span className="font-bold">{detailDiamond?.clarity}</span>
                         </div>
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Trọng lượng:{" "}
-                          <span className="font-bold">{dia.weight}</span>
+                          <span className="font-bold">{detailDiamond?.weight}</span>
                         </div>
                         <div className="flex items-center gap-2 w-full py-2 px-4">
                           Kiểm định GIA

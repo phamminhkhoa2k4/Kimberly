@@ -43,7 +43,7 @@ const SHAPE = [
 ];
 
 const MATERIALS = [
-  { value: 'hk', label: 'HK' },
+  { value: 'HK', label: 'HK' },
   { value: 'Vàng 18k', label: 'Vàng 18k' }
 ];
 const categories: Category[] = [
