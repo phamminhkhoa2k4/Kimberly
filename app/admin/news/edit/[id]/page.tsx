@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 const NewsDetailPage: React.FC = () => {
   const params = useParams();
@@ -34,25 +35,26 @@ const NewsDetailPage: React.FC = () => {
 const ApiEnd="http://localhost:8080"
   useEffect(() => {
     if (id) {
+      const fetchNewsDetails = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.get(`${ApiEnd}/api/admin/news/${id}`);
+          const newsData = response.data;
+
+          setNews(newsData);
+          setImagePreview(`${ApiEnd}/image/id/${newsData.image}`);
+          setThumbnailPreview(`${ApiEnd}/image/id/${newsData.thumbnail}`);
+        } catch (err: any) {
+          setError("Failed to fetch news details.");
+        } finally {
+          setLoading(false);
+        }
+      };
       fetchNewsDetails();
     }
   }, [id]);
 
-  const fetchNewsDetails = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${ApiEnd}/api/admin/news/${id}`);
-      const newsData = response.data;
-
-      setNews(newsData);
-      setImagePreview(`${ApiEnd}/image/id/${newsData.image}`);
-      setThumbnailPreview(`${ApiEnd}/image/id/${newsData.thumbnail}`);
-    } catch (err: any) {
-      setError("Failed to fetch news details.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -136,7 +138,13 @@ const ApiEnd="http://localhost:8080"
             className="border p-2 w-full"
           />
           {imagePreview && (
-            <img src={imagePreview} alt="Image Preview" className="mt-2 w-32 h-32 object-cover" />
+            <Image
+              height={400}
+              width={400}
+              src={imagePreview}
+              alt="Image Preview"
+              className="mt-2 w-32 h-32 object-cover"
+            />
           )}
         </div>
         <div className="mb-4">
@@ -144,11 +152,15 @@ const ApiEnd="http://localhost:8080"
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => handleFileChange(e, setThumbnailPreview, "thumbnail")}
+            onChange={(e) =>
+              handleFileChange(e, setThumbnailPreview, "thumbnail")
+            }
             className="border p-2 w-full"
           />
           {thumbnailPreview && (
-            <img
+            <Image
+              height={400}
+              width={400}
               src={thumbnailPreview}
               alt="Thumbnail Preview"
               className="mt-2 w-32 h-32 object-cover"
@@ -184,7 +196,7 @@ const ApiEnd="http://localhost:8080"
           />
         </div>
         <button type="submit" className="bg-blue-500 text-white px-4 py-2">
-         Sửa Nội Dung
+          Sửa Nội Dung
         </button>
       </form>
     </div>

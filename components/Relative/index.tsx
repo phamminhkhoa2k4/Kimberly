@@ -83,7 +83,7 @@ const Relative = ({ products }: Props) => {
                 }`}
             >
               {visibleProducts.map((product) => (
-                <Link href={`/product/${product.productId}`}>
+                <Link key={product.productId} href={`/product/${product.productId}`}>
                   {" "}
                   <div
                     key={product.productId}
@@ -157,9 +157,8 @@ const Relative = ({ products }: Props) => {
           <div className="text-lg font-bold my-5">Bạn Có Thể Thích</div>
           <div className="w-full overflow-x-auto flex ">
             {products.map((product) => (
-              <Link href={`/product/${product.productId}`}>
+              <Link key={product.productId} href={`/product/${product.productId}`}>
                 <div
-                  key={product.productId}
                   className={`flex flex-col transform transition-all duration-500
                     ${
                       isAnimating

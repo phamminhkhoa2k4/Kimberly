@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Product {
   productId: number;
@@ -177,8 +178,10 @@ const EditCollectionPage: React.FC = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>{collectionId === "new" ? "Create Collection" : "Edit Collection"}</h1>
-      
+      <h1>
+        {collectionId === "new" ? "Create Collection" : "Edit Collection"}
+      </h1>
+
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
           <label className="block">Name:</label>
@@ -205,16 +208,22 @@ const EditCollectionPage: React.FC = () => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => 
-              handleFileChange(e.target.files?.[0] || null, setImage, setImagePreview)
+            onChange={(e) =>
+              handleFileChange(
+                e.target.files?.[0] || null,
+                setImage,
+                setImagePreview
+              )
             }
             className="border p-2 w-full"
           />
           {imagePreview && (
-            <img 
-              src={imagePreview} 
-              alt="Collection Image Preview" 
-              className="mt-2 w-32 h-32 object-cover" 
+            <Image
+              height={400}
+              width={400}
+              src={imagePreview}
+              alt="Collection Image Preview"
+              className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
@@ -224,16 +233,22 @@ const EditCollectionPage: React.FC = () => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => 
-              handleFileChange(e.target.files?.[0] || null, setBanner, setBannerPreview)
+            onChange={(e) =>
+              handleFileChange(
+                e.target.files?.[0] || null,
+                setBanner,
+                setBannerPreview
+              )
             }
             className="border p-2 w-full"
           />
           {bannerPreview && (
-            <img 
-              src={bannerPreview} 
-              alt="Banner Preview" 
-              className="mt-2 w-32 h-32 object-cover" 
+            <Image
+              height={400}
+              width={400}
+              src={bannerPreview}
+              alt="Banner Preview"
+              className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
@@ -243,23 +258,29 @@ const EditCollectionPage: React.FC = () => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => 
-              handleFileChange(e.target.files?.[0] || null, setAvatar, setAvatarPreview)
+            onChange={(e) =>
+              handleFileChange(
+                e.target.files?.[0] || null,
+                setAvatar,
+                setAvatarPreview
+              )
             }
             className="border p-2 w-full"
           />
           {avatarPreview && (
-            <img 
-              src={avatarPreview} 
-              alt="Avatar Preview" 
-              className="mt-2 w-32 h-32 object-cover" 
+            <Image
+              height={400}
+              width={400}
+              src={avatarPreview}
+              alt="Avatar Preview"
+              className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
 
         <div className="mb-4">
           <label className="block">Products</label>
-          <button 
+          <button
             type="button"
             onClick={() => setIsProductModalOpen(true)}
             className="bg-blue-500 text-white px-4 py-2 mb-2"
@@ -271,13 +292,13 @@ const EditCollectionPage: React.FC = () => {
             <div className="border p-2">
               <h3>Selected Products:</h3>
               <ul>
-                {selectedProducts.map(product => (
-                  <li 
-                    key={product.productId} 
+                {selectedProducts.map((product) => (
+                  <li
+                    key={product.productId}
                     className="flex justify-between items-center mb-1"
                   >
                     {product.productName}
-                    <button 
+                    <button
                       type="button"
                       onClick={() => handleRemoveProduct(product.productId)}
                       className="text-red-500"
@@ -303,10 +324,7 @@ const EditCollectionPage: React.FC = () => {
           </label>
         </div>
 
-        <button 
-          type="submit" 
-          className="bg-green-500 text-white px-4 py-2"
-        >
+        <button type="submit" className="bg-green-500 text-white px-4 py-2">
           {collectionId === "new" ? "Create Collection" : "Update Collection"}
         </button>
       </form>
@@ -336,8 +354,8 @@ const EditCollectionPage: React.FC = () => {
               <div className="max-h-64 overflow-y-auto">
                 <h3>Search Results:</h3>
                 <ul>
-                  {productSearchResults.map(product => (
-                    <li 
+                  {productSearchResults.map((product) => (
+                    <li
                       key={product.productId}
                       className="flex justify-between items-center mb-2 p-2 border"
                     >

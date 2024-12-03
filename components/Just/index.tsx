@@ -80,7 +80,7 @@ const Just = ({ products }: Props) => {
                 }`}
             >
               {visibleProducts.map((product) => (
-                <Link href={`/product/${product?.productId}`}>
+                <Link key={product.productId} href={`/product/${product?.productId}`}>
                   <div
                     key={product.productId}
                     className={`flex flex-col transform transition-all duration-500
@@ -153,7 +153,7 @@ const Just = ({ products }: Props) => {
           <div className="text-lg font-bold my-5">Sản Phẩm Vừa Xem</div>
           <div className="w-full overflow-x-auto flex ">
             {products?.map((product) => (
-              <Link href={`/product/${product.productId}`}>
+              <Link key={product.productId} href={`/product/${product.productId}`}>
                 <div
                   key={product.productId}
                   className={`flex flex-col transform transition-all duration-500

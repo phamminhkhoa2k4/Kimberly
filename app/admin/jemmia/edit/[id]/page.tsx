@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import Image from "next/image";
 
 const JemmiaDetailPage: React.FC = () => {
   const params = useParams();
@@ -38,25 +39,27 @@ const JemmiaDetailPage: React.FC = () => {
 
   useEffect(() => {
     if (id) {
+      const fetchJemmiaDetails = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.get(`${ApiEnd}/api/admin/jemmia/${id}`);
+          const jemmiaData = response.data;
+
+          setJemmia(jemmiaData);
+          setImagePreview(`${ApiEnd}/image/id/${jemmiaData.image}`);
+          setThumbnailPreview(`${ApiEnd}/image/id/${jemmiaData.thumbnail}`);
+        } catch (err: any) {
+          setError("Failed to fetch Jemmia details.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
       fetchJemmiaDetails();
     }
   }, [id]);
 
-  const fetchJemmiaDetails = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${ApiEnd}/api/admin/jemmia/${id}`);
-      const jemmiaData = response.data;
-
-      setJemmia(jemmiaData);
-      setImagePreview(`${ApiEnd}/image/id/${jemmiaData.image}`);
-      setThumbnailPreview(`${ApiEnd}/image/id/${jemmiaData.thumbnail}`);
-    } catch (err: any) {
-      setError("Failed to fetch Jemmia details.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -124,7 +127,7 @@ const JemmiaDetailPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Content Header:</label>
           <textarea
@@ -134,7 +137,7 @@ const JemmiaDetailPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Image:</label>
           <input
@@ -144,31 +147,37 @@ const JemmiaDetailPage: React.FC = () => {
             className="border p-2 w-full"
           />
           {imagePreview && (
-            <img 
-              src={imagePreview} 
-              alt="Image Preview" 
-              className="mt-2 w-32 h-32 object-cover" 
+            <Image
+              height={400}
+              width={400}
+              src={imagePreview}
+              alt="Image Preview"
+              className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Thumbnail:</label>
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => handleFileChange(e, setThumbnailPreview, "thumbnail")}
+            onChange={(e) =>
+              handleFileChange(e, setThumbnailPreview, "thumbnail")
+            }
             className="border p-2 w-full"
           />
           {thumbnailPreview && (
-            <img
+            <Image
+              height={400}
+              width={400}
               src={thumbnailPreview}
               alt="Thumbnail Preview"
               className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Content Footer:</label>
           <textarea
@@ -178,7 +187,7 @@ const JemmiaDetailPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Start Date:</label>
           <input
@@ -189,7 +198,7 @@ const JemmiaDetailPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">End Date:</label>
           <input
@@ -200,7 +209,7 @@ const JemmiaDetailPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Published At:</label>
           <input
@@ -211,7 +220,7 @@ const JemmiaDetailPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">
             <input
@@ -223,9 +232,9 @@ const JemmiaDetailPage: React.FC = () => {
             Is Active
           </label>
         </div>
-        
-        <button 
-          type="submit" 
+
+        <button
+          type="submit"
           className="bg-blue-500 text-white px-4 py-2 hover:bg-blue-600 transition-colors"
         >
           Update Jemmia

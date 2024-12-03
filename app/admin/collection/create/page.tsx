@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Body from "@/components/Body";
+import Image from "next/image";
 
 interface Product {
   productId: number;
@@ -150,7 +151,9 @@ const CreateCollectionPage: React.FC = () => {
               className="border p-2 w-full"
             />
             {imagePreview && (
-              <img
+              <Image
+                height={400}
+                width={400}
                 src={imagePreview}
                 alt="Collection Image Preview"
                 className="mt-2 w-32 h-32 object-cover"
@@ -173,7 +176,9 @@ const CreateCollectionPage: React.FC = () => {
               className="border p-2 w-full"
             />
             {bannerPreview && (
-              <img
+              <Image
+                height={400}
+                width={400}
                 src={bannerPreview}
                 alt="Banner Preview"
                 className="mt-2 w-32 h-32 object-cover"
@@ -196,7 +201,9 @@ const CreateCollectionPage: React.FC = () => {
               className="border p-2 w-full"
             />
             {avatarPreview && (
-              <img
+              <Image
+                height={400}
+                width={400}
                 src={avatarPreview}
                 alt="Avatar Preview"
                 className="mt-2 w-32 h-32 object-cover"

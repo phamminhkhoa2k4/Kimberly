@@ -26,7 +26,7 @@ const Detail = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, addProduct]);
 
   useEffect(() => {
     const fetchData = async () => {

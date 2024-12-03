@@ -25,7 +25,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import debounce from "lodash.debounce";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useNavigation } from "@/hooks/useNavigation";
 import { getData } from "@/utils/axios";
@@ -47,7 +47,7 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
     console.log("scroll", scrollY);
@@ -61,15 +61,18 @@ const Header = () => {
 
 
 
-  const fetchSearch = useCallback(
-    debounce(async (query: string) => {
-      if (query?.trim()) {
-        await getData({ endpoint: `/product/search/${query}` }).then((data) => {
-          setResult(data);
-        })
-      }
-    }, 500), 
-    []
+  const fetchSearch = useMemo(
+    () =>
+      debounce(async (query: string) => {
+        if (query?.trim()) {
+          await getData({ endpoint: `/product/search/${query}` }).then(
+            (data) => {
+              setResult(data);
+            }
+          );
+        }
+      }, 500),
+    [] 
   );
 
   useEffect(() => {
@@ -183,8 +186,9 @@ const Header = () => {
                     </div>
 
                     <div className="flex flex-col items-center ">
-                      {result?.slice(0, 4).map((re) => (
+                      {result?.slice(0, 4).map((re,index) => (
                         <Link
+                        key={index}
                           href={`/product/${re.productId}`}
                           className="border-b flex w-[390px]  lg:px-0 px-5 lg:w-[400px] items-center py-5 gap-5"
                         >
@@ -265,8 +269,8 @@ const Header = () => {
                       />
                     </div>
                     <div className="flex flex-col items-center ">
-                      {result?.slice(0, 4).map((re) => (
-                        <Link href={`/product/${re.productId}`} className="border-b flex w-[400px] items-center py-5 gap-5">
+                      {result?.slice(0, 4).map((re,index) => (
+                        <Link key={index} href={`/product/${re.productId}`} className="border-b flex w-[400px] items-center py-5 gap-5">
                           <Image
                             src={`${baseUrl}/image/id/${
                               (re.images as string).split(",")[0]

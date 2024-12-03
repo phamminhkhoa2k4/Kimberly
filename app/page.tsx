@@ -22,7 +22,7 @@ const Home = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
   return (
     <>
       <div className={cn("transition-all duration-75", scrollY > 70 ? "mt-[57px]" : "lg:mt-[135px] mt-[105px]")}>

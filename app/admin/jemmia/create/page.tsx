@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 const CreateJemmiaPage: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -97,26 +98,32 @@ const CreateJemmiaPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Thumbnail:</label>
           <input
             type="file"
             accept="image/*"
             onChange={(e) =>
-              handleFileChange(e.target.files?.[0] || null, setThumbnail, setThumbnailPreview)
+              handleFileChange(
+                e.target.files?.[0] || null,
+                setThumbnail,
+                setThumbnailPreview
+              )
             }
             className="border p-2 w-full"
           />
           {thumbnailPreview && (
-            <img 
-              src={thumbnailPreview} 
-              alt="Thumbnail Preview" 
-              className="mt-2 w-32 h-32 object-cover" 
+            <Image
+              height={400}
+              width={400}
+              src={thumbnailPreview}
+              alt="Thumbnail Preview"
+              className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Content Header:</label>
           <textarea
@@ -125,26 +132,32 @@ const CreateJemmiaPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Image:</label>
           <input
             type="file"
             accept="image/*"
             onChange={(e) =>
-              handleFileChange(e.target.files?.[0] || null, setImage, setImagePreview)
+              handleFileChange(
+                e.target.files?.[0] || null,
+                setImage,
+                setImagePreview
+              )
             }
             className="border p-2 w-full"
           />
           {imagePreview && (
-            <img 
-              src={imagePreview} 
-              alt="Image Preview" 
-              className="mt-2 w-32 h-32 object-cover" 
+            <Image
+              height={400}
+              width={400}
+              src={imagePreview}
+              alt="Image Preview"
+              className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Content Footer:</label>
           <textarea
@@ -153,7 +166,7 @@ const CreateJemmiaPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Start Date:</label>
           <input
@@ -163,7 +176,7 @@ const CreateJemmiaPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">End Date:</label>
           <input
@@ -173,7 +186,7 @@ const CreateJemmiaPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Published At:</label>
           <input
@@ -183,7 +196,7 @@ const CreateJemmiaPage: React.FC = () => {
             className="border p-2 w-full"
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block">
             <input
@@ -195,9 +208,9 @@ const CreateJemmiaPage: React.FC = () => {
             Is Active
           </label>
         </div>
-        
-        <button 
-          type="submit" 
+
+        <button
+          type="submit"
           className="bg-blue-500 text-white px-4 py-2 hover:bg-blue-600 transition-colors"
         >
           Create Jemmia

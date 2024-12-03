@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
+import Image from 'next/image';
 
 interface ProductFormData {
   productName: string;
@@ -259,14 +260,18 @@ const ApiEnd="http://localhost:8080"
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
-      {typeof message === 'string' && message && <p className="text-green-500 mb-4">{message}</p>}
-      {typeof error === 'string' && error && <p className="text-red-500 mb-4">{error}</p>}
-      
+      {typeof message === "string" && message && (
+        <p className="text-green-500 mb-4">{message}</p>
+      )}
+      {typeof error === "string" && error && (
+        <p className="text-red-500 mb-4">{error}</p>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="mb-4">
           <label className="block mb-2">Tên Sản Phẩm:</label>
-          <input 
-            {...register('productName', { required: true })}
+          <input
+            {...register("productName", { required: true })}
             className="w-full border rounded p-2"
           />
         </div>
@@ -292,10 +297,10 @@ const ApiEnd="http://localhost:8080"
 
         <div className="mb-4">
           <label className="block mb-2">Giá:</label>
-          <input 
-            type="number" 
+          <input
+            type="number"
             step="0.01"
-            {...register('price', { required: true })}
+            {...register("price", { required: true })}
             className="w-full border rounded p-2"
           />
         </div>
@@ -306,18 +311,23 @@ const ApiEnd="http://localhost:8080"
             name="metallicColorIds"
             control={control}
             render={({ field }) => (
-              <select 
-                {...field} 
-                multiple 
+              <select
+                {...field}
+                multiple
                 className="w-full border rounded p-2"
                 onChange={(e) => {
-                  const values = Array.from(e.target.selectedOptions).map(option => Number(option.value));
+                  const values = Array.from(e.target.selectedOptions).map(
+                    (option) => Number(option.value)
+                  );
                   field.onChange(values);
                 }}
-                value={field.value.map(val => String(val))}
+                value={field.value.map((val) => String(val))}
               >
                 {metallicColors.map((color) => (
-                  <option key={color.metallicColorId} value={color.metallicColorId}>
+                  <option
+                    key={color.metallicColorId}
+                    value={color.metallicColorId}
+                  >
                     {color.colorName}
                   </option>
                 ))}
@@ -382,55 +392,43 @@ const ApiEnd="http://localhost:8080"
 
         <div className="mb-4">
           <label className="block mb-2">Giảm giá:</label>
-          <input 
-            type="number" 
+          <input
+            type="number"
             step="0.01"
-            {...register('discount')}
+            {...register("discount")}
             className="w-full border rounded p-2"
           />
         </div>
 
         <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register('isFeatured')}
-            className="mr-2"
-          />
+          <input type="checkbox" {...register("isFeatured")} className="mr-2" />
           <label>Sản phẩm nổi bật</label>
         </div>
 
         <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register('isActive')}
-            className="mr-2"
-          />
+          <input type="checkbox" {...register("isActive")} className="mr-2" />
           <label>Sản phẩm khả dụng</label>
         </div>
 
         <div className="mb-4 flex items-center">
           <input
             type="checkbox"
-            {...register('isIncludeMasterDiamond')}
+            {...register("isIncludeMasterDiamond")}
             className="mr-2"
           />
           <label>Bao gồm kim cương chính</label>
         </div>
 
         <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register('isMale')}
-            className="mr-2"
-          />
+          <input type="checkbox" {...register("isMale")} className="mr-2" />
           <label>Sản phẩm dành cho Nam</label>
         </div>
 
         <div className="mb-4">
           <label className="block mb-2">Ảnh (Nhiều):</label>
-          <input 
-            type="file" 
-            multiple 
+          <input
+            type="file"
+            multiple
             onChange={handleImageChange}
             className="mb-4"
           />
@@ -439,12 +437,14 @@ const ApiEnd="http://localhost:8080"
             <div className="flex flex-wrap gap-4 mb-4">
               {existingImages.map((image) => (
                 <div key={image.id} className="relative">
-                  <img 
-                    src={image.url} 
-                    alt={`Existing image ${image.id}`} 
+                  <Image
+                    height={400}
+                    width={400}
+                    src={image.url}
+                    alt={`Existing image ${image.id}`}
                     className="w-32 h-32 object-cover rounded-lg"
                   />
-                  <button 
+                  <button
                     type="button"
                     onClick={() => removeExistingImage(image.id)}
                     className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
@@ -459,12 +459,14 @@ const ApiEnd="http://localhost:8080"
             <div className="flex flex-wrap gap-4 mb-4">
               {previews.map((preview, index) => (
                 <div key={index} className="relative">
-                  <img 
-                    src={preview} 
-                    alt={`Preview ${index + 1}`} 
+                  <Image
+                    height={400}
+                    width={400}
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
                     className="w-32 h-32 object-cover rounded-lg"
                   />
-                  <button 
+                  <button
                     type="button"
                     onClick={() => removeNewImage(index)}
                     className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
@@ -477,8 +479,8 @@ const ApiEnd="http://localhost:8080"
           )}
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Cập Nhật Sản Phẩm

@@ -14,7 +14,7 @@ const Product = ({products} : Props) => {
         <section className="lg:mx-auto lg:w-3/4 mx-5">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {products?.map((product) => (
-              <Link href={`/product/${product.productId}`} className="flex flex-col">
+              <Link key={product.productId} href={`/product/${product.productId}`} className="flex flex-col">
                 <div className="overflow-hidden rounded-lg">
                   <Image
                     src={`${baseUrl}/image/id/${

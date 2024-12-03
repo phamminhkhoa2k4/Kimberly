@@ -24,7 +24,7 @@ const DetailNews = () => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
   return (
     <>
       <Body>

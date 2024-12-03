@@ -29,7 +29,7 @@ const ProductDetail = ({ product }: Props) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
     console.log("scroll", scrollY);
@@ -54,6 +54,7 @@ const ProductDetail = ({ product }: Props) => {
                 .slice(1, 5)
                 .map((image) => (
                   <Image
+                    key={image}
                     src={`${baseUrl}/image/id/${image}`}
                     alt=""
                     height={1024}
@@ -320,7 +321,6 @@ const ProductDetail = ({ product }: Props) => {
                           đời trong trường hợp bạn muốn thay đổi.
                         </p>
                       </div>
-                     
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

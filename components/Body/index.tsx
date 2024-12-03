@@ -18,7 +18,7 @@ const Body = ({children}: Props) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
   return (
     <>
       <div

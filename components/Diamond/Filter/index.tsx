@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Diamond } from "@/types/diamond";
 import { getData } from "@/utils/axios";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { IoRefreshOutline } from "react-icons/io5";
 type RangeType = {
   id: number;
@@ -130,9 +130,9 @@ const Filter = ({ setDiamond }: Props) => {
     if (range !== null) {
       params.append("minPrice", range.min);
       params.append("maxPrice", range.max);
-    }else {
-       params.append("minPrice", "0");
-       params.append("maxPrice", "10000");
+    } else {
+      params.append("minPrice", "0");
+      params.append("maxPrice", "10000");
     }
 
     params.append("shape", shape);
@@ -146,17 +146,17 @@ const Filter = ({ setDiamond }: Props) => {
     return params.toString();
   }, [color, range, shape, carat, size, clarity]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     await getData({
       endpoint: `/diamonds/filter?${queryString}`,
     }).then((diamond) => {
       setDiamond(diamond);
     });
-  };
+  }, [queryString, setDiamond]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSubmit = () => {
     fetchData();

@@ -13,7 +13,7 @@ const ProductBanner = ({ rings }: Props) => {
       <div className="grid grid-cols-2 lg:grid-cols-4  items-center gap-5 ">
         {rings &&
           rings.slice(0, 4).map((ring, index) => (
-            <Link href={`/product/${ring.productId}`}>
+            <Link key={ring.productId} href={`/product/${ring.productId}`}>
               <div key={index} className="flex flex-col  ">
                 <div className="overflow-hidden rounded-lg">
                   <Image

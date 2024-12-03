@@ -68,7 +68,7 @@ const Result = ({diamond}: Props) => {
       </div>
 
       {diamond?.map((dia, index) => (
-        <Collapsible>
+        <Collapsible key={index}>
           <CollapsibleTrigger className="w-full">
             <div
               className={cn(

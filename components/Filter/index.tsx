@@ -108,7 +108,7 @@ const Filter = ({
     params.append("categoryName", categoryName);
 
     return params.toString();
-  }, [material, metallicColor, gender, sortBy, price]);
+  }, [material, metallicColor, gender, sortBy, price, categoryName]);
 
   useEffect(() => {
     console.log(price);
@@ -127,7 +127,7 @@ const Filter = ({
     };
 
     fetchData();
-  }, [queryString]);
+  }, [queryString, setRings]);
 
   return (
     <section className="lg:mx-auto lg:w-3/4 mx-5 my-5">

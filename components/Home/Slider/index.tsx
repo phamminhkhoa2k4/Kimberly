@@ -7,16 +7,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const totalSlides = [
-    "/Slider/slider-3.png",
-    "/Slider/slider-1.png",
-    "/Slider/slider-4.png",
-    "/Slider/slider-2.png",
-  ];
+    const totalSlides = useMemo(
+      () => [
+        "/Slider/slider-3.png",
+        "/Slider/slider-1.png",
+        "/Slider/slider-4.png",
+        "/Slider/slider-2.png",
+      ],
+      [] 
+    );
 
 
   

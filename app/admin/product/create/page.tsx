@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { cn } from "@/lib/utils";
+import Image from 'next/image';
 
 interface ProductFormData {
   productName: string;
@@ -162,7 +163,7 @@ const CreateProduct: React.FC = () => {
         <div className="mb-4">
           <label className="block mb-2">Tên Sản Phẩm:</label>
           <input
-            {...register('productName', { required: true })}
+            {...register("productName", { required: true })}
             className="w-full border rounded p-2"
           />
         </div>
@@ -176,7 +177,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn danh mục</option>
-                {categories.map((category) => (
+                {categories?.map((category) => (
                   <option key={category.categoryId} value={category.categoryId}>
                     {category.categoryName}
                   </option>
@@ -191,7 +192,7 @@ const CreateProduct: React.FC = () => {
           <input
             type="number"
             step="0.01"
-            {...register('price', { required: true })}
+            {...register("price", { required: true })}
             className="w-full border rounded p-2"
           />
         </div>
@@ -207,13 +208,18 @@ const CreateProduct: React.FC = () => {
                 multiple
                 className="w-full border rounded p-2"
                 onChange={(e) => {
-                  const values = Array.from(e.target.selectedOptions).map(option => Number(option.value));
+                  const values = Array.from(e.target.selectedOptions)?.map(
+                    (option) => Number(option.value)
+                  );
                   field.onChange(values);
                 }}
-                value={field.value.map(val => String(val))}
+                value={field.value?.map((val) => String(val))}
               >
-                {metallicColors.map((color) => (
-                  <option key={color.metallicColorId} value={color.metallicColorId}>
+                {metallicColors?.map((color) => (
+                  <option
+                    key={color.metallicColorId}
+                    value={color.metallicColorId}
+                  >
                     {color.colorName}
                   </option>
                 ))}
@@ -230,7 +236,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn chất liệu</option>
-                {materials.map((material) => (
+                {materials?.map((material) => (
                   <option key={material.materialId} value={material.materialId}>
                     {material.materialName}
                   </option>
@@ -248,7 +254,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn đai nhẫn</option>
-                {ringBelts.map((belt) => (
+                {ringBelts?.map((belt) => (
                   <option key={belt.ringBeltId} value={belt.ringBeltId}>
                     {belt.beltType}
                   </option>
@@ -266,7 +272,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn hình dạng</option>
-                {shapes.map((shape) => (
+                {shapes?.map((shape) => (
                   <option key={shape.shapeId} value={shape.shapeId}>
                     {shape.shapeName}
                   </option>
@@ -281,7 +287,7 @@ const CreateProduct: React.FC = () => {
           <input
             type="number"
             step="0.01"
-            {...register('discount')}
+            {...register("discount")}
             className="w-full border rounded p-2"
           />
         </div>
@@ -296,9 +302,11 @@ const CreateProduct: React.FC = () => {
           />
           {previews.length > 0 && (
             <div className="flex flex-wrap gap-4">
-              {previews.map((preview, index) => (
+              {previews?.map((preview, index) => (
                 <div key={index} className="relative">
-                  <img
+                  <Image
+                    height={400}
+                    width={400}
                     src={preview}
                     alt={`Preview ${index + 1}`}
                     className="w-32 h-32 object-cover rounded-lg"
@@ -317,18 +325,14 @@ const CreateProduct: React.FC = () => {
         </div>
 
         <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register('isFeatured')}
-            className="mr-2"
-          />
+          <input type="checkbox" {...register("isFeatured")} className="mr-2" />
           <label>Sản phẩm nổi bật</label>
         </div>
 
         <div className="mb-4 flex items-center">
           <input
             type="checkbox"
-            {...register('isActive')}
+            {...register("isActive")}
             defaultChecked
             className="mr-2"
           />
@@ -338,18 +342,14 @@ const CreateProduct: React.FC = () => {
         <div className="mb-4 flex items-center">
           <input
             type="checkbox"
-            {...register('isIncludeMasterDiamond')}
+            {...register("isIncludeMasterDiamond")}
             className="mr-2"
           />
           <label>Bao gồm kim cương chính</label>
         </div>
 
         <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register('isMale')}
-            className="mr-2"
-          />
+          <input type="checkbox" {...register("isMale")} className="mr-2" />
           <label>Sản phẩm dành cho Nam</label>
         </div>
 

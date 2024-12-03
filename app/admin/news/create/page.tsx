@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 const CreateNewsPage: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -81,12 +82,22 @@ const ApiEnd="http://localhost:8080"
             type="file"
             accept="image/*"
             onChange={(e) =>
-              handleFileChange(e.target.files?.[0] || null, setThumbnail, setThumbnailPreview)
+              handleFileChange(
+                e.target.files?.[0] || null,
+                setThumbnail,
+                setThumbnailPreview
+              )
             }
             className="border p-2 w-full"
           />
           {thumbnailPreview && (
-            <img src={thumbnailPreview} alt="Thumbnail Preview" className="mt-2 w-32 h-32 object-cover" />
+            <Image
+              height={400}
+              width={400}
+              src={thumbnailPreview}
+              alt="Thumbnail Preview"
+              className="mt-2 w-32 h-32 object-cover"
+            />
           )}
         </div>
         <div className="mb-4">
@@ -103,15 +114,25 @@ const ApiEnd="http://localhost:8080"
             type="file"
             accept="image/*"
             onChange={(e) =>
-              handleFileChange(e.target.files?.[0] || null, setImage, setImagePreview)
+              handleFileChange(
+                e.target.files?.[0] || null,
+                setImage,
+                setImagePreview
+              )
             }
             className="border p-2 w-full"
           />
           {imagePreview && (
-            <img src={imagePreview} alt="Image Preview" className="mt-2 w-32 h-32 object-cover" />
+            <Image
+              height={400}
+              width={400}
+              src={imagePreview}
+              alt="Image Preview"
+              className="mt-2 w-32 h-32 object-cover"
+            />
           )}
         </div>
-        
+
         <div className="mb-4">
           <label className="block">Nội Dung Dưới:</label>
           <textarea

@@ -9,7 +9,10 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { username, password } = body;
 
-  if (username === "admin" && password === "123456") {
+  if (
+    username === "KimberlyAdministrator" &&
+    password === "KimberlyAdministrator@admin123"
+  ) {
     const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: "1d" });
     return NextResponse.json({ token });
   }
