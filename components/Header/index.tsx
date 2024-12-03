@@ -25,11 +25,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import debounce from "lodash.debounce";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useNavigation } from "@/hooks/useNavigation";
+import { getData } from "@/utils/axios";
+import { Product } from "@/types/product";
 const Header = () => {
+  const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   const { isNavigating } = useNavigation();
+  const [query,setQuery] = useState<string>();
+  const [result, setResult] = useState<Product[]>();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
   const [isSearch, setIsSearch] = useState<boolean>(false);
@@ -53,6 +58,28 @@ const Header = () => {
     console.log(isNavigating);
     
   }, [isNavigating]);
+
+
+
+  const fetchSearch = useCallback(
+    debounce(async (query: string) => {
+      if (query?.trim()) {
+        await getData({ endpoint: `/product/search/${query}` }).then((data) => {
+          setResult(data);
+        })
+      }
+    }, 500), 
+    []
+  );
+
+  useEffect(() => {
+    fetchSearch(query!);
+
+    return () => {
+      fetchSearch.cancel();
+    };
+  }, [query, fetchSearch]);
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-md">
@@ -149,70 +176,56 @@ const Header = () => {
                       <IoSearchOutline className="absolute right-5 mt-[1px] h-6 w-6" />
                       <input
                         type="search"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
                         className="outline-none border-2 rounded-full py-2 pl-5 pr-14 lg:pr-10 border-neutral-500 lg:rounded-sm w-[350px] lg:w-[400px]"
                       />
                     </div>
+
                     <div className="flex flex-col items-center ">
-                      <div className="border-b flex w-[390px]  lg:px-0 px-5 lg:w-[400px] items-center py-5 gap-5">
-                        <Image
-                          src={"/diamond.jpg"}
-                          width={100}
-                          height={116}
-                          alt=""
-                          className="object-cover w-[50px] lg:w-[60px]  object-center"
-                        />
-                        <div className=" ">
-                          <div className="group ">
-                            <p className="group-hover:text-[#20475d] font-medium">
-                              Kim Cương Tự Nhiên
-                            </p>
-                            <p className="group-hover:text-[#20475d] font-me">
-                              Round/7.2x7.2/G/VVS1/Faint/1.42CT
-                            </p>
-                          </div>
-                          <p className="flex items-center gap-2">
-                            <span className="text-sm font-bold">
-                              444,545,400<span>VND</span>
-                            </span>
-                            <span className="text-sm font-semibold text-neutral-500 line-through ">
-                              444,545,400<span>VND</span>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="border-b flex w-[390px] lg:px-0 px-5  lg:w-[400px] items-center py-5 gap-5">
-                        <Image
-                          src={"/diamond.jpg"}
-                          width={100}
-                          height={116}
-                          alt=""
-                          className="object-cover w-[50px] lg:w-[60px]  object-center"
-                        />
-                        <div className="w-full">
-                          <div className="group ">
-                            <p className="group-hover:text-[#20475d] font-medium">
-                              Kim Cương Tự Nhiên
-                            </p>
-                            <p className="group-hover:text-[#20475d] font-me">
-                              Round/7.2x7.2/G/VVS1/Faint/1.42CT
+                      {result?.slice(0, 4).map((re) => (
+                        <Link
+                          href={`/product/${re.productId}`}
+                          className="border-b flex w-[390px]  lg:px-0 px-5 lg:w-[400px] items-center py-5 gap-5"
+                        >
+                          <Image
+                            src={`${baseUrl}/image/id/${
+                              (re.images as string).split(",")[0]
+                            }`}
+                            width={100}
+                            height={116}
+                            alt=""
+                            className="object-cover w-[50px] lg:w-[60px]  object-center"
+                          />
+                          <div className=" ">
+                            <div className="group ">
+                              <p className="group-hover:text-[#20475d] font-medium">
+                                {re.productName}
+                              </p>
+                              {/* <p className="group-hover:text-[#20475d] font-me">
+                                Round/7.2x7.2/G/VVS1/Faint/1.42CT
+                              </p> */}
+                            </div>
+                            <p className="flex items-center gap-2">
+                              <span className="text-sm font-bold">
+                                {re.price} <span>VND</span>
+                              </span>
+                              {/* <span className="text-sm font-semibold text-neutral-500 line-through ">
+                                444,545,400<span>VND</span>
+                              </span> */}
                             </p>
                           </div>
-                          <p className="flex items-center gap-2">
-                            <span className="text-sm font-bold">
-                              444,545,400<span>VND</span>
-                            </span>
-                            <span className="text-sm font-semibold text-neutral-500 line-through ">
-                              444,545,400<span>VND</span>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <Link
-                        href={"#"}
-                        className="flex items-center justify-center underline mt-4"
-                      >
-                        Xem tất cả 810 sản phẩm
-                      </Link>
+                        </Link>
+                      ))}
+
+                      {result && result.length > 4 && (
+                        <Link
+                          href={`/search?q=${query}`}
+                          className="flex items-center justify-center underline mt-4"
+                        >
+                          Xem tất cả {result.length} sản phẩm
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </PopoverContent>
@@ -245,71 +258,54 @@ const Header = () => {
                     <div className="flex items-center justify-center mt-3 relative">
                       <IoSearchOutline className="absolute right-10 mt-[1px] h-6 w-6" />
                       <input
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
                         type="search"
                         className="outline-none border-2 py-2 pl-4 pr-10 border-neutral-500 rounded-sm w-[400px]"
                       />
                     </div>
                     <div className="flex flex-col items-center ">
-                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
-                        <Image
-                          src={"/diamond.jpg"}
-                          width={100}
-                          height={116}
-                          alt=""
-                          className="object-cover w-[60px]  object-center"
-                        />
-                        <div className=" ">
-                          <div className="group ">
-                            <p className="group-hover:text-[#20475d] font-medium">
-                              Kim Cương Tự Nhiên
-                            </p>
-                            <p className="group-hover:text-[#20475d] font-me">
+                      {result?.slice(0, 4).map((re) => (
+                        <Link href={`/product/${re.productId}`} className="border-b flex w-[400px] items-center py-5 gap-5">
+                          <Image
+                            src={`${baseUrl}/image/id/${
+                              (re.images as string).split(",")[0]
+                            }`}
+                            width={100}
+                            height={116}
+                            alt=""
+                            className="object-cover w-[60px]  object-center"
+                          />
+                          <div className=" ">
+                            <div className="group ">
+                              <p className="group-hover:text-[#20475d] font-medium">
+                                {re.productName}
+                              </p>
+                              {/* <p className="group-hover:text-[#20475d] font-me">
                               Round/7.2x7.2/G/VVS1/Faint/1.42CT
+                            </p> */}
+                            </div>
+                            <p className="flex items-center gap-2">
+                              <span className="text-sm font-bold">
+                                {re.price}
+                                <span>VND</span>
+                              </span>
+                              {/* <span className="text-sm font-semibold text-neutral-500 line-through ">
+                              444,545,400<span>VND</span>
+                            </span> */}
                             </p>
                           </div>
-                          <p className="flex items-center gap-2">
-                            <span className="text-sm font-bold">
-                              444,545,400<span>VND</span>
-                            </span>
-                            <span className="text-sm font-semibold text-neutral-500 line-through ">
-                              444,545,400<span>VND</span>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="border-b flex w-[400px] items-center py-5 gap-5">
-                        <Image
-                          src={"/diamond.jpg"}
-                          width={100}
-                          height={116}
-                          alt=""
-                          className="object-cover w-[60px]  object-center"
-                        />
-                        <div className=" ">
-                          <div className="group ">
-                            <p className="group-hover:text-[#20475d] font-medium">
-                              Kim Cương Tự Nhiên
-                            </p>
-                            <p className="group-hover:text-[#20475d] font-me">
-                              Round/7.2x7.2/G/VVS1/Faint/1.42CT
-                            </p>
-                          </div>
-                          <p className="flex items-center gap-2">
-                            <span className="text-sm font-bold">
-                              444,545,400<span>VND</span>
-                            </span>
-                            <span className="text-sm font-semibold text-neutral-500 line-through ">
-                              444,545,400<span>VND</span>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                      <Link
-                        href={"#"}
-                        className="flex items-center justify-center underline mt-4"
-                      >
-                        Xem tất cả 810 sản phẩm
-                      </Link>
+                        </Link>
+                      ))}
+
+                      {result && result.length > 4 && (
+                        <Link
+                          href={`/search?q=${query}`}
+                          className="flex items-center justify-center underline mt-4"
+                        >
+                          Xem tất cả {result.length} sản phẩm
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </PopoverContent>
@@ -403,7 +399,7 @@ const Header = () => {
                   Bộ Sưu Tập
                 </div>
               </HoverCardTrigger>
-              <HoverCardContent className="">
+              {/* <HoverCardContent className="">
                 <div className="flex flex-col justify-center gap-2">
                   <Link
                     href={"/collections/stella"}
@@ -430,7 +426,7 @@ const Header = () => {
                     Bộ sưu tập camellia
                   </Link>
                 </div>
-              </HoverCardContent>
+              </HoverCardContent> */}
             </HoverCard>
 
             <Link
@@ -571,7 +567,7 @@ const Header = () => {
                     bộ sưa tập
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="mx-3">
+                {/* <AccordionContent className="mx-3">
                   <div>
                     <Link
                       href="/collections/stella"
@@ -604,7 +600,7 @@ const Header = () => {
                       Bộ Sưu Tập Camelia
                     </Link>
                   </div>
-                </AccordionContent>
+                </AccordionContent> */}
               </AccordionItem>
             </Accordion>
           </div>

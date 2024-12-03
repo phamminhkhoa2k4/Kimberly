@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { cn } from "@/lib/utils";
@@ -8,66 +8,89 @@ interface ProductFormData {
   productName: string;
   categoryId: number;
   price: number;
-  metallicColor: string;
-  ringBelt: string;
-  material: string;
+  metallicColorIds: number[];
+  ringBelt: number;
+  materialId: number;
   discount: number;
   images: FileList;
   isFeatured: boolean;
   isActive: boolean;
-  isIncludeMasterDiamond : boolean;
-  shape : string;
+  isIncludeMasterDiamond: boolean;
+  shapeId: number;
+  isMale: boolean;
 }
 
 interface Category {
-  id: number;
-  name: string;
+  categoryId: number;
+  categoryName: string;
 }
-const METALLIC_COLORS = [
-  { value: "Vàng Trắng", label: "Vàng Trắng" },
-  { value: "Vàng Chanh", label: "Vàng Chanh" },
-  { value: "Vàng Hồng", label: "Vàng Hồng" },
-];
 
-const RING_BELTS = [
-  { value: "Đai Trơn", label: "Đai Trơn" },
-  { value: "Đai Nhám", label: "Đai Nhám" },
-  { value: "Đai Đính Xoàn", label: "Đai Đính Xoàn" },
-];
+interface Material {
+  materialId: number;
+  materialName: string;
+}
 
-const SHAPE = [
-  { value: "Round", label: "Hình Tròn" },
-  { value: "Oval", label: "Hình Bầu Dục" },
-  { value: "Pear", label: "Hình Giọt Lệ" },
-  { value: "Emerald", label: "Hình Chữ Nhật Vát Góc" },
-];
+interface MetallicColor {
+  metallicColorId: number;
+  colorName: string;
+}
 
-const MATERIALS = [
-  { value: 'HK', label: 'HK' },
-  { value: 'Vàng 18k', label: 'Vàng 18k' }
-];
-const categories: Category[] = [
-  { id: 1, name: "Nhẫn" },
-  { id: 2, name: "Nhẫn Nam" },
-  { id: 3, name: "Nhẫn Nữ" },
-  { id: 4, name: "Nhẫn Cầu Hôn" },
-  { id: 5, name: "Nhẫn Cưới" },
-  { id: 6, name: "Bông Tai" },
-  { id: 7, name: "Vòng Cổ" },
-  { id: 8, name: "Vòng Tay" },
-  { id: 9, name: "Bộ Trang Sức" },
-];
+interface Shape {
+  shapeId: number;
+  shapeName: string;
+}
+
+interface RingBelt {
+  ringBeltId: number;
+  beltType: string;
+}
 
 const CreateProduct: React.FC = () => {
   const { register, handleSubmit, control, reset, setValue } = useForm<ProductFormData>();
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [metallicColors, setMetallicColors] = useState<MetallicColor[]>([]);
+  const [shapes, setShapes] = useState<Shape[]>([]);
+  const [ringBelts, setRingBelts] = useState<RingBelt[]>([]);
+  const ApiEnd="http://localhost:8080"
+  useEffect(() => {
+    const fetchDropdownOptions = async () => {
+      try {
+        const [
+          categoriesRes,
+          materialsRes,
+          metallicColorsRes,
+          shapesRes,
+          ringBeltsRes
+        ] = await Promise.all([
+          axios.get(`${ApiEnd}/api/product/category`),
+          axios.get(`${ApiEnd}/api/product/material`),
+          axios.get(`${ApiEnd}/api/product/metallicColors`),
+          axios.get(`${ApiEnd}/api/product/shape`),
+          axios.get(`${ApiEnd}/api/product/ringbelt`)
+        ]);
+
+        setCategories(categoriesRes.data);
+        setMaterials(materialsRes.data);
+        setMetallicColors(metallicColorsRes.data);
+        setShapes(shapesRes.data);
+        setRingBelts(ringBeltsRes.data);
+      } catch (err) {
+        console.error('Error fetching dropdown options:', err);
+        setError('Failed to load dropdown options');
+      }
+    };
+
+    fetchDropdownOptions();
+  }, []);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      const filePreviewUrls = Array.from(files).map(file => 
+      const filePreviewUrls = Array.from(files).map(file =>
         URL.createObjectURL(file)
       );
       setPreviews(filePreviewUrls);
@@ -78,7 +101,7 @@ const CreateProduct: React.FC = () => {
   const removeImage = (indexToRemove: number) => {
     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
     const files = input.files;
-    
+
     if (files) {
       const updatedFiles = Array.from(files).filter((_, index) => index !== indexToRemove);
       const dataTransfer = new DataTransfer();
@@ -95,21 +118,25 @@ const CreateProduct: React.FC = () => {
     formData.append('productName', data.productName);
     formData.append('categoryId', data.categoryId.toString());
     formData.append('price', data.price.toString());
-    formData.append('metallicColor', data.metallicColor);
-    formData.append('ringBelt', data.ringBelt);
-    formData.append('material', data.material);
+    data.metallicColorIds.forEach(colorId =>
+      formData.append('metallicColorIds', colorId.toString())
+    );
+
+    formData.append('ringBelt', data.ringBelt.toString());
+    formData.append('materialId', data.materialId.toString());
     formData.append('discount', data.discount.toString());
     formData.append('isFeatured', data.isFeatured.toString());
     formData.append('isActive', data.isActive.toString());
-    formData.append("isIncludeMasterDiamond", data.isIncludeMasterDiamond.toString());
-    formData.append("shape", data.shape);
+    formData.append('isIncludeMasterDiamond', data.isIncludeMasterDiamond.toString());
+    formData.append('shapeId', data.shapeId.toString());
+    formData.append('isMale', data.isMale.toString());
 
     Array.from(data.images).forEach((file) => {
       formData.append('images', file);
     });
 
     try {
-      const response = await axios.post('http://localhost:8080/api/admin/products', formData, {
+      const response = await axios.post(`http://localhost:8080/api/admin/products`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -125,118 +152,140 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-    <div
-      className={cn(
-        "transition-all duration-75 ",
-        scrollY > 70 ? "lg:mt-[57px]" : "mt-[120px] lg:mt-[140px]"
-      )}
-    >
-      <h1>Create Product</h1>
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="container mx-auto px-4">
+      <h1 className="text-2xl font-bold mb-6">Create Product</h1>
+
+      {message && <p className="text-green-600 mb-4">{message}</p>}
+      {error && <p className="text-red-600 mb-4">{error}</p>}
+
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-        <div>
-          <label>Tên Sản Phẩm:</label>
-          <input {...register("productName", { required: true })} />
+        <div className="mb-4">
+          <label className="block mb-2">Tên Sản Phẩm:</label>
+          <input
+            {...register('productName', { required: true })}
+            className="w-full border rounded p-2"
+          />
         </div>
-        <div>
-          <label>Loại Sản Phẩm:</label>
+
+        <div className="mb-4">
+          <label className="block mb-2">Loại Sản Phẩm:</label>
           <Controller
             name="categoryId"
             control={control}
-            defaultValue={0}
+            rules={{ required: true }}
             render={({ field }) => (
-              <select {...field} id="category">
+              <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn danh mục</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
+                  <option key={category.categoryId} value={category.categoryId}>
+                    {category.categoryName}
                   </option>
                 ))}
               </select>
             )}
           />
         </div>
-        <div>
-          <label>Giá:</label>
+
+        <div className="mb-4">
+          <label className="block mb-2">Giá:</label>
           <input
             type="number"
             step="0.01"
-            {...register("price", { required: true })}
+            {...register('price', { required: true })}
+            className="w-full border rounded p-2"
           />
         </div>
-        <div>
-          <label>Màu kim loại:</label>
+
+        <div className="mb-4">
+          <label className="block mb-2">Màu kim loại:</label>
           <Controller
-            name="metallicColor"
+            name="metallicColorIds"
             control={control}
             render={({ field }) => (
-              <select {...field}>
-                <option value="">Chọn màu kim loại</option>
-                {METALLIC_COLORS.map((color) => (
-                  <option key={color.value} value={color.value}>
-                    {color.label}
+              <select
+                {...field}
+                multiple
+                className="w-full border rounded p-2"
+                onChange={(e) => {
+                  const values = Array.from(e.target.selectedOptions).map(option => Number(option.value));
+                  field.onChange(values);
+                }}
+                value={field.value.map(val => String(val))}
+              >
+                {metallicColors.map((color) => (
+                  <option key={color.metallicColorId} value={color.metallicColorId}>
+                    {color.colorName}
                   </option>
                 ))}
               </select>
             )}
           />
         </div>
-        <div>
-          <label>Đai Nhẫn:</label>
+
+        <div className="mb-4">
+          <label className="block mb-2">Chất Liệu:</label>
+          <Controller
+            name="materialId"
+            control={control}
+            render={({ field }) => (
+              <select {...field} className="w-full border rounded p-2">
+                <option value="">Chọn chất liệu</option>
+                {materials.map((material) => (
+                  <option key={material.materialId} value={material.materialId}>
+                    {material.materialName}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block mb-2">Đai Nhẫn:</label>
           <Controller
             name="ringBelt"
             control={control}
             render={({ field }) => (
-              <select {...field}>
+              <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn đai nhẫn</option>
-                {RING_BELTS.map((belt) => (
-                  <option key={belt.value} value={belt.value}>
-                    {belt.label}
+                {ringBelts.map((belt) => (
+                  <option key={belt.ringBeltId} value={belt.ringBeltId}>
+                    {belt.beltType}
                   </option>
                 ))}
               </select>
             )}
           />
         </div>
-        <div>
-          <label>Chất Liệu:</label>
+
+        <div className="mb-4">
+          <label className="block mb-2">Hình Dạng:</label>
           <Controller
-            name="material"
+            name="shapeId"
             control={control}
             render={({ field }) => (
-              <select {...field}>
-                <option value="">Chọn chất liệu</option>
-                {MATERIALS.map((material) => (
-                  <option key={material.value} value={material.value}>
-                    {material.label}
+              <select {...field} className="w-full border rounded p-2">
+                <option value="">Chọn hình dạng</option>
+                {shapes.map((shape) => (
+                  <option key={shape.shapeId} value={shape.shapeId}>
+                    {shape.shapeName}
                   </option>
                 ))}
               </select>
             )}
           />
         </div>
-        <div>
-          <label>Chất Liệu:</label>
-          <Controller
-            name="shape"
-            control={control}
-            render={({ field }) => (
-              <select {...field}>
-                <option value="">Chọn Hình Dạng</option>
-                {SHAPE.map((shape) => (
-                  <option key={shape.value} value={shape.value}>
-                    {shape.label}
-                  </option>
-                ))}
-              </select>
-            )}
+
+        <div className="mb-4">
+          <label className="block mb-2">Giảm giá %:</label>
+          <input
+            type="number"
+            step="0.01"
+            {...register('discount')}
+            className="w-full border rounded p-2"
           />
         </div>
-        <div>
-          <label>Giảm giá %:</label>
-          <input type="number" step="0.01" {...register("discount")} />
-        </div>
+
         <div className="mb-4">
           <label className="block mb-2">Ảnh (nhiều):</label>
           <input
@@ -266,58 +315,50 @@ const CreateProduct: React.FC = () => {
             </div>
           )}
         </div>
-        <div>
-          <label>Sản phẩm nổi bật:</label>
-          <Controller
-            name="isFeatured"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
-                name={field.name}
-                ref={field.ref}
-              />
-            )}
+
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isFeatured')}
+            className="mr-2"
           />
+          <label>Sản phẩm nổi bật</label>
         </div>
-        <div>
-          <label>Giá đã gồm viên chủ:</label>
-          <Controller
-            name="isIncludeMasterDiamond"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
-                name={field.name}
-                ref={field.ref}
-              />
-            )}
+
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isActive')}
+            defaultChecked
+            className="mr-2"
           />
+          <label>Sản phẩm khả dụng</label>
         </div>
-        <div>
-          <label>Sản phẩm khả dụng:</label>
-          <Controller
-            name="isActive"
-            control={control}
-            defaultValue={true}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)} // Cập nhật giá trị boolean
-                name={field.name}
-                ref={field.ref}
-              />
-            )}
+
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isIncludeMasterDiamond')}
+            className="mr-2"
           />
+          <label>Bao gồm kim cương chính</label>
         </div>
-        <button type="submit">Tạo Sản Phẩm</button>
+
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isMale')}
+            className="mr-2"
+          />
+          <label>Sản phẩm dành cho Nam</label>
+        </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Tạo Sản Phẩm
+        </button>
       </form>
     </div>
   );

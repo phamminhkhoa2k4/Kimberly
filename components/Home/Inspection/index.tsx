@@ -47,10 +47,10 @@ const Inspection = () => {
             </p>
           </div>
           <Link
-            href={"#"}
+            href={"/diamond"}
             className="hidden lg:block absolute bottom-24 left-28  bg-transparent border-2 border-white text-white lg:rounded-lg px-6 py-3 text-lg font-bold hover:bg-[#20475d] hover:text-white"
           >
-            Mặt Dây Chuyền Kim Cương
+            Tìm Kim Cương Viên
           </Link>
           <div className="absolute lg:hidden top-16 w-full flex items-center justify-center">
             <div className="max-w-[300px] flex flex-col items">
@@ -66,7 +66,7 @@ const Inspection = () => {
               </div> */}
               <div className="flex justify-center mt-52">
                 <Link
-                  href={"#"}
+                  href={"/diamond"}
                   className="px-6 py-2 text-white bg-[#20475d] font-semibold text-base"
                 >
                   Khám Phá Bảng Giá

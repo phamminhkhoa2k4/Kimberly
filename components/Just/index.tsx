@@ -80,7 +80,7 @@ const Just = ({ products }: Props) => {
                 }`}
             >
               {visibleProducts.map((product) => (
-                <Link href={`/product/${product.productId}`}>
+                <Link href={`/product/${product?.productId}`}>
                   <div
                     key={product.productId}
                     className={`flex flex-col transform transition-all duration-500
@@ -94,7 +94,7 @@ const Just = ({ products }: Props) => {
                     <div className="overflow-hidden rounded-lg">
                       <Image
                         src={`${baseUrl}/image/id/${
-                          (product.images as string).split(",")[0]
+                          (product?.images as string)?.split(",")[0]
                         }`}
                         alt=""
                         height={480}
@@ -105,7 +105,7 @@ const Just = ({ products }: Props) => {
                     <div className="flex flex-col">
                       <div className="flex">
                         <span className="border p-1 rounded-full my-3 transform transition-transform hover:rotate-12">
-                          {product.metallicColor === "Vàng Chanh" && (
+                          {product?.metallicColor === "Vàng Chanh" && (
                             <Image
                               src={"/Type/type-gold.png"}
                               alt=""
@@ -114,7 +114,7 @@ const Just = ({ products }: Props) => {
                               className="aspect-square h-5 w-5"
                             />
                           )}
-                          {product.metallicColor === "Vàng Trắng" && (
+                          {product?.metallicColor === "Vàng Trắng" && (
                             <Image
                               src={"/Type/type-silver.png"}
                               alt=""
@@ -123,7 +123,7 @@ const Just = ({ products }: Props) => {
                               className="aspect-square h-5 w-5"
                             />
                           )}
-                          {product.metallicColor === "Vàng Hồng" && (
+                          {product?.metallicColor === "Vàng Hồng" && (
                             <Image
                               src={"/Type/type-rose.png"}
                               alt=""
@@ -136,11 +136,11 @@ const Just = ({ products }: Props) => {
                       </div>
                       <div className="flex items-center font-bold text-sm">
                         <span className="line-clamp-1 hover:text-blue-600 transition-colors">
-                          {product.productName}
+                          {product?.productName}
                         </span>
                       </div>
                       <div className="text-xs py-2  font-semibold transform transition-all hover:scale-105">
-                        {product.price}
+                        {product?.price}
                       </div>
                     </div>
                   </div>

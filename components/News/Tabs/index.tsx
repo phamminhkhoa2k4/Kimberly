@@ -52,148 +52,162 @@ const Tab = ({events, promotions} : Props) => {
             </TabsTrigger> */}
           </TabsList>
           <TabsContent value="promotion">
-            <div
-              className={cn(
-                "flex lg:flex-row flex-col items-center gap-5 justify-between my-5",
-                promotions?.length === 1 ? "lg:flex-col gap-0" : ""
-              )}
-            >
-              <Link
-                href={`/news/promotion/${promotions[0]?.jemmia_id}`}
-                className={cn(
-                  "lg:w-1/2 relative h-[600px]",
-                  promotions.length === 1 ? "lg:w-full" : ""
-                )}
-              >
-                <Image
-                  src={`${baseUrl}/image/id/${promotions[0]?.thumbnail}`}
-                  height={600}
-                  width={600}
-                  alt=""
-                  className="object-cover object-center h-full w-full"
-                />
-                <div className="absolute flex flex-col gap-3 bottom-5 right-0 left-0 max-w-full mx-10">
-                  <div className="flex items-center text-white gap-2">
-                    <BsCalendar3 className="h-5 w-5" />
-                    <span>{formatDate(promotions[0]?.publishedAt!)}</span>
-                  </div>
-                  <span className="text-xl font-bold text-white">
-                    {promotions[0]?.title}
-                  </span>
-                  <span className="text-sm text-white line-clamp-2">
-                    {promotions[0]?.contentHeader}
-                  </span>
-                </div>
-              </Link>
-
+            {promotions.length === 0 && (
+              <div className="text-center py-40 text-xl font-bold text-[#20475d]">
+                Chưa Có Khuyến Mãi Nào !!!
+              </div>
+            )}
+            {promotions.length > 0 && (
               <div
                 className={cn(
-                  "lg:w-1/2 lg:h-[600px] flex flex-col gap-5",
-                  promotions.length === 1 ? "hidden" : ""
+                  "flex lg:flex-row flex-col items-center gap-5 justify-between my-5",
+                  promotions?.length === 1 ? "lg:flex-col gap-0" : ""
                 )}
               >
-                {promotions?.slice(1, 3).map((promotions, index) => (
-                  <Link
-                    href={`/news/${promotions?.jemmia_id}`}
-                    key={index}
-                    className="flex flex-col lg:flex-row items-center gap-5 h-1/3"
-                  >
-                    <Image
-                      src={`${baseUrl}/image/id/${promotions?.thumbnail}`}
-                      alt=""
-                      width={600}
-                      height={600}
-                      className="object-center object-cover lg:h-full lg:w-1/2"
-                    />
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center  gap-2">
-                        <BsCalendar3 className="h-5 w-5" />
-                        <span>
-                          {formatDate(String(promotions?.thumbnail!))}
+                <Link
+                  href={`/news/promotion/${promotions[0]?.jemmia_id}`}
+                  className={cn(
+                    "lg:w-1/2 relative h-[600px]",
+                    promotions.length === 1 ? "lg:w-full" : ""
+                  )}
+                >
+                  <Image
+                    src={`${baseUrl}/image/id/${promotions[0]?.thumbnail}`}
+                    height={600}
+                    width={600}
+                    alt=""
+                    className="object-cover object-center h-full w-full"
+                  />
+                  <div className="absolute flex flex-col gap-3 bottom-5 right-0 left-0 max-w-full mx-10">
+                    <div className="flex items-center text-white gap-2">
+                      <BsCalendar3 className="h-5 w-5" />
+                      <span>{formatDate(promotions[0]?.publishedAt!)}</span>
+                    </div>
+                    <span className="text-xl font-bold text-white">
+                      {promotions[0]?.title}
+                    </span>
+                    <span className="text-sm text-white line-clamp-2">
+                      {promotions[0]?.contentHeader}
+                    </span>
+                  </div>
+                </Link>
+
+                <div
+                  className={cn(
+                    "lg:w-1/2 lg:h-[600px] flex flex-col gap-5",
+                    promotions.length === 1 ? "hidden" : ""
+                  )}
+                >
+                  {promotions?.slice(1, 3).map((promotions, index) => (
+                    <Link
+                      href={`/news/${promotions?.jemmia_id}`}
+                      key={index}
+                      className="flex flex-col lg:flex-row items-center gap-5 h-1/3"
+                    >
+                      <Image
+                        src={`${baseUrl}/image/id/${promotions?.thumbnail}`}
+                        alt=""
+                        width={600}
+                        height={600}
+                        className="object-center object-cover lg:h-full lg:w-1/2"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center  gap-2">
+                          <BsCalendar3 className="h-5 w-5" />
+                          <span>
+                            {formatDate(String(promotions?.thumbnail!))}
+                          </span>
+                        </div>
+                        <span className="text-xl font-bold text-[#20475d]">
+                          {promotions?.title}
+                        </span>
+                        <span className="text-sm text-neutral-400 line-clamp-3">
+                          {promotions?.contentHeader}
                         </span>
                       </div>
-                      <span className="text-xl font-bold text-[#20475d]">
-                        {promotions?.title}
-                      </span>
-                      <span className="text-sm text-neutral-400 line-clamp-3">
-                        {promotions?.contentHeader}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </TabsContent>
           <TabsContent value="event">
-            <div
-              className={cn(
-                "flex lg:flex-row flex-col items-center gap-5 justify-between my-5",
-                events.length === 1 ? "lg:flex-col gap-0" : ""
-              )}
-            >
-              <Link
-                href={`/news/${events[0]?.newsId}`}
-                className={cn(
-                  "lg:w-1/2 relative h-[600px]",
-                  events.length === 1 ? "lg:w-full" : ""
-                )}
-              >
-                <Image
-                  src={`${baseUrl}/image/id/${events[0]?.thumbnail}`}
-                  height={600}
-                  width={600}
-                  alt=""
-                  className="object-cover object-center h-full w-full"
-                />
-                <div className="absolute flex flex-col gap-3 bottom-5 right-0 left-0 max-w-full mx-10">
-                  <div className="flex items-center text-white gap-2">
-                    <BsCalendar3 className="h-5 w-5" />
-                    <span>{formatDate(events[0]?.publishedAt!)}</span>
-                  </div>
-                  <span className="text-xl font-bold text-white">
-                    {events[0]?.title}
-                  </span>
-                  <span className="text-sm text-white line-clamp-2">
-                    {events[0]?.contentHeader}
-                  </span>
-                </div>
-              </Link>
-
+            {events.length === 0 && (
+              <div className="text-center py-40 text-xl font-bold text-[#20475d]">
+                Chưa Có Sự Kiện Nào !!!
+              </div>
+            )}
+            {events.length > 1 && (
               <div
                 className={cn(
-                  "lg:w-1/2 lg:h-[600px] flex flex-col gap-5",
-                  events.length === 1 ? "hidden" : ""
+                  "flex lg:flex-row flex-col items-center gap-5 justify-between my-5",
+                  events.length === 1 ? "lg:flex-col gap-0" : ""
                 )}
               >
-                {events?.slice(1, 3).map((event, index) => (
-                  <Link
-                    href={`/news/${event?.newsId}`}
-                    key={index}
-                    className="flex flex-col lg:flex-row items-center gap-5 h-1/3"
-                  >
-                    <Image
-                      src={`${baseUrl}/image/id/${event?.thumbnail}`}
-                      alt=""
-                      width={600}
-                      height={600}
-                      className="object-center object-cover lg:h-full lg:w-1/2"
-                    />
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center  gap-2">
-                        <BsCalendar3 className="h-5 w-5" />
-                        <span>{formatDate(String(event?.thumbnail!))}</span>
-                      </div>
-                      <span className="text-xl font-bold text-[#20475d]">
-                        {event.title}
-                      </span>
-                      <span className="text-sm text-neutral-400 line-clamp-3">
-                        {event.contentHeader}
-                      </span>
+                <Link
+                  href={`/news/${events[0]?.newsId}`}
+                  className={cn(
+                    "lg:w-1/2 relative h-[600px]",
+                    events.length === 1 ? "lg:w-full" : ""
+                  )}
+                >
+                  <Image
+                    src={`${baseUrl}/image/id/${events[0]?.thumbnail}`}
+                    height={600}
+                    width={600}
+                    alt=""
+                    className="object-cover object-center h-full w-full"
+                  />
+                  <div className="absolute flex flex-col gap-3 bottom-5 right-0 left-0 max-w-full mx-10">
+                    <div className="flex items-center text-white gap-2">
+                      <BsCalendar3 className="h-5 w-5" />
+                      <span>{formatDate(events[0]?.publishedAt!)}</span>
                     </div>
-                  </Link>
-                ))}
+                    <span className="text-xl font-bold text-white">
+                      {events[0]?.title}
+                    </span>
+                    <span className="text-sm text-white line-clamp-2">
+                      {events[0]?.contentHeader}
+                    </span>
+                  </div>
+                </Link>
+
+                <div
+                  className={cn(
+                    "lg:w-1/2 lg:h-[600px] flex flex-col gap-5",
+                    events.length === 1 ? "hidden" : ""
+                  )}
+                >
+                  {events?.slice(1, 3).map((event, index) => (
+                    <Link
+                      href={`/news/${event?.newsId}`}
+                      key={index}
+                      className="flex flex-col lg:flex-row items-center gap-5 h-1/3"
+                    >
+                      <Image
+                        src={`${baseUrl}/image/id/${event?.thumbnail}`}
+                        alt=""
+                        width={600}
+                        height={600}
+                        className="object-center object-cover lg:h-full lg:w-1/2"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center  gap-2">
+                          <BsCalendar3 className="h-5 w-5" />
+                          <span>{formatDate(String(event?.thumbnail!))}</span>
+                        </div>
+                        <span className="text-xl font-bold text-[#20475d]">
+                          {event.title}
+                        </span>
+                        <span className="text-sm text-neutral-400 line-clamp-3">
+                          {event.contentHeader}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </TabsContent>
           <TabsContent value="knowledge">
             <div className="flex lg:flex-row flex-col items-center gap-5 justify-between my-5">

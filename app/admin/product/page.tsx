@@ -23,11 +23,12 @@ interface Product {
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
-    //   const navigate = useNavigate(); // useNavigate để điều hướng
+    const ApiEnd="http://localhost:8080"
+
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/admin/products");
+            const response = await axios.get(`${ApiEnd}/api/admin/products`);
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -36,7 +37,7 @@ const ProductList: React.FC = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/admin/products/search", {
+            const response = await axios.get(`${ApiEnd}/api/admin/products/search`, {
                 params: { name: searchTerm },
             });
             setProducts(response.data);
@@ -47,16 +48,13 @@ const ProductList: React.FC = () => {
 
     const handleDelete = async (id: number) => {
         try {
-            await axios.delete(`http://localhost:8080/api/admin/products/${id}`);
+            await axios.delete(`${ApiEnd}/api/admin/products/${id}`);
             fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);
         }
     };
 
-    //   const handleEdit = (id: number) => {
-    //     navigate(`/admin/product/edit/${id}`); // Điều hướng đến trang chỉnh sửa
-    //   };
 
     useEffect(() => {
         fetchProducts();
@@ -69,7 +67,7 @@ const ProductList: React.FC = () => {
           scrollY > 70 ? "lg:mt-[57px]" : "mt-[120px] lg:mt-[140px]"
         )}
       >
-            <h1>Danh Sách Sản Phẩm</h1>
+            <h1>Danh Sách Sản Phẩmt</h1>
             <div>
                 <input
                     type="text"
@@ -99,7 +97,6 @@ const ProductList: React.FC = () => {
                                 >
                                     Edit
                                 </Link>
-                                {/* <button onClick={() => handleEdit(product.productId)}>Edit</button> */}
                                 <button onClick={() => handleDelete(product.productId)}>Delete</button>
                             </td>
                         </tr>

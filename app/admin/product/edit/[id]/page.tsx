@@ -3,20 +3,22 @@ import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
+import { cn } from "@/lib/utils";
 
 interface ProductFormData {
   productName: string;
   categoryId: number;
   price: number;
-  metallicColor: string;
-  ringBelt: string;
-  material: string;
+  metallicColorIds: number[];
+  ringBelt: number;
+  materialId: number;
   discount: number;
   images: FileList;
   isFeatured: boolean;
   isActive: boolean;
   isIncludeMasterDiamond: boolean;
-  shape: string;
+  shapeId: number;
+  isMale: boolean;
 }
 
 interface ProductResponse {
@@ -24,60 +26,46 @@ interface ProductResponse {
   productName: string;
   categoryId: number;
   price: number;
-  metallicColor: string;
-  ringBelt: string;
-  material: string;
+  metallicColorIds: number[];
+  ringBelt: number;
+  materialId: number;
   discount: number;
   images: string;
   isFeatured: boolean;
   isActive: boolean;
   isIncludeMasterDiamond: boolean;
-  shape: string;
+  shapeId: number;
+  isMale: boolean;
   createdAt: string;
   updatedAt: string | null;
-  collections: any[];
 }
+
+// Interfaces for dropdown options
 
 interface Category {
-  id: number;
-  name: string;
+  categoryId: number;
+  categoryName: string;
 }
 
-const categories: Category[] = [
-  { id: 1, name: "Nhẫn" },
-  { id: 2, name: "Nhẫn Nam" },
-  { id: 3, name: "Nhẫn Nữ" },
-  { id: 4, name: "Nhẫn Cầu Hôn" },
-  { id: 5, name: "Nhẫn Cưới" },
-  { id: 6, name: "Bông Tai" },
-  { id: 7, name: "Vòng Cổ" },
-  { id: 8, name: "Vòng Tay" },
-  { id: 9, name: "Bộ Trang Sức" },
-];
-const METALLIC_COLORS = [
-  { value: 'vang_trang', label: 'Vàng Trắng' },
-  { value: 'vang_chanh', label: 'Vàng Chanh' },
-  { value: 'vang_hong', label: 'Vàng Hồng' }
-];
+interface Material {
+  materialId: number;
+  materialName: string;
+}
 
-const RING_BELTS = [
-  { value: 'tron', label: 'Đai Trơn' },
-  { value: 'nham', label: 'Đai Nhám' },
-  { value: 'dinh_xoan', label: 'Đai Đính Xoàn' }
-];
+interface MetallicColor {
+  metallicColorId: number;
+  colorName: string;
+}
 
+interface Shape {
+  shapeId: number;
+  shapeName: string;
+}
 
-const SHAPE = [
-  { value: "Round", label: "Hình Tròn" },
-  { value: "Oval", label: "Hình Bầu Dục" },
-  { value: "Pear", label: "Hình Giọt Lệ" },
-  { value: "Emerald", label: "Hình Chữ Nhật Vát Góc" },
-];
-
-const MATERIALS = [
-  { value: 'au750', label: 'AU750' },
-  { value: 'hk', label: 'HK' }
-];
+interface RingBelt {
+  ringBeltId: number;
+  beltType: string;
+}
 const EditProduct: React.FC = () => {
   const router = useRouter();
   const params = useParams();
@@ -89,32 +77,70 @@ const EditProduct: React.FC = () => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<{id: number, url: string}[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [metallicColors, setMetallicColors] = useState<MetallicColor[]>([]);
+  const [shapes, setShapes] = useState<Shape[]>([]);
+  const [ringBelts, setRingBelts] = useState<RingBelt[]>([]);
+const ApiEnd="http://localhost:8080"
+
+  useEffect(() => {
+    const fetchDropdownOptions = async () => {
+      try {
+        const [
+          categoriesRes,
+          materialsRes, 
+          metallicColorsRes, 
+          shapesRes, 
+          ringBeltsRes
+        ] = await Promise.all([
+          axios.get(`${ApiEnd}/api/product/category`),
+          axios.get(`${ApiEnd}/api/product/material`),
+          axios.get(`${ApiEnd}/api/product/metallicColors`),
+          axios.get(`${ApiEnd}/api/product/shape`),
+          axios.get(`${ApiEnd}/api/product/ringbelt`)
+        ]);
+
+        setCategories(categoriesRes.data);
+        setMaterials(materialsRes.data);
+        setMetallicColors(metallicColorsRes.data);
+        setShapes(shapesRes.data);
+        setRingBelts(ringBeltsRes.data);
+      } catch (err) {
+        console.error('Error fetching dropdown options:', err);
+        setError('Failed to load dropdown options');
+      }
+    };
+
+    fetchDropdownOptions();
+  }, []);
+
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const productResponse = await axios.get<ProductResponse>(`http://localhost:8080/api/admin/products/${productId}`);
+        const productResponse = await axios.get<ProductResponse>(`${ApiEnd}/api/admin/products/${productId}`);
         const product = productResponse.data;
 
         setValue('productName', product.productName);
         setValue('categoryId', product.categoryId);
         setValue('price', product.price);
-        setValue('metallicColor', product.metallicColor);
+        setValue('metallicColorIds', product.metallicColorIds);
         setValue('ringBelt', product.ringBelt);
-        setValue('material', product.material);
+        setValue('materialId', product.materialId);
         setValue('discount', product.discount);
         setValue('isFeatured', product.isFeatured);
         setValue('isActive', product.isActive);
-
+        setValue('isIncludeMasterDiamond', product.isIncludeMasterDiamond);
+        setValue('shapeId', product.shapeId);
+        setValue('isMale', product.isMale);
 
         const imageIds = product.images ? product.images.split(',').map(id => parseInt(id.trim())) : [];
-
 
         const imageUrls = await Promise.all(
           imageIds.map(async (imageId: number) => {
             try {
-
-              const response = await axios.get(`http://localhost:8080/image/id/${imageId}`, {
+              const response = await axios.get(`${ApiEnd}/image/id/${imageId}`, {
                 responseType: 'blob'
               });
               return URL.createObjectURL(response.data);
@@ -185,18 +211,27 @@ const EditProduct: React.FC = () => {
     formData.append('productName', data.productName);
     formData.append('categoryId', data.categoryId.toString());
     formData.append('price', data.price.toString());
-    formData.append('metallicColor', data.metallicColor);
-    formData.append('ringBelt', data.ringBelt);
-    formData.append('material', data.material);
+    
+    // Append multiple metallic color IDs
+    data.metallicColorIds.forEach(colorId => 
+      formData.append('metallicColorIds', colorId.toString())
+    );
+    
+    formData.append('ringBelt', data.ringBelt.toString());
+    formData.append('materialId', data.materialId.toString());
     formData.append('discount', data.discount.toString());
     formData.append('isFeatured', data.isFeatured.toString());
     formData.append('isActive', data.isActive.toString());
+    formData.append('isIncludeMasterDiamond', data.isIncludeMasterDiamond.toString());
+    formData.append('shapeId', data.shapeId.toString());
+    formData.append('isMale', data.isMale.toString());
+
     if (existingImages.length > 0) {
       existingImages.forEach((image) => {
         formData.append('existingImages', image.id.toString());
       });
     }
-  
+
     if (data.images && data.images.length > 0) {
       Array.from(data.images).forEach((file) => {
         formData.append('images', file);  
@@ -204,7 +239,7 @@ const EditProduct: React.FC = () => {
     }
   
     try {
-      const response = await axios.put(`http://localhost:8080/api/admin/products/${productId}`, formData, {
+      const response = await axios.put(`${ApiEnd}/api/admin/products/${productId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -224,42 +259,43 @@ const EditProduct: React.FC = () => {
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
-      {typeof message === "string" && message && (
-        <p className="text-green-500 mb-4">{message}</p>
-      )}
-      {typeof error === "string" && error && (
-        <p className="text-red-500 mb-4">{error}</p>
-      )}
-
+      {typeof message === 'string' && message && <p className="text-green-500 mb-4">{message}</p>}
+      {typeof error === 'string' && error && <p className="text-red-500 mb-4">{error}</p>}
+      
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="mb-4">
           <label className="block mb-2">Tên Sản Phẩm:</label>
-          <input
-            {...register("productName", { required: true })}
+          <input 
+            {...register('productName', { required: true })}
             className="w-full border rounded p-2"
           />
         </div>
 
         <div className="mb-4">
           <label className="block mb-2">Loại Sản Phẩm:</label>
-          <select
-            {...register("categoryId", { required: true })}
-            className="w-full border rounded p-2"
-          >
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+          <Controller
+            name="categoryId"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <select {...field} className="w-full border rounded p-2">
+                <option value="">Chọn danh mục</option>
+                {categories.map((category) => (
+                  <option key={category.categoryId} value={category.categoryId}>
+                    {category.categoryName}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
         </div>
 
         <div className="mb-4">
           <label className="block mb-2">Giá:</label>
-          <input
-            type="number"
+          <input 
+            type="number" 
             step="0.01"
-            {...register("price", { required: true })}
+            {...register('price', { required: true })}
             className="w-full border rounded p-2"
           />
         </div>
@@ -267,14 +303,40 @@ const EditProduct: React.FC = () => {
         <div className="mb-4">
           <label className="block mb-2">Màu kim loại:</label>
           <Controller
-            name="metallicColor"
+            name="metallicColorIds"
+            control={control}
+            render={({ field }) => (
+              <select 
+                {...field} 
+                multiple 
+                className="w-full border rounded p-2"
+                onChange={(e) => {
+                  const values = Array.from(e.target.selectedOptions).map(option => Number(option.value));
+                  field.onChange(values);
+                }}
+                value={field.value.map(val => String(val))}
+              >
+                {metallicColors.map((color) => (
+                  <option key={color.metallicColorId} value={color.metallicColorId}>
+                    {color.colorName}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block mb-2">Chất Liệu:</label>
+          <Controller
+            name="materialId"
             control={control}
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
-                <option value="">Chọn màu kim loại</option>
-                {METALLIC_COLORS.map((color) => (
-                  <option key={color.value} value={color.value}>
-                    {color.label}
+                <option value="">Chọn chất liệu</option>
+                {materials.map((material) => (
+                  <option key={material.materialId} value={material.materialId}>
+                    {material.materialName}
                   </option>
                 ))}
               </select>
@@ -290,27 +352,9 @@ const EditProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn đai nhẫn</option>
-                {RING_BELTS.map((belt) => (
-                  <option key={belt.value} value={belt.value}>
-                    {belt.label}
-                  </option>
-                ))}
-              </select>
-            )}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-2">Chất Liệu:</label>
-          <Controller
-            name="material"
-            control={control}
-            render={({ field }) => (
-              <select {...field} className="w-full border rounded p-2">
-                <option value="">Chọn chất liệu</option>
-                {MATERIALS.map((material) => (
-                  <option key={material.value} value={material.value}>
-                    {material.label}
+                {ringBelts.map((belt) => (
+                  <option key={belt.ringBeltId} value={belt.ringBeltId}>
+                    {belt.beltType}
                   </option>
                 ))}
               </select>
@@ -321,14 +365,14 @@ const EditProduct: React.FC = () => {
         <div className="mb-4">
           <label className="block mb-2">Hình Dạng:</label>
           <Controller
-            name="shape"
+            name="shapeId"
             control={control}
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
-                <option value="">Chọn chất liệu</option>
-                {SHAPE.map((shape) => (
-                  <option key={shape.value} value={shape.value}>
-                    {shape.label}
+                <option value="">Chọn hình dạng</option>
+                {shapes.map((shape) => (
+                  <option key={shape.shapeId} value={shape.shapeId}>
+                    {shape.shapeName}
                   </option>
                 ))}
               </select>
@@ -338,85 +382,72 @@ const EditProduct: React.FC = () => {
 
         <div className="mb-4">
           <label className="block mb-2">Giảm giá:</label>
-          <input
-            type="number"
+          <input 
+            type="number" 
             step="0.01"
-            {...register("discount")}
+            {...register('discount')}
             className="w-full border rounded p-2"
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block mb-2">Sản phẩm nổi bật:</label>
-          <Controller
-            name="isFeatured"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
-                className="mr-2"
-              />
-            )}
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isFeatured')}
+            className="mr-2"
           />
+          <label>Sản phẩm nổi bật</label>
         </div>
 
-        <div className="mb-4">
-          <label className="block mb-2">Sản phẩm khả dụng:</label>
-          <Controller
-            name="isActive"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
-                className="mr-2"
-              />
-            )}
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isActive')}
+            className="mr-2"
           />
+          <label>Sản phẩm khả dụng</label>
         </div>
 
-        <div className="mb-4">
-          <label className="block mb-2">Giá đã bao gồm viên chủ:</label>
-          <Controller
-            name="isIncludeMasterDiamond"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
-                className="mr-2"
-              />
-            )}
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isIncludeMasterDiamond')}
+            className="mr-2"
           />
+          <label>Bao gồm kim cương chính</label>
+        </div>
+
+        <div className="mb-4 flex items-center">
+          <input
+            type="checkbox"
+            {...register('isMale')}
+            className="mr-2"
+          />
+          <label>Sản phẩm dành cho Nam</label>
         </div>
 
         <div className="mb-4">
           <label className="block mb-2">Ảnh (Nhiều):</label>
-          <input
-            type="file"
-            multiple
+          <input 
+            type="file" 
+            multiple 
             onChange={handleImageChange}
             className="mb-4"
           />
-
           {/* Existing Images */}
           {existingImages.length > 0 && (
             <div className="flex flex-wrap gap-4 mb-4">
               {existingImages.map((image) => (
                 <div key={image.id} className="relative">
-                  <img
-                    src={image.url}
-                    alt={`Existing image`}
+                  <img 
+                    src={image.url} 
+                    alt={`Existing image ${image.id}`} 
                     className="w-32 h-32 object-cover rounded-lg"
                   />
-                  <button
+                  <button 
                     type="button"
-                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
                     onClick={() => removeExistingImage(image.id)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
                   >
                     X
                   </button>
@@ -424,21 +455,19 @@ const EditProduct: React.FC = () => {
               ))}
             </div>
           )}
-
-          {/* New Image Previews */}
           {previews.length > 0 && (
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 mb-4">
               {previews.map((preview, index) => (
                 <div key={index} className="relative">
-                  <img
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
+                  <img 
+                    src={preview} 
+                    alt={`Preview ${index + 1}`} 
                     className="w-32 h-32 object-cover rounded-lg"
                   />
-                  <button
+                  <button 
                     type="button"
-                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
                     onClick={() => removeNewImage(index)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
                   >
                     X
                   </button>
@@ -448,11 +477,11 @@ const EditProduct: React.FC = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+        <button 
+          type="submit" 
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
-          Sửa sản phẩm
+          Cập Nhật Sản Phẩm
         </button>
       </form>
     </div>

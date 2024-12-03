@@ -5,16 +5,17 @@ import Just from "@/components/Just";
 import ProductDetail from "@/components/ProductDetail";
 import Relative from "@/components/Relative";
 import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
+import { Diamond } from "@/types/diamond";
 import { Product } from "@/types/product";
 import { getData } from "@/utils/axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Detail = () => {
-  const [product, setProduct] = useState<Product>();
+  const [product, setProduct] = useState<Diamond>();
   const [related, setRelated] = useState<Product[]>([]);
   const { id } = useParams();
-  const { products ,addProduct } = useLocalStorageProducts("products");
+  const { products, addProduct } = useLocalStorageProducts("products");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,11 +44,10 @@ const Detail = () => {
         <Breadcrumb
           breadcrumbs={[
             { title: "Product", url: "#" },
-            { title: product?.productName!, url: "#" },
+            { title: "", url: "#" },
           ]}
         />
-        <ProductDetail product={product!} />
-        {related.length > 0 && <Relative products={related} />}
+        {/* <ProductDetail product={product!} /> */}
         {products.length > 0 && <Just products={products} />}
       </Body>
     </>
