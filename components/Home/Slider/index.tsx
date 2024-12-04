@@ -14,9 +14,9 @@ const Slider = () => {
     const totalSlides = useMemo(
       () => [
         "/Slider/slider-3.png",
-        "/Slider/slider-1.png",
+        "/Slider/slider-1.jpg",
         "/Slider/slider-4.png",
-        "/Slider/slider-2.png",
+        "/Slider/slider-2.jpg",
       ],
       [] 
     );

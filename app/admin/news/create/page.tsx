@@ -61,7 +61,7 @@ const CreateNewsPage: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <section className="mx-auto w-10/12">
       <h1>Create News</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
@@ -163,7 +163,7 @@ const CreateNewsPage: React.FC = () => {
           Tạo Tin Tức
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 

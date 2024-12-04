@@ -154,7 +154,7 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-    <Body>
+    <section className="mx-auto w-10/12 mb-5">
       <h1 className="text-2xl font-bold mb-6">Create Product</h1>
 
       {message && <p className="text-green-600 mb-4">{message}</p>}
@@ -323,43 +323,49 @@ const CreateProduct: React.FC = () => {
           )}
         </div>
 
-        <div className="mb-4 flex items-center">
-          <input type="checkbox" {...register("isFeatured")} className="mr-2" />
-          <label>Sản phẩm nổi bật</label>
-        </div>
+        <div className="grid grid-cols-2 mb-5">
+          <div className="mb-4 flex items-center">
+            <input
+              type="checkbox"
+              {...register("isFeatured")}
+              className="mr-2"
+            />
+            <label>Sản phẩm nổi bật</label>
+          </div>
 
-        <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register("isActive")}
-            defaultChecked
-            className="mr-2"
-          />
-          <label>Sản phẩm khả dụng</label>
-        </div>
+          <div className="mb-4 flex items-center">
+            <input
+              type="checkbox"
+              {...register("isActive")}
+              defaultChecked
+              className="mr-2"
+            />
+            <label>Sản phẩm khả dụng</label>
+          </div>
 
-        <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register("isIncludeMasterDiamond")}
-            className="mr-2"
-          />
-          <label>Bao gồm kim cương chính</label>
-        </div>
+          <div className="mb-4 flex items-center">
+            <input
+              type="checkbox"
+              {...register("isIncludeMasterDiamond")}
+              className="mr-2"
+            />
+            <label>Bao gồm kim cương chính</label>
+          </div>
 
-        <div className="mb-4 flex items-center">
-          <input type="checkbox" {...register("isMale")} className="mr-2" />
-          <label>Sản phẩm dành cho Nam</label>
+          <div className="mb-4 flex items-center">
+            <input type="checkbox" {...register("isMale")} className="mr-2" />
+            <label>Sản phẩm dành cho Nam</label>
+          </div>
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 w-full text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Tạo Sản Phẩm
         </button>
       </form>
-    </Body>
+    </section>
   );
 };
 

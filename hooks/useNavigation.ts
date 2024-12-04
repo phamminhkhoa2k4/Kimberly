@@ -10,7 +10,6 @@ export function useNavigation() {
   useEffect(() => {
     if (pathname !== previousPathname) {
       setIsNavigating(true);
-      // Optional: Add a timeout to simulate navigation complete
       const timer = setTimeout(() => {
         setIsNavigating(false);
       }, 300);

@@ -42,12 +42,12 @@ const CollectionPage = () => {
             </div>
           </div>
 
-          <div className="flex mx-5 lg:mx-0 lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-5 w-full overflow-y-auto lg:w-1/2">
+          <div className="flex mx-5 lg:mx-0 lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-5 w-full  overflow-y-auto lg:w-1/2">
             {pendant?.slice(0, 4).map((pen) => (
               <Link
                 href={`/product/${pen.productId}`}
                 key={pen.productId}
-                className=" w-2/3 lg:w-full h-full border p-2 rounded-lg "
+                className=" min-w-[200px] lg:w-full h-full border p-2 rounded-lg "
               >
                 <Image
                   src={`${baseUrl}/image/id/${
@@ -56,7 +56,7 @@ const CollectionPage = () => {
                   alt=""
                   height={297}
                   width={297}
-                  className="aspect-square object-cover object-center rounded-lg"
+                  className="aspect-square  object-cover object-center rounded-lg"
                 />
                 <div className="flex flex-col  p-3 py-1 gap-1">
                   <span className="border w-7 flex items-center justify-center h-7 p-1 rounded-full">
@@ -89,7 +89,7 @@ const CollectionPage = () => {
                     )}
                   </span>
                   <div className="flex items-center">
-                    <div className="line-clamp-1 font-medium">
+                    <div className="line-clamp-1  font-medium">
                       {pen.productName}
                     </div>
                   </div>

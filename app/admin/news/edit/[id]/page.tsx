@@ -106,7 +106,7 @@ const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
+    <section className="mx-auto w-10/12">
       <h1>Edit News</h1>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-4">
@@ -199,7 +199,7 @@ const baseUrl = process.env.BASE_URL || "http://localhost:8080";
           Sửa Nội Dung
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 

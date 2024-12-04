@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import Image from 'next/image';
+import Body from '@/components/Body';
 
 
 
@@ -266,12 +267,7 @@ const EditProduct: React.FC = () => {
   }
 
   return (
-    <div
-      className={cn(
-        "transition-all duration-75 ",
-        scrollY > 70 ? "lg:mt-[57px]" : "mt-[120px] lg:mt-[140px]"
-      )}
-    >
+    <section className="mx-auto w-10/12 mb-5">
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
       {typeof message === "string" && message && (
         <p className="text-green-500 mb-4">{message}</p>
@@ -415,28 +411,34 @@ const EditProduct: React.FC = () => {
           />
         </div>
 
-        <div className="mb-4 flex items-center">
-          <input type="checkbox" {...register("isFeatured")} className="mr-2" />
-          <label>Sản phẩm nổi bật</label>
-        </div>
+        <div className="grid grid-cols-2">
+          <div className="mb-4 flex items-center">
+            <input
+              type="checkbox"
+              {...register("isFeatured")}
+              className="mr-2"
+            />
+            <label>Sản phẩm nổi bật</label>
+          </div>
 
-        <div className="mb-4 flex items-center">
-          <input type="checkbox" {...register("isActive")} className="mr-2" />
-          <label>Sản phẩm khả dụng</label>
-        </div>
+          <div className="mb-4 flex items-center">
+            <input type="checkbox" {...register("isActive")} className="mr-2" />
+            <label>Sản phẩm khả dụng</label>
+          </div>
 
-        <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            {...register("isIncludeMasterDiamond")}
-            className="mr-2"
-          />
-          <label>Bao gồm kim cương chính</label>
-        </div>
+          <div className="mb-4 flex items-center">
+            <input
+              type="checkbox"
+              {...register("isIncludeMasterDiamond")}
+              className="mr-2"
+            />
+            <label>Bao gồm kim cương chính</label>
+          </div>
 
-        <div className="mb-4 flex items-center">
-          <input type="checkbox" {...register("isMale")} className="mr-2" />
-          <label>Sản phẩm dành cho Nam</label>
+          <div className="mb-4 flex items-center">
+            <input type="checkbox" {...register("isMale")} className="mr-2" />
+            <label>Sản phẩm dành cho Nam</label>
+          </div>
         </div>
 
         <div className="mb-4">
@@ -455,7 +457,7 @@ const EditProduct: React.FC = () => {
                   <Image
                     width={400}
                     height={400}
-                    src={image.url}
+                    src={`${baseUrl}/image/id/${image.id}`}
                     alt={`Existing image ${image.id}`}
                     className="w-32 h-32 object-cover rounded-lg"
                   />
@@ -496,12 +498,12 @@ const EditProduct: React.FC = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 w-full text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Cập Nhật Sản Phẩm
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 

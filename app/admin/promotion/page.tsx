@@ -4,58 +4,72 @@ import axios from "axios";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-interface News {
-    newsId: number;
+interface Jemmia {
+    jemmia_id: number;
+    thumbnail?: number;
     title: string;
     contentHeader?: string;
     image?: number;
-    thumbnail?: number;
     contentFooter?: string;
+    startDate?: string;
+    endDate?: string;
     publishedAt?: string;
     isActive?: boolean;
 }
 
-const NewsList: React.FC = () => {
-    const [news, setNews] = useState<News[]>([]);
+const JemmiaList: React.FC = () => {
+    const [jemmias, setJemmias] = useState<Jemmia[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
 
-    const fetchNews = async () => {
+    const fetchJemmias = async () => {
         try {
-            const response = await axios.get(`${ApiEnd}/admin/news`);
-            setNews(response.data);
+            const response = await axios.get(`${ApiEnd}/admin/jemmias`);
+            setJemmias(response.data);
         } catch (error) {
-            console.error("Error fetching news:", error);
+            console.error("Error fetching jemmias:", error);
         }
     };
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`${ApiEnd}/admin/news/search`, {
+            const response = await axios.get(`${ApiEnd}/admin/jemmias/search`, {
                 params: { title: searchTerm },
             });
-            setNews(response.data);
+            setJemmias(response.data);
         } catch (error) {
-            console.error("Error searching news:", error);
+            console.error("Error searching jemmias:", error);
         }
     };
 
     const handleDelete = async (id: number) => {
         try {
-            await axios.delete(`${ApiEnd}/admin/news/${id}`);
-            fetchNews();
+            await axios.delete(`${ApiEnd}/admin/jemmias/${id}`);
+            fetchJemmias();
         } catch (error) {
-            console.error("Error deleting news:", error);
+            console.error("Error deleting jemmia:", error);
         }
     };
 
     useEffect(() => {
-      fetchNews();
-    }, [fetchNews]);
+      fetchJemmias();
+    }, [fetchJemmias]);
+
+    const formatDate = (dateString?: string) => {
+        return dateString 
+            ? new Date(dateString).toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }) 
+            : 'Chưa xác định';
+    };
 
     return (
       <section className="mx-auto w-10/12">
-        <h1 className="text-2xl font-bold mb-4">Danh Sách Tin Tức</h1>
+        <h1 className="text-2xl font-bold mb-4">
+          Danh Sách Chương Trình Khuyến Mãi
+        </h1>
 
         <div className="mb-4 flex items-center space-x-2">
           <input
@@ -71,50 +85,38 @@ const NewsList: React.FC = () => {
           >
             Tìm Kiếm
           </button>
-          <button
-            onClick={fetchNews}
-            className="px-4 py-1 bg-zinc-500 text-white rounded hover:bg-blue-600"
-          >
-            Làm Mới
-          </button>
-          <Link
-            href={"/admin/news/create"}
-            className="px-4 py-1 bg-slate-500 text-white rounded hover:bg-blue-600"
-          >
-            Tạo Mới
-          </Link>
         </div>
 
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-2">Tiêu Đề</th>
+              <th className="border p-2">Ngày Bắt Đầu</th>
+              <th className="border p-2">Ngày Kết Thúc</th>
               <th className="border p-2">Ngày Xuất Bản</th>
               <th className="border p-2">Trạng Thái</th>
               <th className="border p-2">Hành Động</th>
             </tr>
           </thead>
           <tbody>
-            {news.map((newsItem) => (
-              <tr key={newsItem.newsId} className="hover:bg-gray-50">
-                <td className="border p-2">{newsItem.title}</td>
+            {jemmias.map((jemmia) => (
+              <tr key={jemmia.jemmia_id} className="hover:bg-gray-50">
+                <td className="border p-2">{jemmia.title}</td>
+                <td className="border p-2">{formatDate(jemmia.startDate)}</td>
+                <td className="border p-2">{formatDate(jemmia.endDate)}</td>
+                <td className="border p-2">{formatDate(jemmia.publishedAt)}</td>
                 <td className="border p-2">
-                  {newsItem.publishedAt
-                    ? new Date(newsItem.publishedAt).toLocaleDateString()
-                    : "Chưa xác định"}
-                </td>
-                <td className="border p-2">
-                  {newsItem.isActive ? "Hoạt Động" : "Không Hoạt Động"}
+                  {jemmia.isActive ? "Hoạt Động" : "Không Hoạt Động"}
                 </td>
                 <td className="border p-2 space-x-2">
                   <Link
-                    href={`/admin/news/edit/${newsItem.newsId}`}
+                    href={`/admin/jemmia/edit/${jemmia.jemmia_id}`}
                     className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
                   >
                     Sửa
                   </Link>
                   <button
-                    onClick={() => handleDelete(newsItem.newsId)}
+                    onClick={() => handleDelete(jemmia.jemmia_id)}
                     className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                   >
                     Xóa
@@ -128,4 +130,4 @@ const NewsList: React.FC = () => {
     );
 };
 
-export default NewsList;
+export default JemmiaList;

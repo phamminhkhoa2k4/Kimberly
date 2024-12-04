@@ -12,8 +12,9 @@ type RangeType = {
 
 type Props = {
   setDiamond: (value: Diamond[]) => void;
+  setOpenSheet:(value:boolean) => void;
 };
-const Filter = ({ setDiamond }: Props) => {
+const Filter = ({ setDiamond , setOpenSheet }: Props) => {
   const [shape, setShape] = useState<"Round" | "Oval" | "Emerald" | "Pear">(
     "Round"
   );
@@ -156,7 +157,7 @@ const Filter = ({ setDiamond }: Props) => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   const handleSubmit = () => {
     fetchData();
@@ -710,7 +711,10 @@ const Filter = ({ setDiamond }: Props) => {
               </button>
               <button
                 className="uppercase border rounded-md bg-slate-700 text-white px-6 py-3"
-                onClick={handleSubmit}
+                onClick={() => {
+                  handleSubmit();
+                  setOpenSheet(true);
+                }}
               >
                 tìm kiếm
               </button>

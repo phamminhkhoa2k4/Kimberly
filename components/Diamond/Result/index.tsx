@@ -8,35 +8,31 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
 import { IoCloseSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { Diamond } from "@/types/diamond";
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "react-responsive";
 
 type Props = {
-  diamond : Diamond[];
+  diamond: Diamond[];
+  openSheet: boolean;
+  setOpenSheet:(value : boolean) => void;
 };
 
-const Result = ({diamond}: Props) => {
+const Result = ({diamond,openSheet,setOpenSheet}: Props) => {
   const [detailDiamond,setDetailDiamond] = useState<Diamond>();
-  const [openSheet, setOpenSheet] = useState<boolean>(false);
+  
   const [openSubSheet, setOpenSubSheet] = useState<boolean>(false);
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
+  
   useEffect(() => {
-    const updateStateBasedOnScreen = () => {
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-      setOpenSheet(isMobile);
-    };
-
-    updateStateBasedOnScreen();
-
-    window.addEventListener("resize", updateStateBasedOnScreen);
-
-    return () => {
-      window.removeEventListener("resize", updateStateBasedOnScreen);
-    };
-  }, []);
+    if (!isDesktop) setOpenSheet(true);
+  }, [isDesktop]);
 
   function formatNumber(number : number) {
     return number.toLocaleString("id-ID");
@@ -66,7 +62,11 @@ const Result = ({diamond}: Props) => {
           Giá (VND)
         </div>
       </div>
-
+      {diamond?.length === 0 && (
+        <div className="text-[#20475d] capitalize text-lg text-center py-5">
+          không có kim cương nào phù hợp !!!
+        </div>
+      )}
       {diamond?.map((dia, index) => (
         <Collapsible key={index}>
           <CollapsibleTrigger className="w-full">
@@ -219,11 +219,13 @@ const Result = ({diamond}: Props) => {
       ))}
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
         <SheetContent className="w-full overflow-y-auto">
+          <SheetTitle></SheetTitle>
+          <SheetDescription></SheetDescription>
           <div className="w-[650px] ">
             <div className="flex items-center  px-5 py-4 ">
               <div className="font-medium text-base w-6/12 ">Kết Quả</div>
               <IoCloseSharp
-                className="hover:scale-95 h-5 w-5"
+                className="hover:scale-95 h-5 w-5 fixed top-5 right-5"
                 onClick={() => setOpenSheet(false)}
               />
             </div>
@@ -250,6 +252,12 @@ const Result = ({diamond}: Props) => {
                 Giá (VND)
               </div>
             </div>
+
+            {diamond?.length === 0 && (
+              <div className="fixed left-0 right-0 top-96 text-center ">
+                Không có sản phẩm nào phù hợp !!!
+              </div>
+            )}
             {diamond?.map((dia, index) => (
               <Sheet
                 open={openSubSheet}
@@ -332,10 +340,12 @@ const Result = ({diamond}: Props) => {
                   </div>
                 </SheetTrigger>
                 <SheetContent className="w-full">
+                  <SheetTitle></SheetTitle>
+                  <SheetDescription></SheetDescription>
                   <div className="flex items-center justify-between px-5 bg-slate-300 py-4">
                     <div className="font-bold">Chi Tiết</div>
                     <IoCloseSharp
-                      className="h-5 w-5 hover:scale-95"
+                      className="h-5 w-5 hover:scale-95 "
                       onClick={() => setOpenSubSheet(false)}
                     />
                   </div>
@@ -394,19 +404,27 @@ const Result = ({diamond}: Props) => {
                       <div className="flex flex-col gap-1 w-full ">
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Giác cắt:{" "}
-                          <span className="font-bold">{detailDiamond?.cutting}</span>
+                          <span className="font-bold">
+                            {detailDiamond?.cutting}
+                          </span>
                         </div>
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Cấp màu:{" "}
-                          <span className="font-bold">{detailDiamond?.colorGrade}</span>
+                          <span className="font-bold">
+                            {detailDiamond?.colorGrade}
+                          </span>
                         </div>
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Độ tinh khiết:{" "}
-                          <span className="font-bold">{detailDiamond?.clarity}</span>
+                          <span className="font-bold">
+                            {detailDiamond?.clarity}
+                          </span>
                         </div>
                         <div className="border-b flex items-center gap-2 w-full py-2 px-4">
                           Trọng lượng:{" "}
-                          <span className="font-bold">{detailDiamond?.weight}</span>
+                          <span className="font-bold">
+                            {detailDiamond?.weight}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2 w-full py-2 px-4">
                           Kiểm định GIA

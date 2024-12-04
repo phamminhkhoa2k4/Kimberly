@@ -55,7 +55,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsOpenMenu(false);
-    console.log(isNavigating);
+    console.log("sssss",isNavigating);
     
   }, [isNavigating]);
 
