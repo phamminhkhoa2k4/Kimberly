@@ -6,6 +6,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import Image from 'next/image';
 
+
+
 interface ProductFormData {
   productName: string;
   categoryId: number;
@@ -25,23 +27,21 @@ interface ProductFormData {
 interface ProductResponse {
   productId: number;
   productName: string;
-  categoryId: number;
+  category: Category;
   price: number;
-  metallicColorIds: number[];
-  ringBelt: number;
-  materialId: number;
+  metallicColors: MetallicColor[];
+  ringBelt: RingBelt;
+  material: Material;
   discount: number;
   images: string;
   isFeatured: boolean;
   isActive: boolean;
   isIncludeMasterDiamond: boolean;
-  shapeId: number;
+  shape: Shape;
   isMale: boolean;
   createdAt: string;
   updatedAt: string | null;
 }
-
-// Interfaces for dropdown options
 
 interface Category {
   categoryId: number;
@@ -67,6 +67,7 @@ interface RingBelt {
   ringBeltId: number;
   beltType: string;
 }
+
 const EditProduct: React.FC = () => {
   const router = useRouter();
   const params = useParams();
@@ -76,30 +77,30 @@ const EditProduct: React.FC = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
-  const [existingImages, setExistingImages] = useState<{id: number, url: string}[]>([]);
+  const [existingImages, setExistingImages] = useState<{ id: number, url: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [metallicColors, setMetallicColors] = useState<MetallicColor[]>([]);
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [ringBelts, setRingBelts] = useState<RingBelt[]>([]);
-const ApiEnd="http://localhost:8080"
-
+  const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
+  const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   useEffect(() => {
     const fetchDropdownOptions = async () => {
       try {
         const [
           categoriesRes,
-          materialsRes, 
-          metallicColorsRes, 
-          shapesRes, 
-          ringBeltsRes
+          materialsRes,
+          metallicColorsRes,
+          shapesRes,
+          ringBeltsRes,
         ] = await Promise.all([
-          axios.get(`${ApiEnd}/api/product/category`),
-          axios.get(`${ApiEnd}/api/product/material`),
-          axios.get(`${ApiEnd}/api/product/metallicColors`),
-          axios.get(`${ApiEnd}/api/product/shape`),
-          axios.get(`${ApiEnd}/api/product/ringbelt`)
+          axios.get(`${ApiEnd}/product/category`),
+          axios.get(`${ApiEnd}/product/material`),
+          axios.get(`${ApiEnd}/product/metallicColors`),
+          axios.get(`${ApiEnd}/product/shape`),
+          axios.get(`${ApiEnd}/product/ringbelt`),
         ]);
 
         setCategories(categoriesRes.data);
@@ -108,42 +109,52 @@ const ApiEnd="http://localhost:8080"
         setShapes(shapesRes.data);
         setRingBelts(ringBeltsRes.data);
       } catch (err) {
-        console.error('Error fetching dropdown options:', err);
-        setError('Failed to load dropdown options');
+        console.error("Error fetching dropdown options:", err);
+        setError("Failed to load dropdown options");
       }
     };
 
     fetchDropdownOptions();
-  }, []);
+  }, [ApiEnd]);
 
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const productResponse = await axios.get<ProductResponse>(`${ApiEnd}/api/admin/products/${productId}`);
+        const productResponse = await axios.get<ProductResponse>(
+          `${ApiEnd}/admin/products/${productId}`
+        );
         const product = productResponse.data;
 
-        setValue('productName', product.productName);
-        setValue('categoryId', product.categoryId);
-        setValue('price', product.price);
-        setValue('metallicColorIds', product.metallicColorIds);
-        setValue('ringBelt', product.ringBelt);
-        setValue('materialId', product.materialId);
-        setValue('discount', product.discount);
-        setValue('isFeatured', product.isFeatured);
-        setValue('isActive', product.isActive);
-        setValue('isIncludeMasterDiamond', product.isIncludeMasterDiamond);
-        setValue('shapeId', product.shapeId);
-        setValue('isMale', product.isMale);
+        setValue("productName", product.productName);
+        setValue("price", product.price);
+        setValue("discount", product.discount);
+        setValue("categoryId", product.category.categoryId);
+        setValue("materialId", product.material.materialId);
+        setValue("ringBelt", product.ringBelt.ringBeltId);
+        setValue("shapeId", product.shape.shapeId);
+        setValue(
+          "metallicColorIds",
+          product.metallicColors.map((color) => color.metallicColorId)
+        );
+        setValue("isFeatured", product.isFeatured);
+        setValue("isActive", product.isActive);
+        setValue("isIncludeMasterDiamond", product.isIncludeMasterDiamond);
+        setValue("isMale", product.isMale);
 
-        const imageIds = product.images ? product.images.split(',').map(id => parseInt(id.trim())) : [];
+        const imageIds = product.images
+          ? product.images.split(",").map((id) => parseInt(id.trim()))
+          : [];
 
         const imageUrls = await Promise.all(
           imageIds.map(async (imageId: number) => {
             try {
-              const response = await axios.get(`${ApiEnd}/image/id/${imageId}`, {
-                responseType: 'blob'
-              });
+              const response = await axios.get(
+                `${baseUrl}/image/id/${imageId}`,
+                {
+                  responseType: "blob",
+                }
+              );
               return URL.createObjectURL(response.data);
             } catch (err) {
               console.error(`Error fetching image ${imageId}:`, err);
@@ -152,20 +163,19 @@ const ApiEnd="http://localhost:8080"
           })
         );
 
-        // Filter out any null URLs
-        const validImageUrls = imageUrls.filter(url => url !== null);
+        const validImageUrls = imageUrls.filter((url) => url !== null);
 
         setExistingImages(
           imageIds.map((id: number, index: number) => ({
             id,
-            url: validImageUrls[index]
+            url: validImageUrls[index],
           }))
         );
 
         setIsLoading(false);
       } catch (err) {
-        console.error('Error fetching product details:', err);
-        setError('Failed to load product details');
+        console.error("Error fetching product details:", err);
+        setError("Failed to load product details");
         setIsLoading(false);
       }
     };
@@ -173,12 +183,12 @@ const ApiEnd="http://localhost:8080"
     if (productId) {
       fetchProductDetails();
     }
-  }, [productId, setValue]);
+  }, [productId, setValue, ApiEnd, baseUrl]);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      const filePreviewUrls = Array.from(files).map(file => 
+      const filePreviewUrls = Array.from(files).map(file =>
         URL.createObjectURL(file)
       );
       setPreviews(prev => [...prev, ...filePreviewUrls]);
@@ -189,7 +199,7 @@ const ApiEnd="http://localhost:8080"
   const removeNewImage = (indexToRemove: number) => {
     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
     const files = input.files;
-    
+
     if (files) {
       const updatedFiles = Array.from(files).filter((_, index) => index !== indexToRemove);
       const dataTransfer = new DataTransfer();
@@ -202,7 +212,7 @@ const ApiEnd="http://localhost:8080"
   };
 
   const removeExistingImage = (imageId: number) => {
-    setExistingImages(prev => 
+    setExistingImages(prev =>
       prev.filter(image => image.id !== imageId)
     );
   };
@@ -212,12 +222,10 @@ const ApiEnd="http://localhost:8080"
     formData.append('productName', data.productName);
     formData.append('categoryId', data.categoryId.toString());
     formData.append('price', data.price.toString());
-    
-    // Append multiple metallic color IDs
-    data.metallicColorIds.forEach(colorId => 
+    data.metallicColorIds.forEach(colorId =>
       formData.append('metallicColorIds', colorId.toString())
     );
-    
+
     formData.append('ringBelt', data.ringBelt.toString());
     formData.append('materialId', data.materialId.toString());
     formData.append('discount', data.discount.toString());
@@ -235,12 +243,12 @@ const ApiEnd="http://localhost:8080"
 
     if (data.images && data.images.length > 0) {
       Array.from(data.images).forEach((file) => {
-        formData.append('images', file);  
+        formData.append('images', file);
       });
     }
-  
+
     try {
-      const response = await axios.put(`${ApiEnd}/api/admin/products/${productId}`, formData, {
+      const response = await axios.put(`${ApiEnd}/admin/products/${productId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -252,13 +260,18 @@ const ApiEnd="http://localhost:8080"
       setMessage(null);
     }
   };
-  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div
+      className={cn(
+        "transition-all duration-75 ",
+        scrollY > 70 ? "lg:mt-[57px]" : "mt-[120px] lg:mt-[140px]"
+      )}
+    >
       <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
       {typeof message === "string" && message && (
         <p className="text-green-500 mb-4">{message}</p>
@@ -310,18 +323,20 @@ const ApiEnd="http://localhost:8080"
           <Controller
             name="metallicColorIds"
             control={control}
+            defaultValue={[]} // Giá trị mặc định là một mảng rỗng
             render={({ field }) => (
               <select
                 {...field}
                 multiple
                 className="w-full border rounded p-2"
                 onChange={(e) => {
-                  const values = Array.from(e.target.selectedOptions).map(
+                  const values = Array.from(
+                    e.target.selectedOptions,
                     (option) => Number(option.value)
                   );
-                  field.onChange(values);
+                  field.onChange(values); // Cập nhật toàn bộ mảng các giá trị được chọn
                 }}
-                value={field.value.map((val) => String(val))}
+                value={field.value?.map(String) || []} // Chuyển đổi `number[]` thành `string[]`
               >
                 {metallicColors.map((color) => (
                   <option
@@ -438,8 +453,8 @@ const ApiEnd="http://localhost:8080"
               {existingImages.map((image) => (
                 <div key={image.id} className="relative">
                   <Image
-                    height={400}
                     width={400}
+                    height={400}
                     src={image.url}
                     alt={`Existing image ${image.id}`}
                     className="w-32 h-32 object-cover rounded-lg"
@@ -460,8 +475,8 @@ const ApiEnd="http://localhost:8080"
               {previews.map((preview, index) => (
                 <div key={index} className="relative">
                   <Image
-                    height={400}
                     width={400}
+                    height={400}
                     src={preview}
                     alt={`Preview ${index + 1}`}
                     className="w-32 h-32 object-cover rounded-lg"

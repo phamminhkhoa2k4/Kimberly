@@ -35,26 +35,26 @@ const JemmiaDetailPage: React.FC = () => {
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const ApiEnd = "http://localhost:8080";
+  const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
+  const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 
   useEffect(() => {
     if (id) {
       const fetchJemmiaDetails = async () => {
         try {
           setLoading(true);
-          const response = await axios.get(`${ApiEnd}/api/admin/jemmia/${id}`);
+          const response = await axios.get(`${ApiEnd}/admin/jemmia/${id}`);
           const jemmiaData = response.data;
 
           setJemmia(jemmiaData);
-          setImagePreview(`${ApiEnd}/image/id/${jemmiaData.image}`);
-          setThumbnailPreview(`${ApiEnd}/image/id/${jemmiaData.thumbnail}`);
+          setImagePreview(`${baseUrl}/image/id/${jemmiaData.image}`);
+          setThumbnailPreview(`${baseUrl}/image/id/${jemmiaData.thumbnail}`);
         } catch (err: any) {
           setError("Failed to fetch Jemmia details.");
         } finally {
           setLoading(false);
         }
       };
-
       fetchJemmiaDetails();
     }
   }, [id]);
@@ -98,7 +98,7 @@ const JemmiaDetailPage: React.FC = () => {
     data.append("isActive", JSON.stringify(jemmia.isActive));
 
     try {
-      await axios.put(`${ApiEnd}/api/admin/jemmia/${id}`, data, {
+      await axios.put(`${ApiEnd}/admin/jemmia/${id}`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -148,8 +148,8 @@ const JemmiaDetailPage: React.FC = () => {
           />
           {imagePreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={imagePreview}
               alt="Image Preview"
               className="mt-2 w-32 h-32 object-cover"
@@ -169,8 +169,8 @@ const JemmiaDetailPage: React.FC = () => {
           />
           {thumbnailPreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={thumbnailPreview}
               alt="Thumbnail Preview"
               className="mt-2 w-32 h-32 object-cover"

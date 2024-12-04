@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import Body from "@/components/Body";
 
 
@@ -23,12 +24,12 @@ interface Product {
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const ApiEnd="http://localhost:8080"
+    const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
 
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get(`${ApiEnd}/api/admin/products`);
+            const response = await axios.get(`${ApiEnd}/admin/products`);
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -37,7 +38,7 @@ const ProductList: React.FC = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`${ApiEnd}/api/admin/products/search`, {
+            const response = await axios.get(`${ApiEnd}/admin/products/search`, {
                 params: { name: searchTerm },
             });
             setProducts(response.data);
@@ -48,7 +49,7 @@ const ProductList: React.FC = () => {
 
     const handleDelete = async (id: number) => {
         try {
-            await axios.delete(`${ApiEnd}/api/admin/products/${id}`);
+            await axios.delete(`${ApiEnd}/admin/products/${id}`);
             fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);
@@ -57,12 +58,12 @@ const ProductList: React.FC = () => {
 
 
     useEffect(() => {
-        fetchProducts();
-    }, []);
+      fetchProducts();
+    }, [fetchProducts]);
 
     return (
       <Body>
-        <h1>Danh Sách Sản Phẩmt</h1>
+        <h1>Danh Sách Sản Phẩm</h1>
         <div>
           <input
             type="text"
@@ -99,7 +100,7 @@ const ProductList: React.FC = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>     
       </Body>
     );
 };

@@ -18,7 +18,7 @@ const CreateJemmiaPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const ApiEnd = "http://localhost:8080"; 
+  const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
 
   const handleFileChange = (
     file: File | null,
@@ -51,7 +51,7 @@ const CreateJemmiaPage: React.FC = () => {
     data.append("isActive", JSON.stringify(isActive));
 
     try {
-      const response = await axios.post(`${ApiEnd}/api/admin/jemmia`, data, {
+      const response = await axios.post(`${ApiEnd}/admin/jemmia`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -115,8 +115,8 @@ const CreateJemmiaPage: React.FC = () => {
           />
           {thumbnailPreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={thumbnailPreview}
               alt="Thumbnail Preview"
               className="mt-2 w-32 h-32 object-cover"
@@ -149,8 +149,8 @@ const CreateJemmiaPage: React.FC = () => {
           />
           {imagePreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={imagePreview}
               alt="Image Preview"
               className="mt-2 w-32 h-32 object-cover"

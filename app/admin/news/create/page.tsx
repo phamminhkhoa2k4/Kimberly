@@ -15,7 +15,7 @@ const CreateNewsPage: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-const ApiEnd="http://localhost:8080"
+  const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
   const handleFileChange = (
     file: File | null,
     setFile: React.Dispatch<React.SetStateAction<File | null>>,
@@ -92,8 +92,8 @@ const ApiEnd="http://localhost:8080"
           />
           {thumbnailPreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={thumbnailPreview}
               alt="Thumbnail Preview"
               className="mt-2 w-32 h-32 object-cover"
@@ -124,8 +124,8 @@ const ApiEnd="http://localhost:8080"
           />
           {imagePreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={imagePreview}
               alt="Image Preview"
               className="mt-2 w-32 h-32 object-cover"

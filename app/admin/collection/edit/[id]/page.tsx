@@ -31,7 +31,7 @@ const EditCollectionPage: React.FC = () => {
   const [banner, setBanner] = useState<File | null>(null);
   const [avatar, setAvatar] = useState<File | null>(null);
   const [isActive, setIsActive] = useState(false);
-  
+
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -43,34 +43,38 @@ const EditCollectionPage: React.FC = () => {
   // Product Search Modal States
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [productSearchQuery, setProductSearchQuery] = useState("");
-  const [productSearchResults, setProductSearchResults] = useState<Product[]>([]);
+  const [productSearchResults, setProductSearchResults] = useState<Product[]>(
+    []
+  );
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
-  const ApiEnd = "http://localhost:8080";
+  const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
 
-  // Function to load image from API
-  const loadImageFromApi = async (imageId: number): Promise<string> => {
-    try {
-      const response = await axios.get(`${ApiEnd}/image/id/${imageId}`, {
-        responseType: 'blob'
-      });
-      return URL.createObjectURL(response.data);
-    } catch (err) {
-      console.error("Failed to load image", err);
-      return '';
-    }
-  };
+  const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 
   useEffect(() => {
+    const loadImageFromApi = async (imageId: number): Promise<string> => {
+      try {
+        const response = await axios.get(`${baseUrl}/image/id/${imageId}`, {
+          responseType: "blob",
+        });
+        return URL.createObjectURL(response.data);
+      } catch (err) {
+        console.error("Failed to load image", err);
+        return "";
+      }
+    };
     const fetchCollection = async () => {
       try {
-        const response = await axios.get(`${ApiEnd}/api/admin/collections/${collectionId}`);
+        const response = await axios.get(
+          `${ApiEnd}/admin/collections/${collectionId}`
+        );
         const collection = response.data;
-        
+
         setName(collection.name);
         setDescription(collection.description || "");
         setIsActive(collection.isActive);
-        
+
         // Set image IDs
         if (collection.image) {
           setImageId(collection.image);
@@ -87,7 +91,7 @@ const EditCollectionPage: React.FC = () => {
           const avatarUrl = await loadImageFromApi(collection.avatar);
           setAvatarPreview(avatarUrl);
         }
-        
+
         // Fetch and set selected products
         if (collection.products) {
           setSelectedProducts(collection.products);
@@ -101,7 +105,7 @@ const EditCollectionPage: React.FC = () => {
     if (collectionId !== "new") {
       fetchCollection();
     }
-  }, [collectionId]);
+  }, [collectionId, ApiEnd]);
 
   const handleFileChange = (
     file: File | null,
@@ -119,8 +123,8 @@ const EditCollectionPage: React.FC = () => {
 
   const handleSearchProducts = async () => {
     try {
-      const response = await axios.get(`${ApiEnd}/api/admin/products/search`, {
-        params: { name: productSearchQuery }
+      const response = await axios.get(`${ApiEnd}/admin/products/search`, {
+        params: { name: productSearchQuery },
       });
       setProductSearchResults(response.data);
     } catch (err) {
@@ -129,14 +133,15 @@ const EditCollectionPage: React.FC = () => {
   };
 
   const handleAddProduct = (product: Product) => {
-    // Check if product is already selected
-    if (!selectedProducts.some(p => p.productId === product.productId)) {
+    if (!selectedProducts.some((p) => p.productId === product.productId)) {
       setSelectedProducts([...selectedProducts, product]);
     }
   };
 
   const handleRemoveProduct = (productId: number) => {
-    setSelectedProducts(selectedProducts.filter(p => p.productId !== productId));
+    setSelectedProducts(
+      selectedProducts.filter((p) => p.productId !== productId)
+    );
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -148,7 +153,7 @@ const EditCollectionPage: React.FC = () => {
     if (image) data.append("image", image);
     if (banner) data.append("banner", banner);
     if (avatar) data.append("avatar", avatar);
-    
+
     // Add product IDs
     selectedProducts.forEach((product) => {
       data.append(`productId`, product.productId.toString());
@@ -158,17 +163,17 @@ const EditCollectionPage: React.FC = () => {
 
     try {
       if (collectionId === "new") {
-        await axios.post(`${ApiEnd}/api/admin/collections`, data, {
+        await axios.post(`${ApiEnd}/admin/collections`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("Collection created successfully!");
       } else {
-        await axios.put(`${ApiEnd}/api/admin/collections/${collectionId}`, data, {
+        await axios.put(`${ApiEnd}/admin/collections/${collectionId}`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("Collection updated successfully!");
       }
-      
+
       router.push("/collections");
     } catch (err: any) {
       alert("Failed to save collection.");
@@ -219,8 +224,8 @@ const EditCollectionPage: React.FC = () => {
           />
           {imagePreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={imagePreview}
               alt="Collection Image Preview"
               className="mt-2 w-32 h-32 object-cover"
@@ -244,8 +249,8 @@ const EditCollectionPage: React.FC = () => {
           />
           {bannerPreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={bannerPreview}
               alt="Banner Preview"
               className="mt-2 w-32 h-32 object-cover"
@@ -269,8 +274,8 @@ const EditCollectionPage: React.FC = () => {
           />
           {avatarPreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={avatarPreview}
               alt="Avatar Preview"
               className="mt-2 w-32 h-32 object-cover"

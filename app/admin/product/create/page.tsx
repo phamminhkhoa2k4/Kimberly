@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { cn } from "@/lib/utils";
 import Image from 'next/image';
+import Body from '@/components/Body';
 
 interface ProductFormData {
   productName: string;
@@ -56,7 +57,7 @@ const CreateProduct: React.FC = () => {
   const [metallicColors, setMetallicColors] = useState<MetallicColor[]>([]);
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [ringBelts, setRingBelts] = useState<RingBelt[]>([]);
-  const ApiEnd="http://localhost:8080"
+  const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
   useEffect(() => {
     const fetchDropdownOptions = async () => {
       try {
@@ -65,13 +66,13 @@ const CreateProduct: React.FC = () => {
           materialsRes,
           metallicColorsRes,
           shapesRes,
-          ringBeltsRes
+          ringBeltsRes,
         ] = await Promise.all([
-          axios.get(`${ApiEnd}/api/product/category`),
-          axios.get(`${ApiEnd}/api/product/material`),
-          axios.get(`${ApiEnd}/api/product/metallicColors`),
-          axios.get(`${ApiEnd}/api/product/shape`),
-          axios.get(`${ApiEnd}/api/product/ringbelt`)
+          axios.get(`${ApiEnd}/product/category`),
+          axios.get(`${ApiEnd}/product/material`),
+          axios.get(`${ApiEnd}/product/metallicColors`),
+          axios.get(`${ApiEnd}/product/shape`),
+          axios.get(`${ApiEnd}/product/ringbelt`),
         ]);
 
         setCategories(categoriesRes.data);
@@ -80,13 +81,13 @@ const CreateProduct: React.FC = () => {
         setShapes(shapesRes.data);
         setRingBelts(ringBeltsRes.data);
       } catch (err) {
-        console.error('Error fetching dropdown options:', err);
-        setError('Failed to load dropdown options');
+        console.error("Error fetching dropdown options:", err);
+        setError("Failed to load dropdown options");
       }
     };
 
     fetchDropdownOptions();
-  }, []);
+  }, [ApiEnd]);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -137,9 +138,9 @@ const CreateProduct: React.FC = () => {
     });
 
     try {
-      const response = await axios.post(`http://localhost:8080/api/admin/products`, formData, {
+      const response = await axios.post(`${ApiEnd}/admin/products`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
       setMessage('Product created successfully!');
@@ -153,7 +154,7 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4">
+    <Body>
       <h1 className="text-2xl font-bold mb-6">Create Product</h1>
 
       {message && <p className="text-green-600 mb-4">{message}</p>}
@@ -177,7 +178,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn danh mục</option>
-                {categories?.map((category) => (
+                {categories.map((category) => (
                   <option key={category.categoryId} value={category.categoryId}>
                     {category.categoryName}
                   </option>
@@ -197,36 +198,34 @@ const CreateProduct: React.FC = () => {
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block mb-2">Màu kim loại:</label>
-          <Controller
-            name="metallicColorIds"
-            control={control}
-            render={({ field }) => (
-              <select
-                {...field}
-                multiple
-                className="w-full border rounded p-2"
-                onChange={(e) => {
-                  const values = Array.from(e.target.selectedOptions)?.map(
-                    (option) => Number(option.value)
-                  );
-                  field.onChange(values);
-                }}
-                value={field.value?.map((val) => String(val))}
-              >
-                {metallicColors?.map((color) => (
-                  <option
-                    key={color.metallicColorId}
-                    value={color.metallicColorId}
-                  >
-                    {color.colorName}
-                  </option>
-                ))}
-              </select>
-            )}
-          />
-        </div>
+        <Controller
+          name="metallicColorIds"
+          control={control}
+          defaultValue={[]}
+          render={({ field }) => (
+            <select
+              {...field}
+              multiple
+              className="w-full border rounded p-2"
+              onChange={(e) => {
+                const values = Array.from(e.target.selectedOptions).map(
+                  (option) => Number(option.value)
+                );
+                field.onChange(values);
+              }}
+              value={field.value?.map((val) => String(val)) || []}
+            >
+              {metallicColors.map((color) => (
+                <option
+                  key={color.metallicColorId}
+                  value={color.metallicColorId}
+                >
+                  {color.colorName}
+                </option>
+              ))}
+            </select>
+          )}
+        />
 
         <div className="mb-4">
           <label className="block mb-2">Chất Liệu:</label>
@@ -236,7 +235,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn chất liệu</option>
-                {materials?.map((material) => (
+                {materials.map((material) => (
                   <option key={material.materialId} value={material.materialId}>
                     {material.materialName}
                   </option>
@@ -254,7 +253,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn đai nhẫn</option>
-                {ringBelts?.map((belt) => (
+                {ringBelts.map((belt) => (
                   <option key={belt.ringBeltId} value={belt.ringBeltId}>
                     {belt.beltType}
                   </option>
@@ -272,7 +271,7 @@ const CreateProduct: React.FC = () => {
             render={({ field }) => (
               <select {...field} className="w-full border rounded p-2">
                 <option value="">Chọn hình dạng</option>
-                {shapes?.map((shape) => (
+                {shapes.map((shape) => (
                   <option key={shape.shapeId} value={shape.shapeId}>
                     {shape.shapeName}
                   </option>
@@ -302,11 +301,11 @@ const CreateProduct: React.FC = () => {
           />
           {previews.length > 0 && (
             <div className="flex flex-wrap gap-4">
-              {previews?.map((preview, index) => (
+              {previews.map((preview, index) => (
                 <div key={index} className="relative">
                   <Image
-                    height={400}
                     width={400}
+                    height={400}
                     src={preview}
                     alt={`Preview ${index + 1}`}
                     className="w-32 h-32 object-cover rounded-lg"
@@ -360,7 +359,7 @@ const CreateProduct: React.FC = () => {
           Tạo Sản Phẩm
         </button>
       </form>
-    </div>
+    </Body>
   );
 };
 

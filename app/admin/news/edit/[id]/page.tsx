@@ -32,29 +32,29 @@ const NewsDetailPage: React.FC = () => {
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-const ApiEnd="http://localhost:8080"
+const ApiEnd = process.env.NEXT_PUBLIC_API_URL;
+const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   useEffect(() => {
     if (id) {
-      const fetchNewsDetails = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.get(`${ApiEnd}/api/admin/news/${id}`);
-          const newsData = response.data;
-
-          setNews(newsData);
-          setImagePreview(`${ApiEnd}/image/id/${newsData.image}`);
-          setThumbnailPreview(`${ApiEnd}/image/id/${newsData.thumbnail}`);
-        } catch (err: any) {
-          setError("Failed to fetch news details.");
-        } finally {
-          setLoading(false);
-        }
-      };
       fetchNewsDetails();
     }
   }, [id]);
 
-  
+  const fetchNewsDetails = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${ApiEnd}/admin/news/${id}`);
+      const newsData = response.data;
+
+      setNews(newsData);
+      setImagePreview(`${baseUrl}/image/id/${newsData.image}`);
+      setThumbnailPreview(`${baseUrl}/image/id/${newsData.thumbnail}`);
+    } catch (err: any) {
+      setError("Failed to fetch news details.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -91,7 +91,7 @@ const ApiEnd="http://localhost:8080"
     data.append("isActive", JSON.stringify(news.isActive));
 
     try {
-      await axios.put(`${ApiEnd}/api/admin/news/${id}`, data, {
+      await axios.put(`${ApiEnd}/admin/news/${id}`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -139,8 +139,8 @@ const ApiEnd="http://localhost:8080"
           />
           {imagePreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={imagePreview}
               alt="Image Preview"
               className="mt-2 w-32 h-32 object-cover"
@@ -159,8 +159,8 @@ const ApiEnd="http://localhost:8080"
           />
           {thumbnailPreview && (
             <Image
-              height={400}
               width={400}
+              height={400}
               src={thumbnailPreview}
               alt="Thumbnail Preview"
               className="mt-2 w-32 h-32 object-cover"
