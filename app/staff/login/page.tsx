@@ -25,8 +25,8 @@ const handleLogin = async (e: React.FormEvent) => {
       const data = await response.json();
       Cookies.set("authToken", data.token, {
         expires: 1,
-        secure: true,
-        sameSite: "strict",
+        sameSite: "lax",
+        secure: false, 
       });
 
       router.push("/admin/product"); 

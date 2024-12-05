@@ -33,7 +33,7 @@ import { Product } from "@/types/product";
 const Header = () => {
   const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   const { isNavigating } = useNavigation();
-  const [query,setQuery] = useState<string>();
+  const [query, setQuery] = useState<string>();
   const [result, setResult] = useState<Product[]>();
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
@@ -55,11 +55,8 @@ const Header = () => {
 
   useEffect(() => {
     setIsOpenMenu(false);
-    console.log("sssss",isNavigating);
-    
+    console.log("sssss", isNavigating);
   }, [isNavigating]);
-
-
 
   const fetchSearch = useMemo(
     () =>
@@ -72,7 +69,7 @@ const Header = () => {
           );
         }
       }, 500),
-    [] 
+    []
   );
 
   useEffect(() => {
@@ -122,7 +119,7 @@ const Header = () => {
               >
                 <CiLocationOn className="h-6 w-6" />
               </Link>
-              <Link href="tel:+84939 843 366">
+              <Link href="tel:+84703 919 999">
                 <TfiHeadphoneAlt className="h-5 w-5" />
               </Link>
             </div>
@@ -186,9 +183,9 @@ const Header = () => {
                     </div>
 
                     <div className="flex flex-col items-center ">
-                      {result?.slice(0, 4).map((re,index) => (
+                      {result?.slice(0, 4).map((re, index) => (
                         <Link
-                        key={index}
+                          key={index}
                           href={`/product/${re.productId}`}
                           className="border-b flex w-[390px]  lg:px-0 px-5 lg:w-[400px] items-center py-5 gap-5"
                         >
@@ -199,7 +196,7 @@ const Header = () => {
                             width={100}
                             height={116}
                             alt=""
-                            className="object-cover w-[50px] lg:w-[60px]  object-center"
+                            className="object-cover w-[50px] lg:w-[60px] rounded-lg object-center"
                           />
                           <div className=" ">
                             <div className="group ">
@@ -211,9 +208,12 @@ const Header = () => {
                               </p> */}
                             </div>
                             <p className="flex items-center gap-2">
-                              <span className="text-sm font-bold">
-                                {re.price} <span>VND</span>
-                              </span>
+                              {re.price > 0 && (
+                                <span className="text-sm font-bold">
+                                  {re.price} <span>VND</span>
+                                </span>
+                              )}
+
                               {/* <span className="text-sm font-semibold text-neutral-500 line-through ">
                                 444,545,400<span>VND</span>
                               </span> */}
@@ -269,8 +269,12 @@ const Header = () => {
                       />
                     </div>
                     <div className="flex flex-col items-center ">
-                      {result?.slice(0, 4).map((re,index) => (
-                        <Link key={index} href={`/product/${re.productId}`} className="border-b flex w-[400px] items-center py-5 gap-5">
+                      {result?.slice(0, 4).map((re, index) => (
+                        <Link
+                          key={index}
+                          href={`/product/${re.productId}`}
+                          className="border-b flex w-[400px] items-center py-5 gap-5"
+                        >
                           <Image
                             src={`${baseUrl}/image/id/${
                               (re.images as string).split(",")[0]
@@ -278,7 +282,7 @@ const Header = () => {
                             width={100}
                             height={116}
                             alt=""
-                            className="object-cover w-[60px]  object-center"
+                            className="object-cover w-[60px] rounded-lg object-center"
                           />
                           <div className=" ">
                             <div className="group ">
@@ -290,10 +294,13 @@ const Header = () => {
                             </p> */}
                             </div>
                             <p className="flex items-center gap-2">
-                              <span className="text-sm font-bold">
-                                {re.price}
-                                <span>VND</span>
-                              </span>
+                              {re.price > 0 && (
+                                <span className="text-sm font-bold">
+                                  {re.price}
+                                  <span>VND</span>
+                                </span>
+                              )}
+
                               {/* <span className="text-sm font-semibold text-neutral-500 line-through ">
                               444,545,400<span>VND</span>
                             </span> */}

@@ -7,6 +7,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Filter from "@/components/Filter";
 import Just from "@/components/Just";
 import ProductBanner from "@/components/productBanner";
+import { calculateFilters } from "@/constans/calculateFilters";
 import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
 import { Product } from "@/types/product";
 import { useState } from "react";
@@ -14,8 +15,9 @@ import { useState } from "react";
 
 
 const WeddingRing = () => {
-  const [rings, setRings] = useState<Product[]>();
+  const [rings, setRings] = useState<Product[]>([]);
   const { products } = useLocalStorageProducts("products");
+  const filters = calculateFilters(rings);
   return (
     <>
       <Body>
@@ -28,9 +30,9 @@ const WeddingRing = () => {
         />
         <Filter
           rings={rings || []}
-          isColor={true}
-          isMaterial={true}
-          isPrice={true}
+          isColor={filters.isColor}
+          isMaterial={filters.isMaterial}
+          isPrice={filters.isPrice}
           isGender={true}
           setRings={setRings}
           categoryName={"Nhẫn Cưới"}

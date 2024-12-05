@@ -83,7 +83,10 @@ const Relative = ({ products }: Props) => {
                 }`}
             >
               {visibleProducts.map((product) => (
-                <Link key={product.productId} href={`/product/${product.productId}`}>
+                <Link
+                  key={product.productId}
+                  href={`/product/${product.productId}`}
+                >
                   {" "}
                   <div
                     key={product.productId}
@@ -144,7 +147,7 @@ const Relative = ({ products }: Props) => {
                         </span>
                       </div>
                       <div className="text-xs py-2 font-semibold transform transition-all hover:scale-105">
-                        {product.price}
+                        {product.price > 0 ? product.price : ""}
                       </div>
                     </div>
                   </div>
@@ -157,7 +160,10 @@ const Relative = ({ products }: Props) => {
           <div className="text-lg font-bold my-5">Bạn Có Thể Thích</div>
           <div className="w-full overflow-x-auto flex ">
             {products.map((product) => (
-              <Link key={product.productId} href={`/product/${product.productId}`}>
+              <Link
+                key={product.productId}
+                href={`/product/${product.productId}`}
+              >
                 <div
                   className={`flex flex-col transform transition-all duration-500
                     ${
@@ -167,7 +173,7 @@ const Relative = ({ products }: Props) => {
                     }
                     hover:shadow-lg hover:-translate-y-1 rounded-lg p-2`}
                 >
-                  <div className="overflow-hidden rounded-lg">
+                  <div className="overflow-hidden rounded-lg w-[200px]">
                     <Image
                       src={`${baseUrl}/image/id/${
                         (product.images as string).split(",")[0]
@@ -175,7 +181,7 @@ const Relative = ({ products }: Props) => {
                       alt=""
                       height={480}
                       width={480}
-                      className="aspect-square object-cover rounded-lg object-center transition-transform duration-300 hover:scale-110"
+                      className="aspect-square w-full h-full  object-cover rounded-lg object-center transition-transform duration-300 hover:scale-110"
                     />
                   </div>
                   <div className="flex flex-col">
@@ -215,8 +221,8 @@ const Relative = ({ products }: Props) => {
                         {product.productName}
                       </span>
                     </div>
-                    <div className="text-xs py-2 text-red-500 font-semibold transform transition-all hover:scale-105">
-                      {product.price}
+                    <div className="text-xs py-2  font-semibold transform transition-all hover:scale-105">
+                      {product.price > 0 ? product.price : ""}
                     </div>
                   </div>
                 </div>

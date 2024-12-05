@@ -81,10 +81,14 @@ const ProductDetail = ({ product }: Props) => {
                 scrollY >= 800 ? "lg:absolute lg:top-[400px] w-full " : ""
               )}
             >
-              <div className="flex items-start gap-2 text-4xl  font-bold">
+              <div className="flex items-start gap-2 text-2xl lg:text-4xl  font-bold">
                 {product?.productName}
               </div>
-              <div className="text-xl font-bold my-5">{product?.price} VND</div>
+              {product?.price > 0 && (
+                <div className="text-xl font-semibold my-5">
+                  {product?.price} VND
+                </div>
+              )}
               {product?.isIncludeMasterDiamond && (
                 <p className="text-sm font-medium py-3 text-[#20475d]">
                   Giá trên là giá vỏ trang sức chưa bao gồm viên chủ.
@@ -222,49 +226,49 @@ const ProductDetail = ({ product }: Props) => {
                   </div>
                 </>
               )}
-              <div className="flex flex-col gap-5 mt-5">
-                <p className="text-center">
+              <div className="flex flex-col gap-5 mt-5 ">
+                <p className="text-center lg:text-base text-sm">
                   Gọi ngay{" "}
                   <span className="font-bold  underline text-[#20475d]">
                     0346 919 999
                   </span>{" "}
                   để được hỗ trợ nhanh.
                 </p>
-                <div className="grid grid-cols-2 gap-5">
+                <div className="grid grid-cols-2 gap-1 gap-y-5 justify-center items-center lg:gap-5 -mr-10 lg:mx-0">
                   <div className="flex items-center gap-1">
-                    <SlRefresh className="h-7 w-7" />
-                    <span className="text-base  text-nowrap">
-                      Thu mua, thu đổi dễ dàng
+                    <SlRefresh className="lg:h-7 lg:w-7" />
+                    <span className="text-xs lg:text-base  text-nowrap">
+                      Thu mua,thu đổi dễ dàng
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <PiSealCheckLight className="h-7 w-7" />
-                    <span className="text-base text-nowrap">
+                    <PiSealCheckLight className="lg:h-7 lg:w-7" />
+                    <span className="text-xs lg:text-base text-nowrap">
                       Bảo hành trọn đời
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <LiaShuttleVanSolid className="h-7 w-7" />
-                    <span className="text-base text-nowrap">
+                    <LiaShuttleVanSolid className="lg:h-7 lg:w-7" />
+                    <span className="text-xs lg:text-base text-nowrap">
                       Hỗ trợ giao trong ngày
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <GiChisel className="h-7 w-7" />
-                    <span className="text-base text-nowrap">
+                    <GiChisel className="lg:h-7 lg:w-7" />
+                    <span className="text-xs lg:text-base text-nowrap">
                       Miễn phí khắc nhẫn
                     </span>
                   </div>
                 </div>
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1" className="border-b py-2">
-                    <AccordionTrigger className="font-medium text-base">
+                    <AccordionTrigger className="font-medium text-sm lg:text-base">
                       Chi tiết sản phẩm
                     </AccordionTrigger>
                     <AccordionContent></AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-2" className="border-b py-2">
-                    <AccordionTrigger className="font-medium text-base">
+                    <AccordionTrigger className="font-medium text-sm lg:text-base">
                       Khám phá chất lượng kim cương Kimberly
                     </AccordionTrigger>
                     <AccordionContent>
@@ -292,7 +296,7 @@ const ProductDetail = ({ product }: Props) => {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-3" className="border-b py-2">
-                    <AccordionTrigger className="font-medium text-base">
+                    <AccordionTrigger className="font-medium text-sm lg:text-base">
                       Câu hỏi thường gặp
                     </AccordionTrigger>
                     <AccordionContent>

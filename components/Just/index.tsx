@@ -140,7 +140,7 @@ const Just = ({ products }: Props) => {
                         </span>
                       </div>
                       <div className="text-xs py-2  font-semibold transform transition-all hover:scale-105">
-                        {product?.price}
+                        {product?.price > 0 ? product?.price : ""}
                       </div>
                     </div>
                   </div>
@@ -162,7 +162,7 @@ const Just = ({ products }: Props) => {
                         ? "scale-95 opacity-0"
                         : "scale-100 opacity-100"
                     }
-                    hover:shadow-lg hover:-translate-y-1 rounded-lg p-2`}
+                    hover:shadow-lg hover:-translate-y-1 w-[200px] rounded-lg p-2`}
                 >
                   <div className="overflow-hidden rounded-lg">
                     <Image
@@ -172,7 +172,7 @@ const Just = ({ products }: Props) => {
                       alt=""
                       height={480}
                       width={480}
-                      className="aspect-square object-cover rounded-lg object-center transition-transform duration-300 hover:scale-110"
+                      className="aspect-square h-full w-full object-cover rounded-lg object-center transition-transform duration-300 hover:scale-110"
                     />
                   </div>
                   <div className="flex flex-col">

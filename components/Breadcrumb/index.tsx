@@ -13,7 +13,7 @@ const Breadcrumb = ({ breadcrumbs }: Props) => {
           <IoHomeOutline className="hover:scale-110 text-[#20475d] h-4 w-4 lg:h-5 lg:w-5" />
         </Link>
         {breadcrumbs.map((breadcrumb, index) => (
-          <div key={index}>
+          <div className="flex items-center lg:gap-2 gap-1" key={index}>
             <IoIosArrowForward className="lg:w-5 lg:h-5 h-4 w-4" />
             <Link
               href={breadcrumb.url!}

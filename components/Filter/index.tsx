@@ -118,7 +118,7 @@ const Filter = ({
     const fetchData = async () => {
       try {
         const rings = await getData({
-          endpoint: `http://localhost:8080/api/product/filter?${queryString}`,
+          endpoint: `/product/filter?${queryString}`,
         });
         setRings(rings);
       } catch (error) {
