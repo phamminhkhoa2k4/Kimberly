@@ -10,7 +10,7 @@ const Discovery = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      await getData({ endpoint: "/api/admin/news" }).then((data) => {
+      await getData({ endpoint: "/admin/news" }).then((data) => {
         setEvents(data);
       });
     };

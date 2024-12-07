@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 type Props = {
   product: Product;
 };
@@ -229,9 +230,12 @@ const ProductDetail = ({ product }: Props) => {
               <div className="flex flex-col gap-5 mt-5 ">
                 <p className="text-center lg:text-base text-sm">
                   Gọi ngay{" "}
-                  <span className="font-bold  underline text-[#20475d]">
+                  <Link
+                    href={"tel:+84346 919 999"}
+                    className="font-bold  underline text-[#20475d]"
+                  >
                     0346 919 999
-                  </span>{" "}
+                  </Link>{" "}
                   để được hỗ trợ nhanh.
                 </p>
                 <div className="grid grid-cols-2 gap-1 gap-y-5 justify-center items-center lg:gap-5 -mr-10 lg:mx-0">
@@ -307,9 +311,9 @@ const ProductDetail = ({ product }: Props) => {
                         </strong>
                         <p>
                           Quý khách hàng vui lòng liên hệ với tư vấn viên trong
-                          vòng 24 GIỜ kể từ khi nhận sản phẩm, Jemmia sẽ hỗ trợ
-                          đổi hàng hoàn toàn miễn phí trong trường hợp sản phẩm
-                          bị lỗi do sản xuất.
+                          vòng 24 GIỜ kể từ khi nhận sản phẩm, Kimberly sẽ hỗ
+                          trợ đổi hàng hoàn toàn miễn phí trong trường hợp sản
+                          phẩm bị lỗi do sản xuất.
                         </p>
                       </div>
                       <div className="my-5">
@@ -321,7 +325,7 @@ const ProductDetail = ({ product }: Props) => {
                           Kimberly sẽ gửi tặng bộ đo ni tay đến tận nơi của Quý
                           khách hoàn toàn miễn phí. Bạn chỉ cần chọn ni nhẫn phù
                           hợp và thông báo với tư vấn viên của chúng tôi. Ngoài
-                          ra, Jemmia hỗ trợ điều chỉnh size nhẫn miễn phí trọn
+                          ra, Kimberly hỗ trợ điều chỉnh size nhẫn miễn phí trọn
                           đời trong trường hợp bạn muốn thay đổi.
                         </p>
                       </div>
