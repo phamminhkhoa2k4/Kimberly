@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 const CollectionStella = () => {
   const [collection, setCollection] = useState<Collection>();
   const { products } = useLocalStorageProducts("products");
+  const [count,setCount] = useState<number>(1);
 
   useEffect(() => {
     const fetch = async () => {
@@ -39,7 +40,7 @@ const CollectionStella = () => {
           imageUrlMobile="/Banner/banner-bracelet-mobile.png"
         />
         <div className="my-20"/>
-        <ProductBanner rings={Array.from(collection?.products || [])} />
+        <ProductBanner rings={Array.from(collection?.products || [])} setCount={setCount} count={count}/>
         {products.length > 0 && <Just products={products} />}
         <LastBanner />
       </Body>
