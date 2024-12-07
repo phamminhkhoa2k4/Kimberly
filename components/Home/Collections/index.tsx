@@ -17,7 +17,7 @@ const Collections  = () => {
               />
               <div className="flex items-center flex-col justify-center gap-3 mt-5 ">
                 <div className="text-base font-medium tracking-wider ">
-                  Bộ Sưu Tập Stella
+                  Bộ Sưu Tập 
                 </div>
                 <Link href={"#"} className="flex items-center gap-1 group">
                   Xem Chi Tiết{" "}
@@ -35,7 +35,7 @@ const Collections  = () => {
               />
               <div className="flex items-center flex-col justify-center gap-3 mt-5 ">
                 <div className="text-base font-medium tracking-wider ">
-                  Bộ Sưu Tập Stella
+                  Bộ Sưu Tập
                 </div>
                 <Link href={"#"} className="flex items-center gap-1 group">
                   Xem Chi Tiết{" "}

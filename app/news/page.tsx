@@ -50,7 +50,7 @@ const NewsPage = () => {
         </section>
         <Tab events={events} promotions={promotions!}/>
 
-        {events.length > 1 && (
+        {events?.length > 1 && (
           <div className="my-5 flex justify-center">
             <button className="border rounded-md py-3 px-6 font-medium">
               Xem Thêm

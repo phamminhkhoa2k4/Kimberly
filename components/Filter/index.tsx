@@ -23,6 +23,7 @@ type Props = {
   rings?: Product[];
   setRings: (value: Product[]) => void;
   categoryName: string;
+  count?:number;
 };
 
 const Filter = ({
@@ -33,6 +34,8 @@ const Filter = ({
   isPrice = false,
   setRings,
   categoryName,
+  rings,
+  count
 }: Props) => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [jewelryType, setJewelryType] = useState<string[]>([]);
@@ -129,12 +132,18 @@ const Filter = ({
     fetchData();
   }, [queryString, setRings]);
 
+  const [products,setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    setProducts(rings?.slice(0, 24 * count!)!);
+  }, [rings, count]);
   return (
     <section className="lg:mx-auto lg:w-3/4 mx-5 my-5">
-      <div className="text-sm text-neutral-500 py-3">Hiển Thị 24 Trên 352</div>
+      <div className="text-sm text-neutral-500 py-3">
+        Hiển Thị {products?.length} Trên {rings?.length}
+      </div>
       <div className="flex items-center justify-between ">
         {/* Bộ lọc */}
-        <div className="lg:flex items-center w-2/4 justify-between hidden">
+        <div className="lg:flex items-center w-2/4 justify-start gap-5 hidden">
           <div className="flex items-center gap-1">
             <CiFilter className="h-5 w-5" />
             <span className="text-sm text-nowrap">Lọc Theo :</span>

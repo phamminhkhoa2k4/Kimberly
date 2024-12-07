@@ -1,25 +1,22 @@
-import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export function useNavigation() {
   const pathname = usePathname();
-  const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
-  const [previousPathname, setPreviousPathname] = useState(pathname);
 
   useEffect(() => {
-    if (pathname !== previousPathname) {
-      setIsNavigating(true);
-      const timer = setTimeout(() => {
-        setIsNavigating(false);
-      }, 300);
-
-      return () => clearTimeout(timer);
+    console.log("kakak",pathname);
+    
+    if (pathname == "/") {
+      setIsNavigating((prev) => !prev);
     }
 
-    setIsNavigating(false);
-    setPreviousPathname(pathname);
-  }, [pathname, previousPathname]);
+     if (pathname !== "/") {
+       setIsNavigating((prev) => !prev);
+     }
+    setIsNavigating((prev) => !prev);
+  }, [pathname]);
 
   return { isNavigating };
 }

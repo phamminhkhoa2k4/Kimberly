@@ -52,12 +52,12 @@ const Tab = ({events, promotions} : Props) => {
             </TabsTrigger> */}
           </TabsList>
           <TabsContent value="promotion">
-            {promotions.length === 0 && (
+            {promotions?.length === 0 && (
               <div className="text-center py-40 text-xl font-bold text-[#20475d]">
                 Chưa Có Khuyến Mãi Nào !!!
               </div>
             )}
-            {promotions.length > 0 && (
+            {promotions?.length > 0 && (
               <div
                 className={cn(
                   "flex lg:flex-row flex-col items-center gap-5 justify-between my-5",
@@ -132,23 +132,23 @@ const Tab = ({events, promotions} : Props) => {
             )}
           </TabsContent>
           <TabsContent value="event">
-            {events.length === 0 && (
+            {events?.length === 0 && (
               <div className="text-center py-40 text-xl font-bold text-[#20475d]">
                 Chưa Có Sự Kiện Nào !!!
               </div>
             )}
-            {events.length > 1 && (
+            {events?.length > 1 && (
               <div
                 className={cn(
                   "flex lg:flex-row flex-col items-center gap-5 justify-between my-5",
-                  events.length === 1 ? "lg:flex-col gap-0" : ""
+                  events?.length === 1 ? "lg:flex-col gap-0" : ""
                 )}
               >
                 <Link
                   href={`/news/${events[0]?.newsId}`}
                   className={cn(
                     "lg:w-1/2 relative h-[600px]",
-                    events.length === 1 ? "lg:w-full" : ""
+                    events?.length === 1 ? "lg:w-full" : ""
                   )}
                 >
                   <Image

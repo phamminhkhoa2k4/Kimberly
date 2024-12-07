@@ -15,6 +15,7 @@ const DiamondBraceletBangle= () => {
   const [rings, setRings] = useState<Product[]>([]);
   const { products } = useLocalStorageProducts("products");
    const filters = calculateFilters(rings);
+   const [count, setCount] = useState<number>(1);
   
   return (
     <>
@@ -38,8 +39,9 @@ const DiamondBraceletBangle= () => {
           isPrice={filters.isPrice}
           setRings={setRings}
           categoryName={"Vòng Tay"}
+          count={count}
         />
-        <ProductBanner rings={rings ?? []} />
+        <ProductBanner rings={rings ?? []} setCount={setCount} count={count} />
         {products.length > 0 && <Just products={products} />}
         <LastBanner />
       </Body>

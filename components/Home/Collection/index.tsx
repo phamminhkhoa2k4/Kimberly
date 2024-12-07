@@ -94,9 +94,12 @@ const CollectionPage = () => {
                     </div>
                   </div>
                   <p className="flex items-center gap-2">
-                    <span className="flex text-xs font-medium">
-                      {pen.price} <span>VND</span>
-                    </span>
+                    {pen.price > 0 && (
+                      <span className="flex text-xs font-medium">
+                        {pen.price} <span>VND</span>
+                      </span>
+                    )}
+
                     {/* <span className="flex text-xs line-through opacity-60">
                       <span>29.750,000</span>
                       <span>VND</span>

@@ -7,6 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import { AiOutlineClose } from "react-icons/ai";
+import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 import {
   HoverCard,
@@ -30,6 +31,7 @@ import { cn } from "@/lib/utils";
 import { useNavigation } from "@/hooks/useNavigation";
 import { getData } from "@/utils/axios";
 import { Product } from "@/types/product";
+import { usePathname } from "next/navigation";
 const Header = () => {
   const baseUrl = process.env.BASE_URL || "http://localhost:8080";
   const { isNavigating } = useNavigation();
@@ -38,10 +40,12 @@ const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const pathname = usePathname();
   const handleScroll = debounce(() => {
     setScrollY(window.scrollY);
   }, 0);
 
+  const isMobileSmall = useMediaQuery({ query: "(min-width: 390px)" });
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -55,8 +59,10 @@ const Header = () => {
 
   useEffect(() => {
     setIsOpenMenu(false);
-    console.log("sssss", isNavigating);
-  }, [isNavigating]);
+    if (pathname === "/") {
+      setIsOpenMenu(false);
+    }
+  }, [isNavigating, pathname]);
 
   const fetchSearch = useMemo(
     () =>
@@ -89,14 +95,25 @@ const Header = () => {
             scrollY > 40 ? "hidden" : "flex"
           )}
         >
-          <div className="flex items-center gap-1">
+          <Link
+            href="https://www.google.com/maps?q=10.045279796211569, 105.78267762488404"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1"
+          >
+            {" "}
             <CiLocationOn className="h-5 w-5" />
             <div className="text-sm text-nowrap">Vị trí của chúng tôi</div>
-          </div>
-          <div className="flex items-center gap-3">
+          </Link>
+          <Link
+            href="https://www.google.com/maps?q=10.045279796211569, 105.78267762488404"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1"
+          >
             <TfiHeadphoneAlt className="h-4 w-4" />
             <div className="text-sm text-nowrap">Liên lạc với chúng tôi</div>
-          </div>
+          </Link>
         </div>
         <div className="mx-auto w-3/4 p-3 flex gap-4 flex-col">
           <div
@@ -158,7 +175,12 @@ const Header = () => {
                     />
                   )}
                 </PopoverTrigger>
-                <PopoverContent className="lg:mt-8 lg:mr-10 mt-5 relative  lg:min-w-full w-[390px] lg:w-full ">
+                <PopoverContent
+                  className={cn(
+                    "lg:mt-8 lg:mr-10 mt-5 relative  lg:min-w-full  w-[390px] lg:w-full",
+                    isMobileSmall ? "" : "w-[355px]"
+                  )}
+                >
                   <div className="absolute top-[6px] right-20">
                     <div className="relative">
                       {/* Shadow */}
@@ -326,13 +348,13 @@ const Header = () => {
           <nav className="hidden lg:flex  items-center justify-between">
             <Link
               href="/"
-              className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+              className="inline-block relative py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0"
             >
               Kimberly
             </Link>
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
-                <div className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
+                <div className="inline-block relative  py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0">
                   Trang Sức Kim Cương
                 </div>
               </HoverCardTrigger>
@@ -342,7 +364,7 @@ const Header = () => {
                     <HoverCardTrigger asChild>
                       <Link
                         href={"/diamond-ring"}
-                        className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                        className="inline-block relative mx-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0"
                       >
                         Nhẫn Kim Cương
                       </Link>
@@ -351,13 +373,13 @@ const Header = () => {
                       <div className="flex flex-col justify-center gap-2">
                         <Link
                           href={"/women-diamond-ring"}
-                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                          className="inline-block relative mx-2  py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0"
                         >
                           Nhẫn Kim Cương Nữ
                         </Link>
                         <Link
                           href={"/men-diamond-ring"}
-                          className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                          className="inline-block relative mx-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
                         >
                           Nhẫn Kim Cương Nam
                         </Link>
@@ -366,31 +388,31 @@ const Header = () => {
                   </HoverCard>
                   <Link
                     href={"/wedding-ring"}
-                    className="relative px-2 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                    className="inline-block relative mx-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
                   >
                     Nhẫn Cưới
                   </Link>
                   <Link
                     href={"/diamond-earring"}
-                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                    className="inline-block relative mx-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
                   >
                     Bông Tai Kim Cương
                   </Link>
                   <Link
                     href={"/diamond-pendant"}
-                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                    className="text-nowrap inline-block relative mx-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
                   >
                     Mặt Dây Chuyền Kim Cương
                   </Link>
                   <Link
                     href={"/diamond-bracelet-bangle"}
-                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                    className="inline-block relative mx-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
                   >
                     Lắc & Vòng Tay Kim Cương
                   </Link>
                   <Link
                     href={"/diamond-jewelry-set"}
-                    className="text-nowrap relative px-2 py-1 rounded-sm overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+                    className="inline-block relative mx-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[2px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
                   >
                     Bộ Trang Sức Kim Cương
                   </Link>
@@ -399,14 +421,14 @@ const Header = () => {
             </HoverCard>
             <Link
               href="/diamond"
-              className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+              className="inline-block relative px-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
             >
               Kim Cương Viên
             </Link>
 
             <HoverCard openDelay={20} closeDelay={100}>
               <HoverCardTrigger asChild>
-                <div className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out">
+                <div className="inline-block relative px-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 ">
                   Bộ Sưu Tập
                 </div>
               </HoverCardTrigger>
@@ -442,7 +464,7 @@ const Header = () => {
 
             <Link
               href="/news"
-              className="relative px-3 py-1 rounded-md overflow-hidden font-semibold text-[#20475d] no-underline z-10 before:absolute before:inset-0 before:bg-[#7d99b0] before:content-[''] before:scale-x-0 before:origin-right before:transition-transform before:duration-500 before:ease-in-out before:z-[-1] hover:before:scale-x-100 hover:before:origin-left hover:text-white transition-colors duration-500 ease-in-out"
+              className="inline-block relative px-2 py-1 text-black  no-underline after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:w-0 after:bg-[#20475d] after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0 "
             >
               Tin Tức
             </Link>

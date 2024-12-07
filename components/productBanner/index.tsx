@@ -1,18 +1,26 @@
 import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type Props = {
   rings: Product[];
+  setCount:(value : number) => void;
+  count : number;
 };
 
-const ProductBanner = ({ rings }: Props) => {
+const ProductBanner = ({ rings ,setCount ,count}: Props) => {
   const baseUrl = process.env.BASE_URL || "http://localhost:8080";
+  const [products,setProducts] = useState<Product[]>([])
+  useEffect(() => {
+    setProducts(rings.slice(0, 24 * count));
+  }, [rings, count]);
+
   return (
     <section className="lg:mx-auto lg:w-3/4 mx-5 ">
       <div className="grid grid-cols-2 lg:grid-cols-4  items-center gap-5 ">
-        {rings &&
-          rings.slice(0, 4).map((ring, index) => (
+        {products &&
+          products.slice(0, 4).map((ring, index) => (
             <Link key={ring.productId} href={`/product/${ring.productId}`}>
               <div key={index} className="flex flex-col  ">
                 <div className="overflow-hidden rounded-lg">
@@ -27,7 +35,7 @@ const ProductBanner = ({ rings }: Props) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  {rings && ring.metallicColor === "Vàng Chanh" && (
+                  {products && ring.metallicColor === "Vàng Chanh" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -40,7 +48,7 @@ const ProductBanner = ({ rings }: Props) => {
                       </span>
                     </div>
                   )}
-                  {rings && ring.metallicColor == "Vàng Trắng" && (
+                  {products && ring.metallicColor == "Vàng Trắng" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -53,7 +61,7 @@ const ProductBanner = ({ rings }: Props) => {
                       </span>
                     </div>
                   )}
-                  {rings && ring.metallicColor === "Vàng Hồng" && (
+                  {products && ring.metallicColor === "Vàng Hồng" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -79,7 +87,7 @@ const ProductBanner = ({ rings }: Props) => {
               </div>
             </Link>
           ))}
-        {rings && rings.length >= 8 && (
+        {products && products.length >= 8 && (
           <div className="col-span-2 row-span-2 -mx-5 lg:mx-0 overflow-hidden lg:rounded-lg">
             <Image
               src={"/Banner/product-banner-1.jpg"}
@@ -90,8 +98,8 @@ const ProductBanner = ({ rings }: Props) => {
             />
           </div>
         )}
-        {rings &&
-          rings.slice(4, 12).map((ring, index) => (
+        {products &&
+          products.slice(4, 12).map((ring, index) => (
             <Link key={ring.productId} href={`/product/${ring.productId}`}>
               <div key={index} className="flex flex-col  ">
                 <div className="overflow-hidden rounded-lg">
@@ -106,7 +114,7 @@ const ProductBanner = ({ rings }: Props) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  {rings && ring.metallicColor === "Vàng Chanh" && (
+                  {products && ring.metallicColor === "Vàng Chanh" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -119,7 +127,7 @@ const ProductBanner = ({ rings }: Props) => {
                       </span>
                     </div>
                   )}
-                  {rings && ring.metallicColor == "Vàng Trắng" && (
+                  {products && ring.metallicColor == "Vàng Trắng" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -132,7 +140,7 @@ const ProductBanner = ({ rings }: Props) => {
                       </span>
                     </div>
                   )}
-                  {rings && ring.metallicColor === "Vàng Hồng" && (
+                  {products && ring.metallicColor === "Vàng Hồng" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -158,7 +166,7 @@ const ProductBanner = ({ rings }: Props) => {
               </div>
             </Link>
           ))}
-        {rings && rings.length >= 12 && (
+        {products && products.length >= 12 && (
           <div className="col-span-2 lg:col-start-3 lg:row-start-5 row-span-2 -mx-5 lg:mx-0 overflow-hidden lg:rounded-lg">
             <Image
               src={"/Banner/product-banner-1.jpg"}
@@ -169,8 +177,8 @@ const ProductBanner = ({ rings }: Props) => {
             />
           </div>
         )}
-        {rings &&
-          rings.slice(12, rings.length).map((ring, index) => (
+        {products &&
+          products.slice(12, products.length).map((ring, index) => (
             <Link key={ring.productId} href={`/product/${ring.productId}`}>
               <div key={index} className="flex flex-col  ">
                 <div className="overflow-hidden rounded-lg">
@@ -185,7 +193,7 @@ const ProductBanner = ({ rings }: Props) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  {rings && ring.metallicColor === "Vàng Chanh" && (
+                  {products && ring.metallicColor === "Vàng Chanh" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -198,7 +206,7 @@ const ProductBanner = ({ rings }: Props) => {
                       </span>
                     </div>
                   )}
-                  {rings && ring.metallicColor == "Vàng Trắng" && (
+                  {products && ring.metallicColor == "Vàng Trắng" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -211,7 +219,7 @@ const ProductBanner = ({ rings }: Props) => {
                       </span>
                     </div>
                   )}
-                  {rings && ring.metallicColor === "Vàng Hồng" && (
+                  {products && ring.metallicColor === "Vàng Hồng" && (
                     <div className="flex ">
                       <span className="border p-1 rounded-full my-3">
                         <Image
@@ -238,6 +246,13 @@ const ProductBanner = ({ rings }: Props) => {
             </Link>
           ))}
       </div>
+      { products.length !== rings.length && (
+        <div className="flex items-center justify-center my-10">
+          <button className=" rounded-lg border-2 px-6 py-3 uppercase font-medium" onClick={() => setCount(count + 1)}>
+            xem thêm
+          </button>
+        </div>
+      )}
     </section>
   );
 };
