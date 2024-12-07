@@ -9,36 +9,34 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-const handleLogin = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch("/api/auth/login", {
-  
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-    console.log(response.status);
-    
-    if (response.status == 200) {
-      const data = await response.json();
-      Cookies.set("authToken", data.token, {
-        expires: 1,
-        sameSite: "lax",
-        secure: false, 
+    try {
+      const response = await fetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
       });
+      console.log(response.status);
 
-      router.push("/admin/product"); 
-    } else {
-      const errorData = await response.json();
-      setError(errorData.error || "Đăng nhập thất bại!");
+      if (response.status == 200) {
+        const data = await response.json();
+        Cookies.set("authToken", data.token, {
+          expires: 1,
+          sameSite: "lax",
+          secure: false,
+        });
+
+        router.push("/admin/product");
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || "Đăng nhập thất bại!");
+      }
+    } catch (error) {
+      setError("Có lỗi xảy ra, vui lòng thử lại!");
     }
-  } catch (error) {
-    setError("Có lỗi xảy ra, vui lòng thử lại!");
-  }
-};
-
+  };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
