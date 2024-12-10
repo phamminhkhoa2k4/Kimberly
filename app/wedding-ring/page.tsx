@@ -12,6 +12,11 @@ import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
 import { Product } from "@/types/product";
 import { useState } from "react";
 
+// export const metadata = {
+//   title: "Nhẫn Cưới",
+//   description: "Nhẫn Cưới",
+//   keywords: ["Kimberly", "kimberly", "kim cương", "trang sức"],
+// };
 
 
 const WeddingRing = () => {

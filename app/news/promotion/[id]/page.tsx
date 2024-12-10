@@ -1,12 +1,17 @@
 "use client";
 import Body from "@/components/Body";
 import Breadcrumb from "@/components/Breadcrumb";
-import NewsDetail from "@/components/NewsDetail";
 import PromotionDetail from "@/components/PromotionDetail/page";
 import { Promotion } from "@/types/promotion";
 import { getData } from "@/utils/axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+// export const metadata = {
+//   title: "Chi Tiết Khuyến Mãi",
+//   description: "Chi Tiết Khuyến Mãi",
+//   keywords: ["Kimberly", "kimberly", "kim cương", "trang sức"],
+// };
 
 const DetailNews = () => {
   const { id } = useParams();

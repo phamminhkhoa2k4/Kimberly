@@ -11,6 +11,14 @@ import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
 import { Product } from "@/types/product";
 import { useState } from "react";
 
+
+// export const metadata = {
+//   title: "Mặt Dây Chuyền Kim Cương",
+//   description: "Mặt Dây Chuyền Kim Cương",
+//   keywords: ["Kimberly", "kimberly", "kim cương", "trang sức"],
+// };
+
+
 const DiamondPendant = () => {
   const [rings, setRings] = useState<Product[]>([]);
   const { products } = useLocalStorageProducts("products");

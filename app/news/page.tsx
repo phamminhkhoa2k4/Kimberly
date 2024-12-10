@@ -6,8 +6,14 @@ import { News } from "@/types/news";
 import { Promotion } from "@/types/promotion";
 import { getData } from "@/utils/axios";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+// export const metadata = {
+//   title: "Tin Tức",
+//   description: "Tin Tức",
+//   keywords: ["Kimberly", "kimberly", "kim cương", "trang sức"],
+// };
+
 
 const NewsPage = () => {
   const [events,setEvents] = useState<News[]>([]);

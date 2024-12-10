@@ -27,8 +27,8 @@ const Discovery = () => {
         </div>
         <div className="bg-slate-50 lg:py-20">
           <div className="mx-auto lg:w-5/6 flex items-center  justify-between">
-            {events?.slice(0, 2).map((event) => (
-              <Link href={`/news/${event?.newsId}`} className="bg-white">
+            {events?.slice(0, 2).map((event,index) => (
+              <Link href={`/news/${event?.newsId}`} key={index} className="bg-white">
                 <Image
                   src={`${baseUrl}/images/id/${event?.thumbnail}`}
                   alt=""

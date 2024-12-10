@@ -7,6 +7,12 @@ import { getData } from "@/utils/axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// export const metadata = {
+//   title: "Chi Tiết Sự Kiện",
+//   description: "Chi Tiết Sự Kiện",
+//   keywords: ["Kimberly", "kimberly", "kim cương", "trang sức"],
+// };
+
 
 const DetailNews = () => {
   const {id} = useParams();

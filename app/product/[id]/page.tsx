@@ -11,6 +11,13 @@ import { getData } from "@/utils/axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// export const metadata = {
+//   title: "Chi tiết sản phẩm",
+//   description: "Chi tiết sản phẩm",
+//   keywords: ["Kimberly", "kimberly", "kim cương", "trang sức"],
+// };
+
+
 const Detail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [product, setProduct] = useState<Product>();

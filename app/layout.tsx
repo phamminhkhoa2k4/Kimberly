@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Kimberly",
-  description: "",
+  description: "Kimberly diamond tạo nên giá trọ cuộc sống",
 };
 
 type Props = {

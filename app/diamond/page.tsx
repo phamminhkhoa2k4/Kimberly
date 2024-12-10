@@ -3,18 +3,24 @@ import Body from "@/components/Body";
 import Breadcrumb from "@/components/Breadcrumb";
 import Filter from "@/components/Diamond/Filter";
 import Result from "@/components/Diamond/Result";
-import Loading from "@/components/Loading/loading";
+
 import { Diamond } from "@/types/diamond";
 import { useState } from "react";
 
+// export const metadata = {
+//   title: "Kim Cương Viên",
+//   description: "Kim Cương Viên",
+//   keywords: ["Kimberly", "kimberly", "kim cương", "trang sức"],
+// };
+
 const DiamondPage = () => {
-  const [diamond,setDiamond] = useState<Diamond[]>([]);
+  const [diamond, setDiamond] = useState<Diamond[]>([]);
   const [openSheet, setOpenSheet] = useState<boolean>(false);
   return (
     <>
       <Body>
         <Breadcrumb
-          breadcrumbs={[{ title: "Trang Kim Cương", url: "/diamond" }]}
+          breadcrumbs={[{ title: "Kim Cương Viên", url: "/diamond" }]}
         />
         <Filter setDiamond={setDiamond} setOpenSheet={setOpenSheet} />
         <Result
