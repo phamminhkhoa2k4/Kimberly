@@ -3,6 +3,7 @@ import Body from "@/components/Body";
 import Breadcrumb from "@/components/Breadcrumb";
 import Filter from "@/components/Diamond/Filter";
 import Result from "@/components/Diamond/Result";
+import Loading from "@/components/Loading/loading";
 import { Diamond } from "@/types/diamond";
 import { useState } from "react";
 

@@ -2,6 +2,7 @@
 import Body from "@/components/Body";
 import Breadcrumb from "@/components/Breadcrumb";
 import Just from "@/components/Just";
+import Loading from "@/components/Loading/loading";
 import ProductDetail from "@/components/ProductDetail";
 import Relative from "@/components/Relative";
 import useLocalStorageProducts from "@/hooks/useLocalStorageProducts";
@@ -11,27 +12,45 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Detail = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [product, setProduct] = useState<Product>();
   const [related, setRelated] = useState<Product[]>([]);
   const { id } = useParams();
   const { products ,addProduct } = useLocalStorageProducts("products");
 
+
   useEffect(() => {
+    setIsLoading(false);
     const fetchData = async () => {
-      await getData({ endpoint: `/product/${id}` }).then((pro) => {
-        setProduct(pro);
-        addProduct(pro);
-      });
+      await getData({ endpoint: `/product/${id}` })
+        .then((pro) => {
+          setProduct(pro);
+          addProduct(pro);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(true);
+        });
     };
 
     fetchData();
   }, [id]);
 
   useEffect(() => {
+    setIsLoading(false);
     const fetchData = async () => {
-      await getData({ endpoint: `/product/related/${id}` }).then((product) => {
-        setRelated(product);
-      });
+      await getData({ endpoint: `/product/related/${id}` })
+        .then((product) => {
+          setRelated(product);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(true);
+        });
     };
 
     fetchData();
@@ -39,7 +58,7 @@ const Detail = () => {
 
   return (
     <>
-      <Body>
+      {isLoading && (<Body>
         <Breadcrumb
           breadcrumbs={[
             { title: "Product", url: "#" },
@@ -49,7 +68,9 @@ const Detail = () => {
         <ProductDetail product={product!} />
         {related.length > 0 && <Relative products={related} />}
         {products.length > 0 && <Just products={products} />}
-      </Body>
+      </Body>)}
+      {!isLoading && (<Loading/>)}
+      
     </>
   );
 };

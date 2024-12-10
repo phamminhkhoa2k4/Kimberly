@@ -25,7 +25,7 @@ const LoginPage = () => {
         Cookies.set("authToken", data.token, {
           expires: 1,
           sameSite: "lax",
-          secure: false,
+          secure: true,
         });
 
         router.push("/admin/product");

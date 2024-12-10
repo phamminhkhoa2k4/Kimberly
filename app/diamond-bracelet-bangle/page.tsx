@@ -16,6 +16,7 @@ const DiamondBraceletBangle= () => {
   const { products } = useLocalStorageProducts("products");
    const filters = calculateFilters(rings);
    const [count, setCount] = useState<number>(1);
+   
   
   return (
     <>

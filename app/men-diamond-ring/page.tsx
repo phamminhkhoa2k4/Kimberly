@@ -34,8 +34,9 @@ const MenRing = () => {
           isMaterial={filters.isMaterial}
           isPrice={filters.isPrice}
           setRings={setRings}
-          categoryName={"Nhẫn Nam"}
+          categoryName={"Nhẫn"}
           count={count}
+          sex={"Nam"}
         />
         <ProductBanner rings={rings ?? []} setCount={setCount} count={count} />
         {products.length > 0 && <Just products={products} />}

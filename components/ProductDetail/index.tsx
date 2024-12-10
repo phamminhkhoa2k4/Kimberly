@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { SlRefresh } from "react-icons/sl";
 import { LiaShuttleVanSolid } from "react-icons/lia";
-import { GiChisel } from "react-icons/gi";  
+import { GiChisel } from "react-icons/gi";
 import { PiSealCheckLight } from "react-icons/pi";
 import {
   Accordion,
@@ -40,7 +40,7 @@ const ProductDetail = ({ product }: Props) => {
       <section className="lg:mx-auto lg:w-3/4 mx-5 mt-5">
         <div className="flex lg:flex-row flex-col gap-8 items-start ">
           <div className="lg:w-7/12">
-            <div className="lg:grid flex lg:grid-cols-2 lg:grid-rows-4 grid-cols-1 gap-5 overflow-x-scroll lg:overflow-x-hidden scrollbar-hide">
+            <div className="lg:grid flex lg:grid-cols-2 lg:grid-rows-3 grid-cols-1 gap-5 overflow-x-scroll lg:overflow-x-hidden scrollbar-hide">
               <Image
                 src={`${baseUrl}/image/id/${
                   (product?.images as string)?.split(",")[0]
@@ -48,11 +48,11 @@ const ProductDetail = ({ product }: Props) => {
                 alt=""
                 height={1024}
                 width={1024}
-                className="object-cover object-center lg:col-span-2 lg:row-span-2 rounded-md overflow-hidden shadow-md border flex-shrink-0"
+                className="object-cover object-center lg:col-span-2  lg:row-span-2 rounded-md overflow-hidden shadow-md border flex-shrink-0"
               />
               {(product?.images as string)
                 ?.split(",")
-                .slice(1, 5)
+                .slice(1, 4)
                 .map((image) => (
                   <Image
                     key={image}
@@ -69,7 +69,7 @@ const ProductDetail = ({ product }: Props) => {
             className={cn(
               "lg:w-5/12 ",
               scrollY >= 70 ? "" : "",
-              scrollY >= 800
+              scrollY >= 500
                 ? // " lg:relative"
                   ""
                 : ""
@@ -79,7 +79,7 @@ const ProductDetail = ({ product }: Props) => {
               className={cn(
                 "",
                 scrollY >= 70 ? "lg:fixed lg:top-16 lg:w-[461.41px]" : "",
-                scrollY >= 800 ? "lg:absolute lg:top-[400px] w-full " : ""
+                scrollY >= 500 ? "lg:absolute lg:top-[560px] w-full " : ""
               )}
             >
               <div className="flex items-start gap-2 text-2xl lg:text-4xl  font-bold">
@@ -89,6 +89,9 @@ const ProductDetail = ({ product }: Props) => {
                 <div className="text-xl font-semibold my-5">
                   {product?.price} VND
                 </div>
+              )}
+              {!product?.isIncludeMasterDiamond && (
+                <p className="text-sm font-medium py-3 h-[34px] text-[#20475d]"></p>
               )}
               {product?.isIncludeMasterDiamond && (
                 <p className="text-sm font-medium py-3 text-[#20475d]">
@@ -176,7 +179,7 @@ const ProductDetail = ({ product }: Props) => {
               <span className="px-6 py-3 border-[#20475d] border rounded-lg">
                 {product?.material}
               </span>
-              {product?.ringBelt && product?.ringBelt === "Đai Trơn" && (
+              {product?.ringBelt === "Ðai Trơn" && (
                 <>
                   <div className="flex items-center gap-2 mt-3 py-3">
                     <span className="font-semibold">Đai:</span>
@@ -193,7 +196,7 @@ const ProductDetail = ({ product }: Props) => {
                   </div>
                 </>
               )}
-              {product?.ringBelt && product?.ringBelt === "Đai Nhám" && (
+              {product?.ringBelt === "Đai Nhám" && (
                 <>
                   <div className="flex items-center gap-2 mt-3 py-3">
                     <span className="font-semibold">Đai:</span>
@@ -210,7 +213,7 @@ const ProductDetail = ({ product }: Props) => {
                   </div>
                 </>
               )}
-              {product?.ringBelt && product?.ringBelt === "Đai Đính Xoàn" && (
+              {product?.ringBelt === "Đai Đính Xoàn" && (
                 <>
                   <div className="flex items-center gap-2 mt-3 py-3">
                     <span className="font-semibold">Đai:</span>
@@ -265,23 +268,18 @@ const ProductDetail = ({ product }: Props) => {
                   </div>
                 </div>
                 <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1" className="border-b py-2">
+                  {/* <AccordionItem value="item-1" className="border-b py-2">
                     <AccordionTrigger className="font-medium text-sm lg:text-base">
                       Chi tiết sản phẩm
                     </AccordionTrigger>
                     <AccordionContent></AccordionContent>
-                  </AccordionItem>
+                  </AccordionItem> */}
                   <AccordionItem value="item-2" className="border-b py-2">
                     <AccordionTrigger className="font-medium text-sm lg:text-base">
                       Khám phá chất lượng kim cương Kimberly
                     </AccordionTrigger>
                     <AccordionContent>
                       <ul className="list-disc">
-                        <li className="py-1">
-                          Tất cả trang sức hoàn toàn chuẩn xác về hàm lượng và
-                          trọng lượng vàng, được kiểm định chặt chẽ bằng máy
-                          quang phổ.
-                        </li>
                         <li className="py-1">
                           100% Trang sức kim cương đều có chứng nhận đạt tiêu
                           chuẩn GIA.
@@ -304,7 +302,7 @@ const ProductDetail = ({ product }: Props) => {
                       Câu hỏi thường gặp
                     </AccordionTrigger>
                     <AccordionContent>
-                      <div className="my-5">
+                      <div className="my-1">
                         <strong>
                           Nếu nhận hàng mà sản phẩm không đạt chất lượng thì
                           sao?
@@ -314,19 +312,6 @@ const ProductDetail = ({ product }: Props) => {
                           vòng 24 GIỜ kể từ khi nhận sản phẩm, Kimberly sẽ hỗ
                           trợ đổi hàng hoàn toàn miễn phí trong trường hợp sản
                           phẩm bị lỗi do sản xuất.
-                        </p>
-                      </div>
-                      <div className="my-5">
-                        <strong>
-                          Mua hàng online làm sao biết kích thước nhẫn nào vừa
-                          tay?
-                        </strong>
-                        <p>
-                          Kimberly sẽ gửi tặng bộ đo ni tay đến tận nơi của Quý
-                          khách hoàn toàn miễn phí. Bạn chỉ cần chọn ni nhẫn phù
-                          hợp và thông báo với tư vấn viên của chúng tôi. Ngoài
-                          ra, Kimberly hỗ trợ điều chỉnh size nhẫn miễn phí trọn
-                          đời trong trường hợp bạn muốn thay đổi.
                         </p>
                       </div>
                     </AccordionContent>
